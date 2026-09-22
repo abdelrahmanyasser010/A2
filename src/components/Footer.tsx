@@ -12,11 +12,7 @@ export function Footer() {
       <div className="footerLead">
         <p className="eyebrow">A² / MEN&apos;S WEAR</p>
         <h2>
-          {isAr ? (
-            <>أكثر من مجرد ملابس.<br />رؤية وأسلوب حياة.</>
-          ) : (
-            <>More than clothes.<br />A point of view.</>
-          )}
+          More than clothes.<br />A point of view.
         </h2>
       </div>
       <div className="footerGrid">
