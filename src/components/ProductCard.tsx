@@ -8,7 +8,7 @@ import { SpinPreview } from "./SpinPreview";
 import { useStore } from "./StoreProvider";
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
-  const { toggleWishlist, isWishlisted } = useStore();
+  const { toggleWishlist, isWishlisted, t } = useStore();
   const wished = isWishlisted(product.id);
 
   return (
@@ -21,8 +21,8 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           <Heart size={18} fill={wished ? "currentColor" : "none"} />
         </button>
         <div className="productFlags">
-          {product.isNew && <span>NEW</span>}
-          {product.compareAtPrice && <span>SALE</span>}
+          {product.isNew && <span>{t("badgeNew")}</span>}
+          {product.compareAtPrice && <span>{t("badgeSale")}</span>}
         </div>
       </div>
       <div className="productMeta">

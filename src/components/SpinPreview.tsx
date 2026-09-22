@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Rotate3D } from "lucide-react";
+import { useStore } from "./StoreProvider";
 
 type Props = {
   frames: string[];
@@ -20,6 +21,7 @@ export function SpinPreview({ frames, alt, priority = false, className = "", aut
   const startFrame = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const { t } = useStore();
 
   useEffect(() => {
     const node = containerRef.current;
@@ -61,7 +63,7 @@ export function SpinPreview({ frames, alt, priority = false, className = "", aut
     >
       <Image src={safeFrames[frame]} alt={alt} fill sizes="(max-width: 760px) 50vw, 33vw" priority={priority} draggable={false} />
       {safeFrames.length > 1 && (
-        <div className="spinHint"><Rotate3D size={14} /><span>Drag to rotate</span></div>
+        <div className="spinHint"><Rotate3D size={14} /><span>{t("dragToRotate")}</span></div>
       )}
       <div className="spinProgress" aria-hidden="true">
         {safeFrames.map((_, index) => <i key={index} className={index === frame ? "active" : ""} />)}

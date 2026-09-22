@@ -1,2 +1,19 @@
+"use client";
+
 import { OrderLookupClient } from "@/components/OrderLookupClient";
-export default function OrdersPage(){return <div className="pageShell accountPage"><header className="pageHero compactHero"><p className="eyebrow">ACCOUNT</p><h1>Track your order</h1><p>No account required. Enter your order number and checkout phone.</p></header><OrderLookupClient/></div>}
+import { useStore } from "@/components/StoreProvider";
+
+export default function OrdersPage() {
+  const { t } = useStore();
+
+  return (
+    <div className="pageShell accountPage">
+      <header className="pageHero compactHero">
+        <p className="eyebrow">{t("accountEyebrow")}</p>
+        <h1>{t("trackOrderHeader")}</h1>
+        <p>{t("trackOrderSubtitle")}</p>
+      </header>
+      <OrderLookupClient />
+    </div>
+  );
+}
