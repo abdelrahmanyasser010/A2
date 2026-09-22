@@ -13,6 +13,9 @@ Phase 4 keeps the full working demo path and adds the infrastructure needed to m
 - direct product-image and 360-frame uploads/selections
 - local media storage for development
 - S3-compatible object storage for production
+- Full bilingual internationalization (English / Arabic) with RTL support and localized e-commerce copywriting
+- Dynamic Egyptian governorate shipping rates (27 governorates) configured via Admin Settings and calculated live at Checkout
+- Enhanced typography and responsive layout for desktop and mobile displays
 
 The detailed Arabic product specification remains in the repository root as `A2_Ecommerce_Project_Specification_AR.docx`.
 
