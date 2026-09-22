@@ -13,7 +13,7 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   const [size, setSize] = useState(firstAvailable?.size ?? product.sizes[0] ?? "");
   const [quantity, setQuantity] = useState(1);
   const [notice, setNotice] = useState("");
-  const { addToCart, toggleWishlist, isWishlisted } = useStore();
+  const { addToCart, toggleWishlist, isWishlisted, t } = useStore();
 
   const selectedVariant = useMemo(
     () => product.variants.find((variant) => variant.color === color && variant.size === size),
@@ -27,7 +27,7 @@ export function ProductDetailsClient({ product }: { product: Product }) {
 
   const submit = () => {
     const ok = addToCart(product, { color, size, quantity });
-    setNotice(ok ? "Added to bag." : "This combination is currently unavailable.");
+    setNotice(ok ? t("addedToBagNotice") : t("unavailableNotice"));
   };
 
   return (
@@ -52,7 +52,7 @@ export function ProductDetailsClient({ product }: { product: Product }) {
         <p className="productDescription">{product.description}</p>
 
         <div className="optionBlock">
-          <div className="optionHeading"><span>Color</span><strong>{color}</strong></div>
+          <div className="optionHeading"><span>{t("colorLabel")}</span><strong>{color}</strong></div>
           <div className="colorOptions">
             {product.colors.map((item) => (
               <button
@@ -72,13 +72,15 @@ export function ProductDetailsClient({ product }: { product: Product }) {
         </div>
 
         <div className="optionBlock">
-          <div className="optionHeading"><span>Size</span><button className="textButton"><Ruler size={15} /> Size guide</button></div>
+          <div className="optionHeading"><span>{t("sizeLabel")}</span><button className="textButton"><Ruler size={15} /> {t("sizeGuide")}</button></div>
           <div className="sizeOptions">
             {availableSizes.map((item) => (
               <button key={item.size} disabled={!item.available} className={size === item.size ? "selected" : ""} onClick={() => setSize(item.size)}>{item.size}</button>
             ))}
           </div>
-          {selectedVariant && selectedVariant.stock <= 4 && selectedVariant.stock > 0 && <p className="lowStock">Only {selectedVariant.stock} left in this option.</p>}
+          {selectedVariant && selectedVariant.stock <= 4 && selectedVariant.stock > 0 && (
+            <p className="lowStock">{t("lowStockNotice", { stock: String(selectedVariant.stock) })}</p>
+          )}
         </div>
 
         <div className="buyRow desktopBuyRow">
@@ -87,26 +89,28 @@ export function ProductDetailsClient({ product }: { product: Product }) {
             <span>{quantity}</span>
             <button onClick={() => setQuantity((q) => Math.min(selectedVariant?.stock ?? 1, q + 1))}><Plus size={16} /></button>
           </div>
-          <button className="primaryButton grow" onClick={submit}>Add to bag — {formatPrice(product.price * quantity)}</button>
+          <button className="primaryButton grow" onClick={submit}>
+            {t("addToBag")} — {formatPrice(product.price * quantity)}
+          </button>
           <button className={`squareButton ${isWishlisted(product.id) ? "active" : ""}`} onClick={() => toggleWishlist(product.id)} aria-label="Add to wishlist"><Heart size={20} /></button>
         </div>
         {notice && <p className="inlineNotice">{notice}</p>}
 
         <div className="productFacts">
-          <div><Truck size={18} /><span><strong>Fast delivery</strong>Shipping rules configured by admin.</span></div>
-          <div><ShieldCheck size={18} /><span><strong>Easy exchange</strong>Size and color exchange workflow ready.</span></div>
+          <div><Truck size={18} /><span><strong>{t("fastDeliveryTitle")}</strong>{t("fastDeliveryDesc")}</span></div>
+          <div><ShieldCheck size={18} /><span><strong>{t("easyExchangeTitle")}</strong>{t("easyExchangeDesc")}</span></div>
         </div>
 
         <div className="productAccordions">
-          <details open><summary>Material & fit</summary><p>{product.material}. {product.fit}.</p></details>
-          <details><summary>Care</summary><p>{product.care}</p></details>
-          <details><summary>Shipping & returns</summary><p>Shipping fees and return windows will be managed from the admin settings in the backend phase.</p></details>
+          <details open><summary>{t("materialFit")}</summary><p>{product.material}. {product.fit}.</p></details>
+          <details><summary>{t("careInstructions")}</summary><p>{product.care}</p></details>
+          <details><summary>{t("shippingReturns")}</summary><p>{t("fastDeliveryDesc")} {t("easyExchangeDesc")}</p></details>
         </div>
       </section>
 
       <div className="mobileStickyBuy">
         <div><span>{product.name}</span><strong>{formatPrice(product.price)}</strong></div>
-        <button onClick={submit}>Add to bag</button>
+        <button onClick={submit}>{t("addToBag")}</button>
       </div>
     </div>
   );
