@@ -51,6 +51,12 @@ export function Header() {
             </Link>
           </div>
         </div>
+        <nav className="mobileNavStrip mobileOnly" aria-label="Mobile navigation bar">
+          {navLinks.map(({ label, href }) => (
+            <Link key={href} href={href} className="mobileNavPill">{label}</Link>
+          ))}
+          <Link href="/account/orders" className="mobileNavPill">{t("navOrders")}</Link>
+        </nav>
       </header>
 
       <div className={`mobileMenu ${open ? "isOpen" : ""}`} aria-hidden={!open}>
