@@ -1,0 +1,2171 @@
+{
+  "version": 3,
+  "meta": {
+    "demoData": true,
+    "seedName": "A² demo catalogue v1",
+    "seededAt": "2026-09-22T06:30:00Z",
+    "note": "Temporary demo products, customers, orders, discounts and media. Remove before production."
+  },
+  "products": [
+    {
+      "id": "p-001",
+      "slug": "essential-brush-tee",
+      "name": "A² Essential Brush Tee",
+      "subtitle": "Heavy cotton / oversized fit",
+      "description": "A structured everyday tee carrying the A² brush mark. Heavy hand feel, dropped shoulder and an easy oversized silhouette.",
+      "price": 1290,
+      "category": "T-Shirts",
+      "collection": "Essentials",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Charcoal",
+          "value": "#111111"
+        },
+        {
+          "name": "Off White",
+          "value": "#F2EFE9"
+        },
+        {
+          "name": "Dark Olive",
+          "value": "#30352B"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "variants": [
+        {
+          "id": "v-001",
+          "sku": "A2-ESSE-C-S",
+          "color": "Charcoal",
+          "size": "S",
+          "stock": 4,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-002",
+          "sku": "A2-ESSE-C-M",
+          "color": "Charcoal",
+          "size": "M",
+          "stock": 12,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-003",
+          "sku": "A2-ESSE-C-L",
+          "color": "Charcoal",
+          "size": "L",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-004",
+          "sku": "A2-ESSE-C-XL",
+          "color": "Charcoal",
+          "size": "XL",
+          "stock": 6,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-005",
+          "sku": "A2-ESSE-C-XXL",
+          "color": "Charcoal",
+          "size": "XXL",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-006",
+          "sku": "A2-ESSE-OW-S",
+          "color": "Off White",
+          "size": "S",
+          "stock": 9,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-007",
+          "sku": "A2-ESSE-OW-M",
+          "color": "Off White",
+          "size": "M",
+          "stock": 9,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-008",
+          "sku": "A2-ESSE-OW-L",
+          "color": "Off White",
+          "size": "L",
+          "stock": 9,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-009",
+          "sku": "A2-ESSE-OW-XL",
+          "color": "Off White",
+          "size": "XL",
+          "stock": 14,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-010",
+          "sku": "A2-ESSE-OW-XXL",
+          "color": "Off White",
+          "size": "XXL",
+          "stock": 8,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-011",
+          "sku": "A2-ESSE-DO-S",
+          "color": "Dark Olive",
+          "size": "S",
+          "stock": 5,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-012",
+          "sku": "A2-ESSE-DO-M",
+          "color": "Dark Olive",
+          "size": "M",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-013",
+          "sku": "A2-ESSE-DO-L",
+          "color": "Dark Olive",
+          "size": "L",
+          "stock": 9,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-014",
+          "sku": "A2-ESSE-DO-XL",
+          "color": "Dark Olive",
+          "size": "XL",
+          "stock": 2,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-015",
+          "sku": "A2-ESSE-DO-XXL",
+          "color": "Dark Olive",
+          "size": "XXL",
+          "stock": 8,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/black-tee.webp",
+        "/media/demo/white-tee.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/black-tee.webp",
+        "/media/demo/white-tee.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "featured": true,
+      "isNew": true,
+      "material": "100% heavyweight cotton",
+      "fit": "Oversized / dropped shoulder",
+      "care": "Cold wash inside-out. Do not tumble dry.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z",
+      "compareAtPrice": 1490
+    },
+    {
+      "id": "p-002",
+      "slug": "statement-hoodie",
+      "name": "A² Statement Hoodie",
+      "subtitle": "Brushed fleece / heavyweight",
+      "description": "A substantial hoodie with an oversized A² back statement and a restrained front mark. Built for a structured streetwear shape.",
+      "price": 2290,
+      "category": "Hoodies",
+      "collection": "New Drop",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Charcoal",
+          "value": "#111111"
+        },
+        {
+          "name": "Dark Olive",
+          "value": "#30352B"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "variants": [
+        {
+          "id": "v-016",
+          "sku": "A2-STAT-C-S",
+          "color": "Charcoal",
+          "size": "S",
+          "stock": 1,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-017",
+          "sku": "A2-STAT-C-M",
+          "color": "Charcoal",
+          "size": "M",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-018",
+          "sku": "A2-STAT-C-L",
+          "color": "Charcoal",
+          "size": "L",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-019",
+          "sku": "A2-STAT-C-XL",
+          "color": "Charcoal",
+          "size": "XL",
+          "stock": 7,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-020",
+          "sku": "A2-STAT-DO-S",
+          "color": "Dark Olive",
+          "size": "S",
+          "stock": 4,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-021",
+          "sku": "A2-STAT-DO-M",
+          "color": "Dark Olive",
+          "size": "M",
+          "stock": 14,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-022",
+          "sku": "A2-STAT-DO-L",
+          "color": "Dark Olive",
+          "size": "L",
+          "stock": 6,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-023",
+          "sku": "A2-STAT-DO-XL",
+          "color": "Dark Olive",
+          "size": "XL",
+          "stock": 6,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/black-hoodie.webp",
+        "/media/demo/olive-hoodie.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/black-hoodie.webp",
+        "/media/demo/olive-hoodie.webp"
+      ],
+      "featured": true,
+      "isNew": true,
+      "material": "460 GSM cotton blend fleece",
+      "fit": "Relaxed / boxy",
+      "care": "Cold wash. Dry flat.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "p-003",
+      "slug": "utility-cargo",
+      "name": "A² Utility Cargo",
+      "subtitle": "Relaxed utility trouser",
+      "description": "Utility cargo pants with functional pocketing, an easy rise and a relaxed leg. Designed to anchor the first A² uniform.",
+      "price": 1890,
+      "category": "Pants",
+      "collection": "Essentials",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Dark Olive",
+          "value": "#30352B"
+        },
+        {
+          "name": "Charcoal",
+          "value": "#111111"
+        }
+      ],
+      "sizes": [
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "variants": [
+        {
+          "id": "v-024",
+          "sku": "A2-UTIL-DO-30",
+          "color": "Dark Olive",
+          "size": "30",
+          "stock": 5,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-025",
+          "sku": "A2-UTIL-DO-32",
+          "color": "Dark Olive",
+          "size": "32",
+          "stock": 12,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-026",
+          "sku": "A2-UTIL-DO-34",
+          "color": "Dark Olive",
+          "size": "34",
+          "stock": 10,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-027",
+          "sku": "A2-UTIL-DO-36",
+          "color": "Dark Olive",
+          "size": "36",
+          "stock": 4,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-028",
+          "sku": "A2-UTIL-DO-38",
+          "color": "Dark Olive",
+          "size": "38",
+          "stock": 7,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-029",
+          "sku": "A2-UTIL-C-30",
+          "color": "Charcoal",
+          "size": "30",
+          "stock": 12,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-030",
+          "sku": "A2-UTIL-C-32",
+          "color": "Charcoal",
+          "size": "32",
+          "stock": 9,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-031",
+          "sku": "A2-UTIL-C-34",
+          "color": "Charcoal",
+          "size": "34",
+          "stock": 14,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-032",
+          "sku": "A2-UTIL-C-36",
+          "color": "Charcoal",
+          "size": "36",
+          "stock": 12,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-033",
+          "sku": "A2-UTIL-C-38",
+          "color": "Charcoal",
+          "size": "38",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/cargo.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/cargo.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "featured": true,
+      "isNew": false,
+      "material": "Cotton / nylon utility weave",
+      "fit": "Relaxed leg / elasticated ankle",
+      "care": "Machine wash cold.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "p-004",
+      "slug": "off-white-essential-tee",
+      "name": "A² Off-White Essential Tee",
+      "subtitle": "Minimal chest mark",
+      "description": "An off-white essential with a restrained chest mark, compact cotton and a clean relaxed block.",
+      "price": 1190,
+      "category": "T-Shirts",
+      "collection": "Essentials",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Off White",
+          "value": "#F2EFE9"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "variants": [
+        {
+          "id": "v-034",
+          "sku": "A2-OFF-OW-S",
+          "color": "Off White",
+          "size": "S",
+          "stock": 5,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-035",
+          "sku": "A2-OFF-OW-M",
+          "color": "Off White",
+          "size": "M",
+          "stock": 6,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-036",
+          "sku": "A2-OFF-OW-L",
+          "color": "Off White",
+          "size": "L",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-037",
+          "sku": "A2-OFF-OW-XL",
+          "color": "Off White",
+          "size": "XL",
+          "stock": 8,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/white-tee.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/white-tee.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "featured": false,
+      "isNew": true,
+      "material": "100% compact cotton",
+      "fit": "Relaxed",
+      "care": "Cold wash inside-out.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "p-005",
+      "slug": "olive-core-hoodie",
+      "name": "A² Olive Core Hoodie",
+      "subtitle": "Dark olive / tonal mood",
+      "description": "A dark olive heavyweight hoodie built around the quieter side of the A² palette with statement branding across the back.",
+      "price": 2390,
+      "category": "Hoodies",
+      "collection": "New Drop",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Dark Olive",
+          "value": "#30352B"
+        }
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "variants": [
+        {
+          "id": "v-038",
+          "sku": "A2-OLIV-DO-M",
+          "color": "Dark Olive",
+          "size": "M",
+          "stock": 12,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-039",
+          "sku": "A2-OLIV-DO-L",
+          "color": "Dark Olive",
+          "size": "L",
+          "stock": 6,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-040",
+          "sku": "A2-OLIV-DO-XL",
+          "color": "Dark Olive",
+          "size": "XL",
+          "stock": 7,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-041",
+          "sku": "A2-OLIV-DO-XXL",
+          "color": "Dark Olive",
+          "size": "XXL",
+          "stock": 14,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/olive-hoodie.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/olive-hoodie.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "featured": true,
+      "isNew": true,
+      "material": "460 GSM brushed fleece",
+      "fit": "Boxy / slightly cropped",
+      "care": "Wash cold. Do not iron print.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z",
+      "compareAtPrice": 2590
+    },
+    {
+      "id": "p-006",
+      "slug": "charcoal-core-tee",
+      "name": "A² Charcoal Core Tee",
+      "subtitle": "Clean front / bold back",
+      "description": "A charcoal oversized tee with a minimal front signature and a large brush-mark identity treatment at the back.",
+      "price": 1390,
+      "category": "T-Shirts",
+      "collection": "New Drop",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Charcoal",
+          "value": "#111111"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "variants": [
+        {
+          "id": "v-042",
+          "sku": "A2-CHAR-C-S",
+          "color": "Charcoal",
+          "size": "S",
+          "stock": 12,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-043",
+          "sku": "A2-CHAR-C-M",
+          "color": "Charcoal",
+          "size": "M",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-044",
+          "sku": "A2-CHAR-C-L",
+          "color": "Charcoal",
+          "size": "L",
+          "stock": 9,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-045",
+          "sku": "A2-CHAR-C-XL",
+          "color": "Charcoal",
+          "size": "XL",
+          "stock": 6,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-046",
+          "sku": "A2-CHAR-C-XXL",
+          "color": "Charcoal",
+          "size": "XXL",
+          "stock": 2,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/black-tee.webp",
+        "/media/demo/brand-identity.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/black-tee.webp",
+        "/media/demo/brand-identity.webp"
+      ],
+      "featured": true,
+      "isNew": true,
+      "material": "100% heavyweight cotton",
+      "fit": "Oversized",
+      "care": "Cold wash inside-out.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "p-007",
+      "slug": "uniform-set",
+      "name": "A² Urban Uniform Set",
+      "subtitle": "Tee + utility cargo",
+      "description": "A styled two-piece uniform combining the essential tee and utility cargo. A demo bundle for merchandising and campaign testing.",
+      "price": 2890,
+      "category": "Sets",
+      "collection": "New Drop",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Charcoal",
+          "value": "#111111"
+        },
+        {
+          "name": "Dark Olive",
+          "value": "#30352B"
+        }
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "variants": [
+        {
+          "id": "v-047",
+          "sku": "A2-UNIF-C-M",
+          "color": "Charcoal",
+          "size": "M",
+          "stock": 7,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-048",
+          "sku": "A2-UNIF-C-L",
+          "color": "Charcoal",
+          "size": "L",
+          "stock": 4,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-049",
+          "sku": "A2-UNIF-C-XL",
+          "color": "Charcoal",
+          "size": "XL",
+          "stock": 8,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-050",
+          "sku": "A2-UNIF-DO-M",
+          "color": "Dark Olive",
+          "size": "M",
+          "stock": 14,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-051",
+          "sku": "A2-UNIF-DO-L",
+          "color": "Dark Olive",
+          "size": "L",
+          "stock": 2,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-052",
+          "sku": "A2-UNIF-DO-XL",
+          "color": "Dark Olive",
+          "size": "XL",
+          "stock": 3,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/full-outfit.webp",
+        "/media/demo/black-tee.webp",
+        "/media/demo/cargo.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/full-outfit.webp",
+        "/media/demo/black-tee.webp",
+        "/media/demo/cargo.webp"
+      ],
+      "featured": true,
+      "isNew": true,
+      "material": "Mixed cotton / utility weave",
+      "fit": "Relaxed streetwear set",
+      "care": "Care for each garment separately.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z",
+      "compareAtPrice": 3180
+    },
+    {
+      "id": "p-008",
+      "slug": "warm-gray-layer-tee",
+      "name": "A² Warm Gray Layer Tee",
+      "subtitle": "Neutral layer / everyday weight",
+      "description": "A warm gray layering tee created to test the secondary palette and merchandising filters before production photography arrives.",
+      "price": 1250,
+      "category": "T-Shirts",
+      "collection": "Essentials",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Warm Gray",
+          "value": "#8A8781"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "variants": [
+        {
+          "id": "v-053",
+          "sku": "A2-WARM-WG-S",
+          "color": "Warm Gray",
+          "size": "S",
+          "stock": 5,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-054",
+          "sku": "A2-WARM-WG-M",
+          "color": "Warm Gray",
+          "size": "M",
+          "stock": 7,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-055",
+          "sku": "A2-WARM-WG-L",
+          "color": "Warm Gray",
+          "size": "L",
+          "stock": 8,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-056",
+          "sku": "A2-WARM-WG-XL",
+          "color": "Warm Gray",
+          "size": "XL",
+          "stock": 4,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/brand-identity.webp",
+        "/media/demo/white-tee.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/brand-identity.webp",
+        "/media/demo/white-tee.webp"
+      ],
+      "featured": false,
+      "isNew": false,
+      "material": "100% cotton jersey",
+      "fit": "Regular relaxed",
+      "care": "Machine wash cold.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "p-009",
+      "slug": "charcoal-cargo",
+      "name": "A² Charcoal Cargo",
+      "subtitle": "Utility / dark finish",
+      "description": "The cargo silhouette in charcoal, using the same pocket system and relaxed shape for a darker head-to-toe look.",
+      "price": 1950,
+      "category": "Pants",
+      "collection": "New Drop",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "Charcoal",
+          "value": "#111111"
+        }
+      ],
+      "sizes": [
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "variants": [
+        {
+          "id": "v-057",
+          "sku": "A2-CHAR-C-30",
+          "color": "Charcoal",
+          "size": "30",
+          "stock": 9,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-058",
+          "sku": "A2-CHAR-C-32",
+          "color": "Charcoal",
+          "size": "32",
+          "stock": 12,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-059",
+          "sku": "A2-CHAR-C-34",
+          "color": "Charcoal",
+          "size": "34",
+          "stock": 7,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-060",
+          "sku": "A2-CHAR-C-36",
+          "color": "Charcoal",
+          "size": "36",
+          "stock": 6,
+          "lowStockAt": 4,
+          "active": true
+        },
+        {
+          "id": "v-061",
+          "sku": "A2-CHAR-C-38",
+          "color": "Charcoal",
+          "size": "38",
+          "stock": 4,
+          "lowStockAt": 4,
+          "active": true
+        }
+      ],
+      "images": [
+        "/media/demo/cargo.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "spinFrames": [
+        "/media/demo/cargo.webp",
+        "/media/demo/full-outfit.webp"
+      ],
+      "featured": false,
+      "isNew": true,
+      "material": "Cotton / nylon utility weave",
+      "fit": "Relaxed leg",
+      "care": "Machine wash cold.",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_296f22d11c5744",
+      "orderNumber": "A2-1062",
+      "customerId": "cus_64dc9c6035514e",
+      "customer": {
+        "firstName": "Abo",
+        "lastName": "Yasser",
+        "phone": "01023817658",
+        "email": "aboyasser010238176@gmail.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "13 Salah Salem Street"
+      },
+      "status": "NEW",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "COD",
+      "subtotal": 2290,
+      "discountTotal": 229,
+      "shippingTotal": 50,
+      "grandTotal": 2111,
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-22T07:50:41.310Z",
+      "updatedAt": "2026-09-22T07:50:41.310Z",
+      "items": [
+        {
+          "id": "oi_4cd39d5b8f7949",
+          "productId": "p-002",
+          "variantId": "v-016",
+          "productName": "A² Statement Hoodie",
+          "image": "/media/demo/black-hoodie.webp",
+          "sku": "A2-STAT-C-S",
+          "color": "Charcoal",
+          "size": "S",
+          "baseUnitPrice": 2290,
+          "unitPrice": 2061,
+          "quantity": 1,
+          "lineTotal": 2061
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Order placed",
+          "createdAt": "2026-09-22T07:50:41.310Z"
+        }
+      ]
+    },
+    {
+      "id": "ord-1061",
+      "orderNumber": "A2-1061",
+      "customerId": "cus-001",
+      "customer": {
+        "firstName": "Omar",
+        "lastName": "Hassan",
+        "phone": "01000000001",
+        "email": "omar.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "NEW",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "COD",
+      "subtotal": 3180,
+      "discountTotal": 0,
+      "shippingTotal": 0,
+      "grandTotal": 3180,
+      "items": [
+        {
+          "id": "oi-1061-1",
+          "productId": "p-001",
+          "variantId": "v-002",
+          "productName": "A² Essential Brush Tee",
+          "image": "/media/demo/black-tee.webp",
+          "sku": "A2-ESSE-C-M",
+          "color": "Charcoal",
+          "size": "M",
+          "baseUnitPrice": 1290,
+          "unitPrice": 1290,
+          "quantity": 1,
+          "lineTotal": 1290
+        },
+        {
+          "id": "oi-1061-2",
+          "productId": "p-003",
+          "variantId": "v-025",
+          "productName": "A² Utility Cargo",
+          "image": "/media/demo/cargo.webp",
+          "sku": "A2-UTIL-DO-32",
+          "color": "Dark Olive",
+          "size": "32",
+          "baseUnitPrice": 1890,
+          "unitPrice": 1890,
+          "quantity": 1,
+          "lineTotal": 1890
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-22T05:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-22T05:30:00Z",
+      "updatedAt": "2026-09-22T05:30:00Z"
+    },
+    {
+      "id": "ord-1060",
+      "orderNumber": "A2-1060",
+      "customerId": "cus-002",
+      "customer": {
+        "firstName": "Youssef",
+        "lastName": "Ali",
+        "phone": "01000000002",
+        "email": "youssef.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Giza",
+        "city": "Dokki",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "CONFIRMED",
+      "paymentStatus": "AUTHORIZED",
+      "paymentMethod": "CARD",
+      "subtotal": 2390,
+      "discountTotal": 0,
+      "shippingTotal": 90,
+      "grandTotal": 2480,
+      "items": [
+        {
+          "id": "oi-1060-1",
+          "productId": "p-005",
+          "variantId": "v-039",
+          "productName": "A² Olive Core Hoodie",
+          "image": "/media/demo/olive-hoodie.webp",
+          "sku": "A2-OLIV-DO-L",
+          "color": "Dark Olive",
+          "size": "L",
+          "baseUnitPrice": 2390,
+          "unitPrice": 2390,
+          "quantity": 1,
+          "lineTotal": 2390
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-22T02:30:00Z"
+        },
+        {
+          "status": "CONFIRMED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-22T04:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-22T02:30:00Z",
+      "updatedAt": "2026-09-22T04:30:00Z"
+    },
+    {
+      "id": "ord-1059",
+      "orderNumber": "A2-1059",
+      "customerId": "cus-003",
+      "customer": {
+        "firstName": "Ahmed",
+        "lastName": "Samir",
+        "phone": "01000000003",
+        "email": "ahmed.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "PREPARING",
+      "paymentStatus": "PAID",
+      "paymentMethod": "CARD",
+      "subtotal": 3480,
+      "discountTotal": 348,
+      "shippingTotal": 0,
+      "grandTotal": 3132,
+      "couponCode": "FIRSTA2",
+      "items": [
+        {
+          "id": "oi-1059-1",
+          "productId": "p-002",
+          "variantId": "v-018",
+          "productName": "A² Statement Hoodie",
+          "image": "/media/demo/black-hoodie.webp",
+          "sku": "A2-STAT-C-L",
+          "color": "Charcoal",
+          "size": "L",
+          "baseUnitPrice": 2290,
+          "unitPrice": 2290,
+          "quantity": 1,
+          "lineTotal": 2290
+        },
+        {
+          "id": "oi-1059-2",
+          "productId": "p-004",
+          "variantId": "v-035",
+          "productName": "A² Off-White Essential Tee",
+          "image": "/media/demo/white-tee.webp",
+          "sku": "A2-OFF-OW-M",
+          "color": "Off White",
+          "size": "M",
+          "baseUnitPrice": 1190,
+          "unitPrice": 1190,
+          "quantity": 1,
+          "lineTotal": 1190
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-21T23:30:00Z"
+        },
+        {
+          "status": "CONFIRMED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-22T01:30:00Z"
+        },
+        {
+          "status": "PREPARING",
+          "note": "Demo status event",
+          "createdAt": "2026-09-22T03:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-21T23:30:00Z",
+      "updatedAt": "2026-09-22T03:30:00Z"
+    },
+    {
+      "id": "ord-1058",
+      "orderNumber": "A2-1058",
+      "customerId": "cus-004",
+      "customer": {
+        "firstName": "Karim",
+        "lastName": "Adel",
+        "phone": "01000000004",
+        "email": "karim.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Giza",
+        "city": "Dokki",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "SHIPPED",
+      "paymentStatus": "PAID",
+      "paymentMethod": "CARD",
+      "subtotal": 2890,
+      "discountTotal": 0,
+      "shippingTotal": 0,
+      "grandTotal": 2890,
+      "items": [
+        {
+          "id": "oi-1058-1",
+          "productId": "p-007",
+          "variantId": "v-048",
+          "productName": "A² Urban Uniform Set",
+          "image": "/media/demo/full-outfit.webp",
+          "sku": "A2-UNIF-C-L",
+          "color": "Charcoal",
+          "size": "L",
+          "baseUnitPrice": 2890,
+          "unitPrice": 2890,
+          "quantity": 1,
+          "lineTotal": 2890
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-21T04:30:00Z"
+        },
+        {
+          "status": "CONFIRMED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-21T06:30:00Z"
+        },
+        {
+          "status": "PREPARING",
+          "note": "Demo status event",
+          "createdAt": "2026-09-21T08:30:00Z"
+        },
+        {
+          "status": "SHIPPED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-21T10:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-21T04:30:00Z",
+      "updatedAt": "2026-09-21T10:30:00Z"
+    },
+    {
+      "id": "ord-1057",
+      "orderNumber": "A2-1057",
+      "customerId": "cus-005",
+      "customer": {
+        "firstName": "Mostafa",
+        "lastName": "Mahmoud",
+        "phone": "01000000005",
+        "email": "mostafa.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "paymentMethod": "CARD",
+      "subtotal": 3340,
+      "discountTotal": 0,
+      "shippingTotal": 0,
+      "grandTotal": 3340,
+      "items": [
+        {
+          "id": "oi-1057-1",
+          "productId": "p-006",
+          "variantId": "v-045",
+          "productName": "A² Charcoal Core Tee",
+          "image": "/media/demo/black-tee.webp",
+          "sku": "A2-CHAR-C-XL",
+          "color": "Charcoal",
+          "size": "XL",
+          "baseUnitPrice": 1390,
+          "unitPrice": 1390,
+          "quantity": 1,
+          "lineTotal": 1390
+        },
+        {
+          "id": "oi-1057-2",
+          "productId": "p-009",
+          "variantId": "v-059",
+          "productName": "A² Charcoal Cargo",
+          "image": "/media/demo/cargo.webp",
+          "sku": "A2-CHAR-C-34",
+          "color": "Charcoal",
+          "size": "34",
+          "baseUnitPrice": 1950,
+          "unitPrice": 1950,
+          "quantity": 1,
+          "lineTotal": 1950
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-20T06:30:00Z"
+        },
+        {
+          "status": "CONFIRMED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-20T08:30:00Z"
+        },
+        {
+          "status": "PREPARING",
+          "note": "Demo status event",
+          "createdAt": "2026-09-20T10:30:00Z"
+        },
+        {
+          "status": "SHIPPED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-20T12:30:00Z"
+        },
+        {
+          "status": "DELIVERED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-20T14:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-20T06:30:00Z",
+      "updatedAt": "2026-09-20T14:30:00Z"
+    },
+    {
+      "id": "ord-1056",
+      "orderNumber": "A2-1056",
+      "customerId": "cus-006",
+      "customer": {
+        "firstName": "Mazen",
+        "lastName": "Tarek",
+        "phone": "01000000006",
+        "email": "mazen.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Giza",
+        "city": "Dokki",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "DELIVERED",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "COD",
+      "subtotal": 1290,
+      "discountTotal": 0,
+      "shippingTotal": 90,
+      "grandTotal": 1380,
+      "items": [
+        {
+          "id": "oi-1056-1",
+          "productId": "p-001",
+          "variantId": "v-008",
+          "productName": "A² Essential Brush Tee",
+          "image": "/media/demo/black-tee.webp",
+          "sku": "A2-ESSE-OW-L",
+          "color": "Off White",
+          "size": "L",
+          "baseUnitPrice": 1290,
+          "unitPrice": 1290,
+          "quantity": 1,
+          "lineTotal": 1290
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-19T06:30:00Z"
+        },
+        {
+          "status": "CONFIRMED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-19T08:30:00Z"
+        },
+        {
+          "status": "PREPARING",
+          "note": "Demo status event",
+          "createdAt": "2026-09-19T10:30:00Z"
+        },
+        {
+          "status": "SHIPPED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-19T12:30:00Z"
+        },
+        {
+          "status": "DELIVERED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-19T14:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-19T06:30:00Z",
+      "updatedAt": "2026-09-19T14:30:00Z"
+    },
+    {
+      "id": "ord-1055",
+      "orderNumber": "A2-1055",
+      "customerId": "cus-007",
+      "customer": {
+        "firstName": "Mohamed",
+        "lastName": "Nader",
+        "phone": "01000000007",
+        "email": "mohamed.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "RETURN_REQUESTED",
+      "paymentStatus": "PAID",
+      "paymentMethod": "CARD",
+      "subtotal": 2390,
+      "discountTotal": 0,
+      "shippingTotal": 90,
+      "grandTotal": 2480,
+      "items": [
+        {
+          "id": "oi-1055-1",
+          "productId": "p-005",
+          "variantId": "v-038",
+          "productName": "A² Olive Core Hoodie",
+          "image": "/media/demo/olive-hoodie.webp",
+          "sku": "A2-OLIV-DO-M",
+          "color": "Dark Olive",
+          "size": "M",
+          "baseUnitPrice": 2390,
+          "unitPrice": 2390,
+          "quantity": 1,
+          "lineTotal": 2390
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo order created",
+          "createdAt": "2026-09-18T06:30:00Z"
+        },
+        {
+          "status": "RETURN_REQUESTED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-18T10:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-18T06:30:00Z",
+      "updatedAt": "2026-09-18T10:30:00Z"
+    },
+    {
+      "id": "ord-1054",
+      "orderNumber": "A2-1054",
+      "customerId": "cus-008",
+      "customer": {
+        "firstName": "Hady",
+        "lastName": "Amr",
+        "phone": "01000000008",
+        "email": "hady.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Giza",
+        "city": "Dokki",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "CANCELLED",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "COD",
+      "subtotal": 1890,
+      "discountTotal": 0,
+      "shippingTotal": 90,
+      "grandTotal": 1980,
+      "items": [
+        {
+          "id": "oi-1054-1",
+          "productId": "p-003",
+          "variantId": "v-032",
+          "productName": "A² Utility Cargo",
+          "image": "/media/demo/cargo.webp",
+          "sku": "A2-UTIL-C-36",
+          "color": "Charcoal",
+          "size": "36",
+          "baseUnitPrice": 1890,
+          "unitPrice": 1890,
+          "quantity": 1,
+          "lineTotal": 1890
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo order created",
+          "createdAt": "2026-09-17T06:30:00Z"
+        },
+        {
+          "status": "CANCELLED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-17T10:30:00Z"
+        }
+      ],
+      "inventoryRestocked": true,
+      "createdAt": "2026-09-17T06:30:00Z",
+      "updatedAt": "2026-09-17T10:30:00Z"
+    },
+    {
+      "id": "ord-1053",
+      "orderNumber": "A2-1053",
+      "customerId": "cus-009",
+      "customer": {
+        "firstName": "Seif",
+        "lastName": "Khaled",
+        "phone": "01000000009",
+        "email": "seif.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "RETURNED",
+      "paymentStatus": "REFUNDED",
+      "paymentMethod": "CARD",
+      "subtotal": 1190,
+      "discountTotal": 0,
+      "shippingTotal": 90,
+      "grandTotal": 1280,
+      "items": [
+        {
+          "id": "oi-1053-1",
+          "productId": "p-004",
+          "variantId": "v-034",
+          "productName": "A² Off-White Essential Tee",
+          "image": "/media/demo/white-tee.webp",
+          "sku": "A2-OFF-OW-S",
+          "color": "Off White",
+          "size": "S",
+          "baseUnitPrice": 1190,
+          "unitPrice": 1190,
+          "quantity": 1,
+          "lineTotal": 1190
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo order created",
+          "createdAt": "2026-09-16T06:30:00Z"
+        },
+        {
+          "status": "RETURNED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-16T10:30:00Z"
+        }
+      ],
+      "inventoryRestocked": true,
+      "createdAt": "2026-09-16T06:30:00Z",
+      "updatedAt": "2026-09-16T10:30:00Z"
+    },
+    {
+      "id": "ord-1052",
+      "orderNumber": "A2-1052",
+      "customerId": "cus-010",
+      "customer": {
+        "firstName": "Ziad",
+        "lastName": "Sherif",
+        "phone": "01000000010",
+        "email": "ziad.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Giza",
+        "city": "Dokki",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "REFUNDED",
+      "paymentStatus": "REFUNDED",
+      "paymentMethod": "CARD",
+      "subtotal": 2290,
+      "discountTotal": 0,
+      "shippingTotal": 90,
+      "grandTotal": 2380,
+      "items": [
+        {
+          "id": "oi-1052-1",
+          "productId": "p-002",
+          "variantId": "v-023",
+          "productName": "A² Statement Hoodie",
+          "image": "/media/demo/black-hoodie.webp",
+          "sku": "A2-STAT-DO-XL",
+          "color": "Dark Olive",
+          "size": "XL",
+          "baseUnitPrice": 2290,
+          "unitPrice": 2290,
+          "quantity": 1,
+          "lineTotal": 2290
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo order created",
+          "createdAt": "2026-09-15T06:30:00Z"
+        },
+        {
+          "status": "REFUNDED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-15T10:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-15T06:30:00Z",
+      "updatedAt": "2026-09-15T10:30:00Z"
+    },
+    {
+      "id": "ord-1051",
+      "orderNumber": "A2-1051",
+      "customerId": "cus-001",
+      "customer": {
+        "firstName": "Omar",
+        "lastName": "Hassan",
+        "phone": "01000000001",
+        "email": "omar.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "paymentMethod": "CARD",
+      "subtotal": 2890,
+      "discountTotal": 289,
+      "shippingTotal": 0,
+      "grandTotal": 2601,
+      "items": [
+        {
+          "id": "oi-1051-1",
+          "productId": "p-007",
+          "variantId": "v-050",
+          "productName": "A² Urban Uniform Set",
+          "image": "/media/demo/full-outfit.webp",
+          "sku": "A2-UNIF-DO-M",
+          "color": "Dark Olive",
+          "size": "M",
+          "baseUnitPrice": 2890,
+          "unitPrice": 2890,
+          "quantity": 1,
+          "lineTotal": 2890
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-14T06:30:00Z"
+        },
+        {
+          "status": "CONFIRMED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-14T08:30:00Z"
+        },
+        {
+          "status": "PREPARING",
+          "note": "Demo status event",
+          "createdAt": "2026-09-14T10:30:00Z"
+        },
+        {
+          "status": "SHIPPED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-14T12:30:00Z"
+        },
+        {
+          "status": "DELIVERED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-14T14:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-14T06:30:00Z",
+      "updatedAt": "2026-09-14T14:30:00Z"
+    },
+    {
+      "id": "ord-1050",
+      "orderNumber": "A2-1050",
+      "customerId": "cus-003",
+      "customer": {
+        "firstName": "Ahmed",
+        "lastName": "Samir",
+        "phone": "01000000003",
+        "email": "ahmed.demo@example.com"
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "Demo delivery address",
+        "notes": "Demo order"
+      },
+      "status": "DELIVERED",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "COD",
+      "subtotal": 3140,
+      "discountTotal": 0,
+      "shippingTotal": 0,
+      "grandTotal": 3140,
+      "items": [
+        {
+          "id": "oi-1050-1",
+          "productId": "p-008",
+          "variantId": "v-055",
+          "productName": "A² Warm Gray Layer Tee",
+          "image": "/media/demo/brand-identity.webp",
+          "sku": "A2-WARM-WG-L",
+          "color": "Warm Gray",
+          "size": "L",
+          "baseUnitPrice": 1250,
+          "unitPrice": 1250,
+          "quantity": 1,
+          "lineTotal": 1250
+        },
+        {
+          "id": "oi-1050-2",
+          "productId": "p-003",
+          "variantId": "v-026",
+          "productName": "A² Utility Cargo",
+          "image": "/media/demo/cargo.webp",
+          "sku": "A2-UTIL-DO-34",
+          "color": "Dark Olive",
+          "size": "34",
+          "baseUnitPrice": 1890,
+          "unitPrice": 1890,
+          "quantity": 1,
+          "lineTotal": 1890
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Demo status event",
+          "createdAt": "2026-09-13T06:30:00Z"
+        },
+        {
+          "status": "CONFIRMED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-13T08:30:00Z"
+        },
+        {
+          "status": "PREPARING",
+          "note": "Demo status event",
+          "createdAt": "2026-09-13T10:30:00Z"
+        },
+        {
+          "status": "SHIPPED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-13T12:30:00Z"
+        },
+        {
+          "status": "DELIVERED",
+          "note": "Demo status event",
+          "createdAt": "2026-09-13T14:30:00Z"
+        }
+      ],
+      "inventoryRestocked": false,
+      "createdAt": "2026-09-13T06:30:00Z",
+      "updatedAt": "2026-09-13T14:30:00Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cus_64dc9c6035514e",
+      "firstName": "Abo",
+      "lastName": "Yasser",
+      "phone": "01023817658",
+      "email": "aboyasser010238176@gmail.com",
+      "createdAt": "2026-09-22T07:50:41.310Z",
+      "updatedAt": "2026-09-22T07:50:41.310Z"
+    },
+    {
+      "id": "cus-001",
+      "firstName": "Omar",
+      "lastName": "Hassan",
+      "phone": "01000000001",
+      "email": "omar.demo@example.com",
+      "createdAt": "2026-09-04T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "cus-002",
+      "firstName": "Youssef",
+      "lastName": "Ali",
+      "phone": "01000000002",
+      "email": "youssef.demo@example.com",
+      "createdAt": "2026-09-05T06:30:00Z",
+      "updatedAt": "2026-09-22T05:30:00Z"
+    },
+    {
+      "id": "cus-003",
+      "firstName": "Ahmed",
+      "lastName": "Samir",
+      "phone": "01000000003",
+      "email": "ahmed.demo@example.com",
+      "createdAt": "2026-09-06T06:30:00Z",
+      "updatedAt": "2026-09-22T04:30:00Z"
+    },
+    {
+      "id": "cus-004",
+      "firstName": "Karim",
+      "lastName": "Adel",
+      "phone": "01000000004",
+      "email": "karim.demo@example.com",
+      "createdAt": "2026-09-07T06:30:00Z",
+      "updatedAt": "2026-09-22T03:30:00Z"
+    },
+    {
+      "id": "cus-005",
+      "firstName": "Mostafa",
+      "lastName": "Mahmoud",
+      "phone": "01000000005",
+      "email": "mostafa.demo@example.com",
+      "createdAt": "2026-09-08T06:30:00Z",
+      "updatedAt": "2026-09-22T02:30:00Z"
+    },
+    {
+      "id": "cus-006",
+      "firstName": "Mazen",
+      "lastName": "Tarek",
+      "phone": "01000000006",
+      "email": "mazen.demo@example.com",
+      "createdAt": "2026-09-09T06:30:00Z",
+      "updatedAt": "2026-09-22T01:30:00Z"
+    },
+    {
+      "id": "cus-007",
+      "firstName": "Mohamed",
+      "lastName": "Nader",
+      "phone": "01000000007",
+      "email": "mohamed.demo@example.com",
+      "createdAt": "2026-09-10T06:30:00Z",
+      "updatedAt": "2026-09-22T00:30:00Z"
+    },
+    {
+      "id": "cus-008",
+      "firstName": "Hady",
+      "lastName": "Amr",
+      "phone": "01000000008",
+      "email": "hady.demo@example.com",
+      "createdAt": "2026-09-11T06:30:00Z",
+      "updatedAt": "2026-09-21T23:30:00Z"
+    },
+    {
+      "id": "cus-009",
+      "firstName": "Seif",
+      "lastName": "Khaled",
+      "phone": "01000000009",
+      "email": "seif.demo@example.com",
+      "createdAt": "2026-09-12T06:30:00Z",
+      "updatedAt": "2026-09-21T22:30:00Z"
+    },
+    {
+      "id": "cus-010",
+      "firstName": "Ziad",
+      "lastName": "Sherif",
+      "phone": "01000000010",
+      "email": "ziad.demo@example.com",
+      "createdAt": "2026-09-13T06:30:00Z",
+      "updatedAt": "2026-09-21T21:30:00Z"
+    }
+  ],
+  "discounts": [
+    {
+      "id": "disc-first",
+      "name": "First order 10%",
+      "code": "FIRSTA2",
+      "type": "PERCENTAGE",
+      "value": 10,
+      "scope": "ORDER",
+      "targetIds": [],
+      "minSubtotal": 500,
+      "usageLimit": 500,
+      "usageCount": 12,
+      "active": true,
+      "createdAt": "2026-09-10T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "disc-drop",
+      "name": "New Drop Launch",
+      "type": "PERCENTAGE",
+      "value": 10,
+      "scope": "COLLECTION",
+      "targetIds": [
+        "New Drop"
+      ],
+      "usageCount": 0,
+      "active": true,
+      "createdAt": "2026-09-18T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "disc-tee",
+      "name": "Off-white tee promo",
+      "type": "FIXED_AMOUNT",
+      "value": 150,
+      "scope": "PRODUCT",
+      "targetIds": [
+        "p-004"
+      ],
+      "usageCount": 0,
+      "active": true,
+      "createdAt": "2026-09-20T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    },
+    {
+      "id": "disc-vip",
+      "name": "Demo VIP 15%",
+      "code": "A2VIP15",
+      "type": "PERCENTAGE",
+      "value": 15,
+      "scope": "ORDER",
+      "targetIds": [],
+      "minSubtotal": 2000,
+      "usageLimit": 50,
+      "usageCount": 2,
+      "active": true,
+      "createdAt": "2026-09-21T06:30:00Z",
+      "updatedAt": "2026-09-22T06:30:00Z"
+    }
+  ],
+  "inventoryMovements": [
+    {
+      "id": "mov_e9591178920348",
+      "productId": "p-002",
+      "variantId": "v-016",
+      "sku": "A2-STAT-C-S",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1062",
+      "createdAt": "2026-09-22T07:50:41.310Z"
+    },
+    {
+      "id": "mov-demo-001",
+      "productId": "p-001",
+      "variantId": "v-001",
+      "sku": "A2-ESSE-C-S",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-002",
+      "productId": "p-001",
+      "variantId": "v-002",
+      "sku": "A2-ESSE-C-M",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-003",
+      "productId": "p-002",
+      "variantId": "v-016",
+      "sku": "A2-STAT-C-S",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-004",
+      "productId": "p-002",
+      "variantId": "v-017",
+      "sku": "A2-STAT-C-M",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-005",
+      "productId": "p-003",
+      "variantId": "v-024",
+      "sku": "A2-UTIL-DO-30",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-006",
+      "productId": "p-003",
+      "variantId": "v-025",
+      "sku": "A2-UTIL-DO-32",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-007",
+      "productId": "p-004",
+      "variantId": "v-034",
+      "sku": "A2-OFF-OW-S",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-008",
+      "productId": "p-004",
+      "variantId": "v-035",
+      "sku": "A2-OFF-OW-M",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-009",
+      "productId": "p-005",
+      "variantId": "v-038",
+      "sku": "A2-OLIV-DO-M",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-010",
+      "productId": "p-005",
+      "variantId": "v-039",
+      "sku": "A2-OLIV-DO-L",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-011",
+      "productId": "p-006",
+      "variantId": "v-042",
+      "sku": "A2-CHAR-C-S",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-012",
+      "productId": "p-006",
+      "variantId": "v-043",
+      "sku": "A2-CHAR-C-M",
+      "delta": 20,
+      "reason": "Demo opening stock",
+      "reference": "DEMO-SEED",
+      "createdAt": "2026-09-08T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-013",
+      "productId": "p-001",
+      "variantId": "v-002",
+      "sku": "A2-ESSE-C-M",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1061",
+      "createdAt": "2026-09-22T05:30:00Z"
+    },
+    {
+      "id": "mov-demo-014",
+      "productId": "p-003",
+      "variantId": "v-025",
+      "sku": "A2-UTIL-DO-32",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1061",
+      "createdAt": "2026-09-22T05:30:00Z"
+    },
+    {
+      "id": "mov-demo-015",
+      "productId": "p-005",
+      "variantId": "v-039",
+      "sku": "A2-OLIV-DO-L",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1060",
+      "createdAt": "2026-09-22T02:30:00Z"
+    },
+    {
+      "id": "mov-demo-016",
+      "productId": "p-002",
+      "variantId": "v-018",
+      "sku": "A2-STAT-C-L",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1059",
+      "createdAt": "2026-09-21T23:30:00Z"
+    },
+    {
+      "id": "mov-demo-017",
+      "productId": "p-004",
+      "variantId": "v-035",
+      "sku": "A2-OFF-OW-M",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1059",
+      "createdAt": "2026-09-21T23:30:00Z"
+    },
+    {
+      "id": "mov-demo-018",
+      "productId": "p-007",
+      "variantId": "v-048",
+      "sku": "A2-UNIF-C-L",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1058",
+      "createdAt": "2026-09-21T04:30:00Z"
+    },
+    {
+      "id": "mov-demo-019",
+      "productId": "p-006",
+      "variantId": "v-045",
+      "sku": "A2-CHAR-C-XL",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1057",
+      "createdAt": "2026-09-20T06:30:00Z"
+    },
+    {
+      "id": "mov-demo-020",
+      "productId": "p-009",
+      "variantId": "v-059",
+      "sku": "A2-CHAR-C-34",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1057",
+      "createdAt": "2026-09-20T06:30:00Z"
+    }
+  ],
+  "settings": {
+    "currency": "EGP",
+    "flatShippingRate": 90,
+    "freeShippingThreshold": 2500,
+    "codEnabled": true,
+    "cardEnabled": false,
+    "lowStockThreshold": 4,
+    "supportPhone": "01000000000",
+    "supportEmail": "support.demo@a2menswear.com"
+  }
+}

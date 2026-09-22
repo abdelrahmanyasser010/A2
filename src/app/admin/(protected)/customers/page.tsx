@@ -1,0 +1,4 @@
+import { formatPrice } from "@/lib/format";
+import { getCustomers } from "@/server/store-db";
+export const dynamic="force-dynamic";
+export default async function CustomersPage(){const customers=await getCustomers();return <><div className="adminPageHeading"><div><p>CRM</p><h1>Customers</h1></div><span className="adminMetricChip">{customers.length} customers</span></div><section className="adminPanel noPad"><div className="adminTableWrap"><table className="adminTable"><thead><tr><th>Customer</th><th>Phone</th><th>Email</th><th>Orders</th><th>Total spent</th><th>Last order</th></tr></thead><tbody>{customers.map(c=><tr key={c.id}><td><strong>{c.firstName} {c.lastName}</strong></td><td>{c.phone}</td><td>{c.email||"—"}</td><td>{c.orderCount}</td><td>{formatPrice(c.totalSpent)}</td><td>{c.lastOrderAt?new Date(c.lastOrderAt).toLocaleDateString("en-EG"):"—"}</td></tr>)}</tbody></table></div></section></>}
