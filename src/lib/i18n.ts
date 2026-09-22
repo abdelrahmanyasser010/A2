@@ -18,7 +18,7 @@ export const translations = {
     heroTitleEm: "DIFFERENT",
     heroTitle2: "MINDS",
     heroAction: "Shop the drop",
-    heroSlogan: "Two minds. One vision.",
+    heroSlogan: "Two minds. One vision",
     heroSidecopy: "CLEAN / BOLD / REAL",
 
     // Home Page Sections
@@ -183,7 +183,7 @@ export const translations = {
     heroTitleEm: "DIFFERENT",
     heroTitle2: "MINDS",
     heroAction: "Shop the drop",
-    heroSlogan: "Two minds. One vision.",
+    heroSlogan: "Two minds. One vision",
     heroSidecopy: "CLEAN / BOLD / REAL",
 
     // Home Page Sections (Brand Story & Streetwear Vibe)
