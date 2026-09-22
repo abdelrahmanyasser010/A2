@@ -10,8 +10,8 @@ export function Footer() {
   return (
     <footer className="footer" id="story">
       <div className="footerLead">
-        <p className="eyebrow">A² / MEN&apos;S WEAR</p>
-        <h2>
+        <p className="eyebrow" dir="ltr">A² / MEN&apos;S WEAR</p>
+        <h2 dir="ltr">
           More than clothes.<br />A point of view.
         </h2>
       </div>

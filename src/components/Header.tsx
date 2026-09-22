@@ -78,7 +78,7 @@ export function Header() {
           <Link href="/wishlist" onClick={() => setOpen(false)}><span>05</span>{t("navWishlist")}</Link>
           <Link href="/account/orders" onClick={() => setOpen(false)}><span>06</span>{t("navOrders")}</Link>
         </div>
-        <p className="eyebrow">TWO MINDS. ONE VISION.</p>
+        <p className="eyebrow" dir="ltr" style={{ textAlign: "center", marginTop: "auto", paddingTop: "20px" }}>TWO MINDS. ONE VISION.</p>
       </div>
     </>
   );
