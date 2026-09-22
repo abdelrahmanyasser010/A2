@@ -12,7 +12,7 @@ export function MobileBottomBar() {
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <nav className="storeBottomNav mobileOnly" aria-label="Mobile bottom navigation">
+    <nav className="storeBottomNav" aria-label="Mobile bottom navigation">
       <Link href="/" className={pathname === "/" ? "active" : ""}>
         <Home size={19} />
         <span>{t("backHomeBtn")}</span>

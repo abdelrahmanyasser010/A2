@@ -51,7 +51,7 @@ export function Header() {
             </Link>
           </div>
         </div>
-        <nav className="mobileNavStrip mobileOnly" aria-label="Mobile navigation bar">
+        <nav className="mobileNavStrip" aria-label="Mobile navigation bar">
           {navLinks.map(({ label, href }) => (
             <Link key={href} href={href} className="mobileNavPill">{label}</Link>
           ))}

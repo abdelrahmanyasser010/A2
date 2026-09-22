@@ -17,8 +17,11 @@ export function Hero() {
 
   return (
     <section ref={ref} className="hero">
-      <motion.div className="heroImage" style={{ y, scale }}>
+      <motion.div className="heroImage desktopOnlyImage" style={{ y, scale }}>
         <Image src="/media/campaign-hero.webp" alt="A² new collection campaign" fill priority sizes="100vw" />
+      </motion.div>
+      <motion.div className="heroImage mobileOnlyImage" style={{ y, scale }}>
+        <Image src="/media/campaign-hero-mobile.webp" alt="A² new collection campaign" fill priority sizes="100vw" />
       </motion.div>
       <div className="heroShade" />
       <div className="heroContent">

@@ -39,6 +39,8 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .iconButton:hover { background: rgba(255,255,255,.07); }
 .badge { position: absolute; top: 2px; right: 0; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 14px; display: grid; place-items: center; font-weight: 700; }
 .mobileOnly { display: none; }
+.mobileNavStrip, .storeBottomNav, .mobileOnlyImage { display: none !important; }
+.desktopOnlyImage { display: block !important; }
 .mobileMenu { position: fixed; inset: 0; z-index: 90; background: #0f100e; transform: translateY(-105%); transition: transform .55s cubic-bezier(.22,1,.36,1); padding: 18px 20px 30px; display: flex; flex-direction: column; }
 .mobileMenu.isOpen { transform: translateY(0); }
 .mobileMenuTop { display: flex; justify-content: space-between; align-items: center; }
@@ -334,13 +336,40 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 }
 
 @media (max-width: 780px) {
-  :root { --header-h: 102px; }
-  .siteHeader { background: rgba(17,17,17,.9); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.07); }
-  .headerInner { grid-template-columns: 42px 1fr auto; padding: 0 10px; gap: 4px; height: 56px; }
+  :root { --header-h: 104px; }
+  .siteHeader {
+    height: auto !important;
+    min-height: 102px;
+    background: rgba(15, 16, 13, 0.96) !important;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .headerInner { grid-template-columns: 42px 1fr auto; padding: 0 10px; gap: 4px; height: 54px; }
   .headerInner .brandLogo { justify-self: center; width: 55px; }
-  .mobileNavStrip { display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; padding: 0 12px 9px; -webkit-overflow-scrolling: touch; }
+  .mobileNavStrip {
+    display: flex !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 7px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 12px 10px !important;
+    -webkit-overflow-scrolling: touch;
+  }
   .mobileNavStrip::-webkit-scrollbar { display: none; }
-  .mobileNavPill { white-space: nowrap; font-size: 12.5px; font-weight: 600; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); color: #d8d5cd; background: rgba(255,255,255,.04); }
+  .mobileNavPill {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #f2efe9;
+    background: rgba(255, 255, 255, 0.07);
+    text-decoration: none;
+  }
   .mobileNavPill:hover, .mobileNavPill.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
   .mobileOnly { display: inline-flex; }
   .desktopNav { display: none; }
@@ -349,7 +378,9 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   .iconButton { width: 38px; height: 38px; }
   .hero { min-height: 88svh; padding: calc(var(--header-h) + 15px) 16px 36px; align-items: flex-end; }
   .heroImage { inset: 0; }
-  .heroImage img { object-position: 85% center !important; }
+  .mobileOnlyImage { display: block !important; }
+  .desktopOnlyImage { display: none !important; }
+  .mobileOnlyImage img { object-fit: cover !important; object-position: center top !important; }
   .heroShade { background: linear-gradient(180deg, rgba(9,9,8,.4) 0%, rgba(9,9,8,.2) 35%, rgba(9,9,8,.85) 70%, rgba(9,9,8,.97) 100%); }
   .heroContent { width: 100%; }
   .hero h1 { font-size: clamp(34px, 10vw, 46px); line-height: 0.95; margin-bottom: 18px; }
@@ -451,33 +482,35 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 
   /* Storefront Mobile Bottom App Bar */
   .storeBottomNav {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    position: fixed;
-    z-index: 75;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    position: fixed !important;
+    z-index: 9999 !important;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(18, 19, 16, 0.96);
+    background: #131411 !important;
     backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 7px 4px calc(7px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.6) !important;
+    padding: 7px 2px calc(7px + env(safe-area-inset-bottom)) !important;
+    box-sizing: border-box;
   }
   .storeBottomNav a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    color: #8c8a83;
-    font-size: 11px;
-    font-weight: 500;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    color: #9e9c94 !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
     transition: color 0.18s;
-    text-decoration: none;
+    text-decoration: none !important;
   }
   .storeBottomNav a.active, .storeBottomNav a:hover {
-    color: #ffffff;
-    font-weight: 700;
+    color: #ffffff !important;
+    font-weight: 700 !important;
   }
   .bottomNavIconWrap {
     position: relative;
@@ -486,11 +519,11 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   .bottomNavBadge {
     position: absolute;
     top: -5px;
-    right: -8px;
+    right: -9px;
     background: #ffffff;
     color: #111111;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
     min-width: 15px;
     height: 15px;
     padding: 0 3px;
@@ -500,7 +533,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   }
   body:has(.mobileStickyBuy) .storeBottomNav,
   body:has(.adminApp) .storeBottomNav {
-    display: none;
+    display: none !important;
   }
   body:not(:has(.adminApp)) {
     padding-bottom: calc(58px + env(safe-area-inset-bottom));
