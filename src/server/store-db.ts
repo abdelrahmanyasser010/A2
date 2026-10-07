@@ -27,3 +27,4 @@ export const quoteCheckout = repository.quoteCheckout;
 export const createOrder = repository.createOrder;
 export const requestReturn = repository.requestReturn;
 export const getDashboardMetrics = repository.getDashboardMetrics;
+export const toggleBlockPhone = repository.toggleBlockPhone;

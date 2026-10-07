@@ -19,7 +19,8 @@ export async function PATCH(request: Request) {
       lowStockThreshold: Number(body.lowStockThreshold),
       supportPhone: String(body.supportPhone || ""),
       supportEmail: String(body.supportEmail || ""),
-      governorateRates: body.governorateRates && typeof body.governorateRates === "object" ? body.governorateRates : undefined
+      governorateRates: body.governorateRates && typeof body.governorateRates === "object" ? body.governorateRates : undefined,
+      blockedPhones: Array.isArray(body.blockedPhones) ? body.blockedPhones.map(String) : undefined
     });
     return NextResponse.json({ settings });
   } catch (error) {

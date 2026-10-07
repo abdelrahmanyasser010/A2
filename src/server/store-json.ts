@@ -11,6 +11,7 @@ import type {
 } from "@/lib/domain";
 import type { Product } from "@/lib/types";
 import { normalizeGovKey, getDefaultGovRates } from "@/lib/governorates";
+import { isPhoneBlocked, normalizePhone } from "@/lib/phone";
 
 const STORE_PATH = process.env.A2_DATA_FILE || path.join(process.cwd(), "data", "store.json");
 let writeQueue: Promise<void> = Promise.resolve();
@@ -353,13 +354,37 @@ export async function getCustomers() {
 
 export async function getSettings() {
   const store = await readStore();
-  return clone(store.settings);
+  return {
+    ...clone(store.settings),
+    blockedPhones: store.settings.blockedPhones || []
+  };
 }
 
 export async function updateSettings(input: Partial<StoreData["settings"]>) {
   return mutateStore((store) => {
-    store.settings = { ...store.settings, ...input };
+    store.settings = {
+      ...store.settings,
+      ...input,
+      blockedPhones: input.blockedPhones
+        ? Array.from(new Set(input.blockedPhones.map(normalizePhone).filter(Boolean)))
+        : (store.settings.blockedPhones || [])
+    };
     return clone(store.settings);
+  });
+}
+
+export async function toggleBlockPhone(rawPhone: string, block: boolean) {
+  return mutateStore((store) => {
+    const norm = normalizePhone(rawPhone);
+    if (!norm) throw new Error("رقم الهاتف غير صحيح.");
+    const set = new Set((store.settings.blockedPhones || []).map(normalizePhone).filter(Boolean));
+    if (block) {
+      set.add(norm);
+    } else {
+      set.delete(norm);
+    }
+    store.settings.blockedPhones = Array.from(set);
+    return { blocked: block, phone: norm, blockedPhones: store.settings.blockedPhones };
   });
 }
 
@@ -450,7 +475,11 @@ export async function createOrder(input: {
   notes?: string;
 }) {
   return mutateStore((store) => {
-    if (!input.customer.phone?.trim()) throw new Error("Phone is required.");
+    const cleanPhone = normalizePhone(input.customer.phone);
+    if (!cleanPhone) throw new Error("رقم الهاتف مطلوب بشكل صحيح.");
+    if (isPhoneBlocked(cleanPhone, store.settings.blockedPhones)) {
+      throw new Error("عذراً، هذا الرقم غير متاح لتقديم طلبات جديدة. يرجى التواصل مع خدمة العملاء للمساعدة.");
+    }
     if (!input.customer.firstName?.trim()) throw new Error("First name is required.");
     if (!input.shipping.governorate?.trim() || !input.shipping.city?.trim() || !input.shipping.street?.trim()) throw new Error("Complete delivery address is required.");
     if (input.paymentMethod === "CARD" && !store.settings.cardEnabled) throw new Error("Online card payment is not enabled yet.");
@@ -458,7 +487,7 @@ export async function createOrder(input: {
 
     const quote = calculateQuoteFromStore(store, input.cart, input.couponCode, input.shipping.governorate);
     const stamp = nowIso();
-    let customer = store.customers.find((item) => item.phone === input.customer.phone || (input.customer.email && item.email === input.customer.email));
+    let customer = store.customers.find((item) => normalizePhone(item.phone) === cleanPhone || (input.customer.email && item.email === input.customer.email));
     if (!customer) {
       customer = { id: id("cus"), ...input.customer, createdAt: stamp, updatedAt: stamp };
       store.customers.unshift(customer);

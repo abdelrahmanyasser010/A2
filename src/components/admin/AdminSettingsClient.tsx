@@ -3,10 +3,12 @@
 import { FormEvent, useState } from "react";
 import type { StoreSettings } from "@/lib/domain";
 import { EGYPT_GOVERNORATES, getDefaultGovRates } from "@/lib/governorates";
-import { Search, RotateCcw, Copy } from "lucide-react";
+import { Search, RotateCcw, Copy, ShieldAlert, Plus, Trash2 } from "lucide-react";
+import { normalizePhone } from "@/lib/phone";
 
 export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
-  const [s, setS] = useState(initial);
+  const [s, setS] = useState({ ...initial, blockedPhones: initial.blockedPhones || [] });
+  const [newBlockedPhone, setNewBlockedPhone] = useState("");
   const [govRates, setGovRates] = useState<Record<string, number>>(() => {
     return initial.governorateRates && Object.keys(initial.governorateRates).length > 0
       ? { ...initial.governorateRates }
@@ -243,7 +245,103 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
           })}
         </div>
 
-        <p className="settingsNote" style={{ marginTop: "18px" }}>
+        <hr style={{ border: "0", borderTop: "1px solid var(--line)", margin: "24px 0" }} />
+
+        <div className="adminPanelHeading">
+          <div>
+            <h2>Phone Blacklist (قائمة الأرقام المحظورة)</h2>
+            <p>
+              الأرقام المضافة هنا يتم حظرها تلقائياً عند محاولة إتمام الطلب من صفحة Checkout مع رسالة توضيحية.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "16px" }}>
+          <input
+            type="tel"
+            placeholder="أدخل رقم الموبايل للحظر (مثال: 01012345678)"
+            value={newBlockedPhone}
+            onChange={(e) => setNewBlockedPhone(e.target.value)}
+            style={{ maxWidth: "320px", padding: "8px 12px" }}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const norm = normalizePhone(newBlockedPhone);
+              if (!norm) return;
+              const current = s.blockedPhones || [];
+              if (!current.includes(norm)) {
+                setS({ ...s, blockedPhones: [...current, norm] });
+              }
+              setNewBlockedPhone("");
+            }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "8px 14px",
+              fontSize: "13px",
+              background: "#b91c1c",
+              color: "#fff",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer"
+            }}
+          >
+            <ShieldAlert size={14} /> إضافة للحظر
+          </button>
+        </div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", minHeight: "36px" }}>
+          {(!s.blockedPhones || s.blockedPhones.length === 0) ? (
+            <p style={{ color: "var(--muted)", fontSize: "13px", margin: 0 }}>
+              لا توجد أرقام محظورة حالياً. يمكنك أيضاً حظر أي رقم مباشرة من نافذة تفاصيل الطلب.
+            </p>
+          ) : (
+            s.blockedPhones.map((phone) => (
+              <span
+                key={phone}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  background: "rgba(220, 38, 38, 0.15)",
+                  border: "1px solid rgba(220, 38, 38, 0.4)",
+                  color: "#f87171",
+                  padding: "5px 10px",
+                  borderRadius: "6px",
+                  fontSize: "13px",
+                  fontFamily: "monospace"
+                }}
+              >
+                <span>{phone}</span>
+                <button
+                  type="button"
+                  title="فك الحظر"
+                  onClick={() => {
+                    setS({
+                      ...s,
+                      blockedPhones: (s.blockedPhones || []).filter((p) => p !== phone)
+                    });
+                  }}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "#f87171",
+                    cursor: "pointer",
+                    padding: "0 2px",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
+                >
+                  <Trash2 size={13} />
+                </button>
+              </span>
+            ))
+          )}
+        </div>
+
+        <p className="settingsNote" style={{ marginTop: "24px" }}>
           Card payments remain disabled until a payment gateway is integrated. Turning the switch on only exposes the checkout option.
         </p>
 

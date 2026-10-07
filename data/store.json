@@ -2166,6 +2166,7 @@
     "cardEnabled": false,
     "lowStockThreshold": 4,
     "supportPhone": "01000000000",
-    "supportEmail": "support.demo@a2menswear.com"
+    "supportEmail": "support.demo@a2menswear.com",
+    "blockedPhones": []
   }
 }

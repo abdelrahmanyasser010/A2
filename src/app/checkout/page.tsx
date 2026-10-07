@@ -76,7 +76,7 @@ export default function CheckoutPage() {
         street: form.get("street"),
         notes: form.get("deliveryNotes")
       },
-      paymentMethod: form.get("payment")
+      paymentMethod: "COD"
     };
     const response = await fetch("/api/checkout", {
       method: "POST",
@@ -103,7 +103,9 @@ export default function CheckoutPage() {
         <p className="eyebrow">{t("orderReceivedBadge")} #{order.orderNumber}</p>
         <h1>{t("orderReceivedTitle")}</h1>
         <p>
-          {t("orderReceivedDesc", { gov: order.shipping.governorate })}
+          {language === "ar"
+            ? `شكراً لك! تم استلام وتثبيت طلبك رقم #${order.orderNumber}. سيقوم فريق A² بالتواصل معك قريباً هاتفياً أو عبر الواتساب على رقمك (${order.customer.phone}) لتأكيد المقاس وميعاد التوصيل إلى ${order.shipping.governorate}.`
+            : t("orderReceivedDesc", { gov: order.shipping.governorate })}
         </p>
         <div className="successActions">
           <Link className="primaryButton" href="/account/orders">
@@ -140,8 +142,11 @@ export default function CheckoutPage() {
                 <input required name="phone" type="tel" inputMode="tel" placeholder={t("phonePlaceholder")} />
               </label>
               <label>
-                {t("emailLabel")}
-                <input required name="email" type="email" inputMode="email" placeholder={t("emailPlaceholder")} />
+                {t("emailLabel")}{" "}
+                <small style={{ color: "var(--muted)", fontSize: "11px" }}>
+                  ({language === "ar" ? "اختياري" : "Optional"})
+                </small>
+                <input name="email" type="email" inputMode="email" placeholder={t("emailPlaceholder")} />
               </label>
             </fieldset>
 
@@ -191,20 +196,22 @@ export default function CheckoutPage() {
 
             <fieldset>
               <legend>{t("paymentLegend")}</legend>
-              <label className="radioCard">
-                <input value="COD" type="radio" name="payment" defaultChecked />
-                <span>
-                  <strong>{t("codTitle")}</strong>
-                  {t("codDesc")}
-                </span>
-              </label>
-              <label className="radioCard">
-                <input value="CARD" type="radio" name="payment" />
-                <span>
-                  <strong>{t("cardTitle")}</strong>
-                  {t("cardDesc")}
-                </span>
-              </label>
+              <input type="hidden" name="payment" value="COD" />
+              <div className="codPaymentBanner">
+                <div className="codPaymentHeader">
+                  <span className="codStatusDot" />
+                  <strong>
+                    {language === "ar"
+                      ? "الدفع عند الاستلام فقط (Cash on Delivery)"
+                      : "Cash on Delivery (COD)"}
+                  </strong>
+                </div>
+                <p>
+                  {language === "ar"
+                    ? "الدفع كاش بعد استلام ومعاينة الأوردر. سيقوم فريق خدمة عملاء A² بالتواصل معك هاتفياً أو عبر الواتساب لتأكيد المقاس وتفاصيل الشحن قبل إرسال الطلب."
+                    : "Pay in cash upon inspecting your order. Our team will contact you via phone or WhatsApp to confirm sizes and delivery schedule prior to dispatch."}
+                </p>
+              </div>
             </fieldset>
 
             {submitError && <div className="checkoutError">{submitError}</div>}

@@ -600,6 +600,178 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .discountActions button { border: 1px solid #d8d5cf; background: #fff; min-height: 28px; padding: 0 8px; font-size: 11px; cursor: pointer; display: grid; place-items: center; }
 .settingsNote { font-size: 12px; color: #8a877f; line-height: 1.6; margin: 0; }
 
+/* Admin Order Communication & Blacklist Styles */
+.adminBlockedBadge {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: 6px;
+}
+.orderRowBlocked {
+  background: rgba(220, 38, 38, 0.04);
+}
+.orderWaQuickBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 5px;
+  background: #25D366;
+  color: #ffffff !important;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.orderWaQuickBtn:hover {
+  opacity: 0.9;
+}
+.orderCommBar {
+  background: #fbf9f5;
+  border-top: 1px solid #e3dfd7;
+  border-bottom: 1px solid #e3dfd7;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.orderCommInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.orderCommButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.adminWaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #25D366;
+  color: #ffffff !important;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: opacity 0.2s;
+}
+.adminWaBtn:hover {
+  opacity: 0.92;
+}
+.adminCallBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #171815;
+  color: #f2efe9 !important;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.adminCallBtn:hover {
+  opacity: 0.88;
+}
+.adminBlockBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.adminBlockBtn:hover {
+  background: #fecaca;
+}
+.adminUnblockBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.adminUnblockBtn:hover {
+  background: #bbf7d0;
+}
+.orderCustomerNote {
+  margin: 0 20px 15px;
+  padding: 12px 16px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #92400e;
+}
+.orderCustomerNote strong {
+  display: block;
+  margin-bottom: 4px;
+}
+.orderCustomerNote p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Storefront COD Checkout Banner */
+.codPaymentBanner {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.codPaymentHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+.codStatusDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+  flex-shrink: 0;
+}
+.codPaymentBanner p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
 .adminLoginPage { min-height: 100svh; background: #111; color: #f2efe9; display: grid; place-items: center; padding: 24px; position: relative; overflow: hidden; }
 .adminLoginPage::before { content:""; position:absolute; inset:0; background: radial-gradient(circle at 70% 20%, rgba(48,53,43,.55), transparent 36%), radial-gradient(circle at 20% 85%, rgba(255,255,255,.06), transparent 25%); }
 .adminLoginCard { position: relative; width: min(450px,100%); border: 1px solid rgba(255,255,255,.12); background: rgba(20,21,18,.82); backdrop-filter: blur(18px); padding: clamp(26px,5vw,48px); }

@@ -108,6 +108,7 @@ export type StoreSettings = {
   supportPhone: string;
   supportEmail: string;
   governorateRates?: Record<string, number>;
+  blockedPhones?: string[];
 };
 
 export type StoreMeta = {

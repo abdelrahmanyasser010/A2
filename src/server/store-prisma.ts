@@ -10,6 +10,7 @@ import type {
   StoreSettings
 } from "@/lib/domain";
 import type { Product } from "@/lib/types";
+import { isPhoneBlocked, normalizePhone } from "@/lib/phone";
 
 type Db = typeof prisma | Prisma.TransactionClient;
 type CartInput = { sku: string; quantity: number };
@@ -44,6 +45,12 @@ async function settingsOf(db: Db = prisma) {
 }
 
 function mapSettings(row: Awaited<ReturnType<typeof settingsOf>>): StoreSettings {
+  let blockedPhones: string[] = [];
+  try {
+    if (row.note && row.note.startsWith("BLOCKED_PHONES:")) {
+      blockedPhones = JSON.parse(row.note.replace("BLOCKED_PHONES:", ""));
+    }
+  } catch {}
   return {
     currency: "EGP",
     flatShippingRate: money(row.flatShippingRate),
@@ -52,7 +59,8 @@ function mapSettings(row: Awaited<ReturnType<typeof settingsOf>>): StoreSettings
     cardEnabled: row.cardEnabled,
     lowStockThreshold: row.lowStockThreshold,
     supportPhone: row.supportPhone || "",
-    supportEmail: row.supportEmail || ""
+    supportEmail: row.supportEmail || "",
+    blockedPhones
   };
 }
 
@@ -596,6 +604,10 @@ export async function getSettings() {
 }
 
 export async function updateSettings(input: Partial<StoreData["settings"]>) {
+  const noteData = input.blockedPhones
+    ? `BLOCKED_PHONES:${JSON.stringify(Array.from(new Set(input.blockedPhones.map(normalizePhone).filter(Boolean))))}`
+    : undefined;
+
   const row = await prisma.storeSettings.upsert({
     where: { id: "default" },
     create: {
@@ -607,7 +619,8 @@ export async function updateSettings(input: Partial<StoreData["settings"]>) {
       cardEnabled: input.cardEnabled ?? false,
       lowStockThreshold: Number(input.lowStockThreshold ?? 4),
       supportPhone: input.supportPhone || "",
-      supportEmail: input.supportEmail || ""
+      supportEmail: input.supportEmail || "",
+      note: noteData
     },
     update: {
       flatShippingRate: input.flatShippingRate == null ? undefined : new Prisma.Decimal(Number(input.flatShippingRate)),
@@ -616,10 +629,35 @@ export async function updateSettings(input: Partial<StoreData["settings"]>) {
       cardEnabled: input.cardEnabled,
       lowStockThreshold: input.lowStockThreshold,
       supportPhone: input.supportPhone,
-      supportEmail: input.supportEmail
+      supportEmail: input.supportEmail,
+      note: noteData
     }
   });
   return mapSettings(row);
+}
+
+export async function toggleBlockPhone(rawPhone: string, block: boolean) {
+  const norm = normalizePhone(rawPhone);
+  if (!norm) throw new Error("رقم الهاتف غير صحيح.");
+  const settings = await getSettings();
+  const current = new Set((settings.blockedPhones || []).map(normalizePhone).filter(Boolean));
+  if (block) {
+    current.add(norm);
+  } else {
+    current.delete(norm);
+  }
+  const nextList = Array.from(current);
+  await prisma.storeSettings.upsert({
+    where: { id: "default" },
+    create: {
+      id: "default",
+      note: `BLOCKED_PHONES:${JSON.stringify(nextList)}`
+    },
+    update: {
+      note: `BLOCKED_PHONES:${JSON.stringify(nextList)}`
+    }
+  });
+  return { blocked: block, phone: norm, blockedPhones: nextList };
 }
 
 async function pricingContext(db: Db, cart: CartInput[]) {
@@ -708,16 +746,21 @@ export async function createOrder(input: {
   paymentMethod: "COD" | "CARD";
   notes?: string;
 }) {
-  if (!input.customer.phone?.trim()) throw new Error("Phone is required.");
+  const cleanPhone = normalizePhone(input.customer.phone);
+  if (!cleanPhone) throw new Error("رقم الهاتف مطلوب بشكل صحيح.");
   if (!input.customer.firstName?.trim()) throw new Error("First name is required.");
   if (!input.shipping.governorate?.trim() || !input.shipping.city?.trim() || !input.shipping.street?.trim()) throw new Error("Complete delivery address is required.");
 
   const row = await prisma.$transaction(async (tx) => {
     const { quote, pricedItems, settings } = await calculateQuote(tx, input.cart, input.couponCode, input.shipping.governorate);
+    const mappedSettings = mapSettings(settings);
+    if (isPhoneBlocked(cleanPhone, mappedSettings.blockedPhones)) {
+      throw new Error("عذراً، هذا الرقم غير متاح لتقديم طلبات جديدة. يرجى التواصل مع خدمة العملاء للمساعدة.");
+    }
     if (input.paymentMethod === "CARD" && !settings.cardEnabled) throw new Error("Online card payment is not enabled yet.");
     if (input.paymentMethod === "COD" && !settings.codEnabled) throw new Error("Cash on delivery is not available.");
 
-    let customer = await tx.customer.findUnique({ where: { phone: input.customer.phone.trim() } });
+    let customer = await tx.customer.findUnique({ where: { phone: cleanPhone } });
     if (!customer) {
       customer = await tx.customer.create({ data: {
         phone: input.customer.phone.trim(),
