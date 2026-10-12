@@ -1,7 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { X, MessageSquare, Phone, ShieldAlert, ShieldCheck } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  X,
+  MessageSquare,
+  Phone,
+  ShieldAlert,
+  ShieldCheck,
+  CheckCircle2,
+  CheckSquare,
+  Square,
+  Layers,
+  ArrowRight
+} from "lucide-react";
 import type { OrderRecord, OrderStatus } from "@/lib/domain";
 import { formatPrice } from "@/lib/format";
 import {
@@ -54,17 +65,67 @@ export function AdminOrdersClient({
   initialOrders: OrderRecord[];
   initialBlockedPhones?: string[];
 }) {
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState<OrderRecord[]>(initialOrders);
   const [tab, setTab] = useState("ALL");
   const [selected, setSelected] = useState<OrderRecord | null>(null);
   const [message, setMessage] = useState("");
   const [blockedPhones, setBlockedPhones] = useState<string[]>(initialBlockedPhones);
   const [busyPhone, setBusyPhone] = useState(false);
 
+  // Multi-select for bulk status updates
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkStatus, setBulkStatus] = useState<OrderStatus>("CONFIRMED");
+  const [bulkBusy, setBulkBusy] = useState(false);
+
+  // Contacted orders tracking
+  const [contactedIds, setContactedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("a2-contacted-orders");
+      if (saved) {
+        setContactedIds(new Set(JSON.parse(saved)));
+      }
+    } catch {}
+  }, []);
+
+  function markAsContacted(orderId: string) {
+    setContactedIds((prev) => {
+      const next = new Set(prev);
+      next.add(orderId);
+      try {
+        localStorage.setItem("a2-contacted-orders", JSON.stringify(Array.from(next)));
+      } catch {}
+      return next;
+    });
+  }
+
   const visible = useMemo(
     () => (tab === "ALL" ? orders : orders.filter((o) => o.status === tab)),
     [orders, tab]
   );
+
+  const allVisibleSelected = useMemo(
+    () => visible.length > 0 && visible.every((o) => selectedIds.has(o.id)),
+    [visible, selectedIds]
+  );
+
+  function toggleSelectAll() {
+    if (allVisibleSelected) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(visible.map((o) => o.id)));
+    }
+  }
+
+  function toggleSelectOne(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   async function changeStatus(order: OrderRecord, status: OrderStatus) {
     setMessage("");
@@ -76,8 +137,52 @@ export function AdminOrdersClient({
     const d = await r.json().catch(() => ({}));
     if (!r.ok) return setMessage(d.error || "تعذر تحديث حالة الطلب.");
     setOrders((cur) => cur.map((o) => (o.id === d.order.id ? d.order : o)));
-    setSelected(d.order);
-    setMessage(`تم تغيير حالة الطلب ${order.orderNumber} إلى (${label(status)}).`);
+    if (selected?.id === d.order.id) {
+      setSelected(d.order);
+    }
+    setMessage(`✅ تم تغيير حالة الطلب ${order.orderNumber} مباشرة إلى (${label(status)}).`);
+  }
+
+  async function handleBulkStatusChange() {
+    if (selectedIds.size === 0) return;
+    setBulkBusy(true);
+    setMessage("");
+
+    const idsArray = Array.from(selectedIds);
+    try {
+      const res = await fetch("/api/admin/orders/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: idsArray, status: bulkStatus })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "تعذر التحديث المجمّع.");
+
+      // Update state with modified orders
+      if (Array.isArray(data.orders)) {
+        const updatedMap = new Map(data.orders.map((o: OrderRecord) => [o.id, o]));
+        setOrders((cur) => cur.map((o) => (updatedMap.has(o.id) ? (updatedMap.get(o.id) as OrderRecord) : o)));
+      }
+      setMessage(`🎉 تم تحديث حالة ${data.count} طلب بنجاح إلى (${label(bulkStatus)}).`);
+      setSelectedIds(new Set());
+    } catch (err: any) {
+      setMessage(err.message || "حدث خطأ أثناء التحديث المجمّع.");
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
+  function handleWhatsAppClick(order: OrderRecord, waUrl: string) {
+    markAsContacted(order.id);
+    window.open(waUrl, "_blank", "noopener,noreferrer");
+
+    // If order is newly placed, automatically advance it to confirmed!
+    if (order.status === "NEW") {
+      void changeStatus(order, "CONFIRMED");
+      setMessage(`💬 تم فتح الواتساب وتغيير حالة الطلب ${order.orderNumber} إلى (تم التأكيد) تلقائياً.`);
+    } else {
+      setMessage(`💬 تم فتح محادثة الواتساب مع العميل وتحديد الطلب كـ (تم التواصل).`);
+    }
   }
 
   async function handleToggleBlock(phone: string, block: boolean) {
@@ -107,7 +212,7 @@ export function AdminOrdersClient({
       setBlockedPhones(data.blockedPhones || []);
       setMessage(
         block
-          ? `⛔ تم حظر الرقم (${phone}) بنجاح ومنعه من تقديم طلبات.`
+          ? `⛔ تم حظر الرقم (${phone}) بنجاح ومنعه من تقديم طلبات جديدة.`
           : `✅ تم فك الحظر عن الرقم (${phone}) بنجاح.`
       );
     } catch (err: any) {
@@ -121,15 +226,56 @@ export function AdminOrdersClient({
     <>
       <div className="adminPageHeading">
         <div>
-          <p>إدارة وتنفيذ الطلبات والتواصل مع العملاء</p>
+          <p>إدارة وتنفيذ الطلبات والتواصل السريع مع العملاء</p>
           <h1>الطلبات ({orders.length})</h1>
         </div>
         <button className="adminPrimary" onClick={() => window.print()}>
-          طباعة / تصدير
+          طباعة / تصدير الكشف
         </button>
       </div>
 
       {message && <div className="adminAlert">{message}</div>}
+
+      {/* Bulk Action Sticky Bar */}
+      {selectedIds.size > 0 && (
+        <div className="adminBulkActionBar">
+          <div className="bulkActionInfo">
+            <Layers size={18} />
+            <span>
+              تم تحديد <strong>{selectedIds.size}</strong> طلب
+            </span>
+          </div>
+          <div className="bulkActionControls">
+            <span className="bulkLabel">تغيير حالة المحددين إلى:</span>
+            <select
+              value={bulkStatus}
+              onChange={(e) => setBulkStatus(e.target.value as OrderStatus)}
+              className="bulkSelect"
+            >
+              {statuses.map((s) => (
+                <option key={s} value={s}>
+                  {label(s)}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              disabled={bulkBusy}
+              onClick={handleBulkStatusChange}
+              className="bulkApplyBtn"
+            >
+              {bulkBusy ? "جاري التحديث…" : "تطبيق الآن"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedIds(new Set())}
+              className="bulkCancelBtn"
+            >
+              إلغاء التحديد
+            </button>
+          </div>
+        </div>
+      )}
 
       <section className="adminPanel noPad">
         <div className="orderTabs">
@@ -155,20 +301,29 @@ export function AdminOrdersClient({
           <table className="adminTable">
             <thead>
               <tr>
+                <th style={{ width: "42px", textAlign: "center" }}>
+                  <input
+                    type="checkbox"
+                    checked={allVisibleSelected}
+                    onChange={toggleSelectAll}
+                    title="تحديد كل الطلبات المعروضة"
+                    style={{ width: "17px", height: "17px", cursor: "pointer" }}
+                  />
+                </th>
                 <th>رقم الطلب</th>
                 <th>بيانات العميل</th>
                 <th>المحافظة</th>
                 <th>تاريخ الطلب</th>
-                <th>طريقة الدفع</th>
+                <th>الدفع</th>
                 <th>الإجمالي</th>
-                <th>الحالة</th>
+                <th>الحالة (تغيير فوري)</th>
                 <th>الإجراءات</th>
               </tr>
             </thead>
             <tbody>
               {visible.length === 0 ? (
                 <tr>
-                  <td colSpan={8} style={{ textAlign: "center", padding: "30px", color: "var(--muted)" }}>
+                  <td colSpan={9} style={{ textAlign: "center", padding: "35px", color: "var(--muted)", fontSize: "15px" }}>
                     لا توجد طلبات في هذا القسم حالياً.
                   </td>
                 </tr>
@@ -176,21 +331,32 @@ export function AdminOrdersClient({
                 visible.map((o) => {
                   const blocked = isPhoneBlocked(o.customer.phone, blockedPhones);
                   const waNumber = toWhatsAppNumber(o.customer.phone);
+                  const isContacted = contactedIds.has(o.id);
+                  const isSelected = selectedIds.has(o.id);
                   const waUrl = waNumber
                     ? `https://wa.me/${waNumber}?text=${encodeURIComponent(formatWhatsAppMessage(o))}`
                     : null;
 
                   return (
-                    <tr key={o.id} className={blocked ? "orderRowBlocked" : ""}>
-                      <td>
-                        <strong>{o.orderNumber}</strong>
+                    <tr
+                      key={o.id}
+                      className={`${blocked ? "orderRowBlocked" : ""} ${isSelected ? "orderRowSelected" : ""}`}
+                    >
+                      <td style={{ textAlign: "center" }}>
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleSelectOne(o.id)}
+                          style={{ width: "17px", height: "17px", cursor: "pointer" }}
+                        />
                       </td>
                       <td>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                          <span>
-                            <strong>
-                              {o.customer.firstName} {o.customer.lastName}
-                            </strong>
+                        <strong style={{ fontSize: "15px" }}>{o.orderNumber}</strong>
+                      </td>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+                          <span style={{ fontSize: "14.5px", fontWeight: "700" }}>
+                            {o.customer.firstName} {o.customer.lastName}
                             {blocked && (
                               <span
                                 className="adminBlockedBadge"
@@ -200,45 +366,66 @@ export function AdminOrdersClient({
                               </span>
                             )}
                           </span>
-                          <small style={{ color: "var(--muted)", direction: "ltr", textAlign: "right" }}>
-                            {o.customer.phone}
-                          </small>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <small style={{ color: "#30322b", fontWeight: "600", direction: "ltr", textAlign: "right", fontSize: "13px" }}>
+                              {o.customer.phone}
+                            </small>
+                            {isContacted && (
+                              <span className="adminContactedBadge" title="تم فتح الواتساب للتواصل مع العميل">
+                                ✓ تم التواصل
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </td>
-                      <td>{o.shipping.governorate}</td>
+                      <td style={{ fontWeight: "600" }}>{o.shipping.governorate}</td>
                       <td>{new Date(o.createdAt).toLocaleDateString("ar-EG")}</td>
                       <td>
-                        <span style={{ fontSize: "12px" }}>
-                          {o.paymentMethod === "COD" ? "كاش عند الاستلام" : o.paymentMethod}
+                        <span style={{ fontSize: "12.5px", fontWeight: "600" }}>
+                          {o.paymentMethod === "COD" ? "كاش استلام" : o.paymentMethod}
                         </span>
                       </td>
                       <td>
-                        <strong>{formatPrice(o.grandTotal)}</strong>
+                        <strong style={{ fontSize: "15px", color: "#161714" }}>
+                          {formatPrice(o.grandTotal)}
+                        </strong>
                       </td>
                       <td>
-                        <span className={`adminStatus ${o.status.toLowerCase()}`}>
-                          {label(o.status)}
-                        </span>
+                        {/* Direct Inline Status Changer */}
+                        <div className="inlineStatusWrap">
+                          <select
+                            className={`adminInlineStatusSelect ${o.status.toLowerCase()}`}
+                            value={o.status}
+                            onChange={(e) => changeStatus(o, e.target.value as OrderStatus)}
+                            title="تغيير حالة الطلب مباشرة دون فتح النافذة"
+                          >
+                            {statuses.map((s) => (
+                              <option key={s} value={s}>
+                                {label(s)}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </td>
                       <td>
-                        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                        <div style={{ display: "flex", gap: "6px", alignItems: "center", flexWrap: "wrap" }}>
                           {waUrl && (
-                            <a
-                              href={waUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="orderWaQuickBtn"
-                              title="تأكيد الأوردر عبر الواتساب"
+                            <button
+                              type="button"
+                              onClick={() => handleWhatsAppClick(o, waUrl)}
+                              className={`orderWaQuickBtn ${isContacted ? "contacted" : ""}`}
+                              title="تأكيد الأوردر عبر الواتساب وتسجيل تم التواصل"
                             >
-                              <MessageSquare size={13} />
-                              واتساب
-                            </a>
+                              <MessageSquare size={14} />
+                              {isContacted ? "واتساب (تم)" : "واتساب"}
+                            </button>
                           )}
                           <button
                             className="tableAction"
                             onClick={() => setSelected(o)}
+                            title="عرض تفاصيل الأوردر الكاملة"
                           >
-                            تفاصيل الأوردر
+                            التفاصيل
                           </button>
                         </div>
                       </td>
@@ -251,6 +438,7 @@ export function AdminOrdersClient({
         </div>
       </section>
 
+      {/* Order Details Modal */}
       {selected && (
         <div className="adminModalBackdrop">
           <section className="adminModal orderModal">
@@ -261,7 +449,7 @@ export function AdminOrdersClient({
                   {selected.customer.firstName} {selected.customer.lastName}
                 </h2>
               </div>
-              <button onClick={() => setSelected(null)}>
+              <button onClick={() => setSelected(null)} aria-label="إغلاق">
                 <X />
               </button>
             </div>
@@ -269,32 +457,40 @@ export function AdminOrdersClient({
             {/* Customer Communication & Blacklist Bar */}
             <div className="orderCommBar">
               <div className="orderCommInfo">
-                <span>
+                <span style={{ fontSize: "14px" }}>
                   رقم العميل: <strong dir="ltr">{selected.customer.phone}</strong>
                 </span>
+                {contactedIds.has(selected.id) && (
+                  <span className="adminContactedBadge">✓ تم التواصل واتساب</span>
+                )}
                 {isPhoneBlocked(selected.customer.phone, blockedPhones) && (
                   <span className="adminBlockedBadge">⚠️ هذا الرقم محظور من الطلب</span>
                 )}
               </div>
               <div className="orderCommButtons">
                 {toWhatsAppNumber(selected.customer.phone) && (
-                  <a
-                    href={`https://wa.me/${toWhatsAppNumber(selected.customer.phone)}?text=${encodeURIComponent(
-                      formatWhatsAppMessage(selected)
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const waNum = toWhatsAppNumber(selected.customer.phone);
+                      if (waNum) {
+                        const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent(
+                          formatWhatsAppMessage(selected)
+                        )}`;
+                        handleWhatsAppClick(selected, waUrl);
+                      }
+                    }}
                     className="adminWaBtn"
                   >
-                    <MessageSquare size={15} />
+                    <MessageSquare size={16} />
                     مراسلة واتساب (تأكيد الأوردر)
-                  </a>
+                  </button>
                 )}
                 <a
                   href={`tel:${normalizePhone(selected.customer.phone)}`}
                   className="adminCallBtn"
                 >
-                  <Phone size={14} />
+                  <Phone size={15} />
                   اتصال هاتفي
                 </a>
                 {isPhoneBlocked(selected.customer.phone, blockedPhones) ? (
@@ -304,7 +500,7 @@ export function AdminOrdersClient({
                     onClick={() => handleToggleBlock(selected.customer.phone, false)}
                     className="adminUnblockBtn"
                   >
-                    <ShieldCheck size={14} />
+                    <ShieldCheck size={15} />
                     فك حظر الرقم
                   </button>
                 ) : (
@@ -314,7 +510,7 @@ export function AdminOrdersClient({
                     onClick={() => handleToggleBlock(selected.customer.phone, true)}
                     className="adminBlockBtn"
                   >
-                    <ShieldAlert size={14} />
+                    <ShieldAlert size={15} />
                     حظر هذا الرقم ⛔
                   </button>
                 )}
@@ -341,18 +537,18 @@ export function AdminOrdersClient({
                 </strong>
               </div>
               <div>
-                <span>الدفع</span>
+                <span>طريقة الدفع</span>
                 <strong>
                   {selected.paymentMethod === "COD" ? "الدفع كاش عند الاستلام" : selected.paymentMethod}
                   <br />
                   <small style={{ color: "var(--muted)", fontWeight: "normal" }}>
-                    الحالة: {selected.paymentStatus === "PENDING" ? "في انتظار الاستلام" : selected.paymentStatus}
+                    الحالة: {selected.paymentStatus === "PENDING" ? "في انتظار الاستلام كاش" : selected.paymentStatus}
                   </small>
                 </strong>
               </div>
               <div>
                 <span>إجمالي المبلغ</span>
-                <strong>{formatPrice(selected.grandTotal)}</strong>
+                <strong style={{ fontSize: "16px", color: "#161714" }}>{formatPrice(selected.grandTotal)}</strong>
                 <small style={{ color: "var(--muted)", display: "block" }}>
                   شحن: {formatPrice(selected.shippingTotal)}{" "}
                   {selected.discountTotal > 0 && `· خصم: ${formatPrice(selected.discountTotal)}`}
@@ -368,11 +564,11 @@ export function AdminOrdersClient({
             )}
 
             <div className="orderItemsAdmin">
-              <strong style={{ padding: "10px 0 5px", fontSize: "13px" }}>القطع المطلوبة بالأوردر:</strong>
+              <strong style={{ padding: "10px 0 5px", fontSize: "14px" }}>القطع المطلوبة بالأوردر:</strong>
               {selected.items.map((item) => (
                 <div key={item.id}>
                   <span>
-                    {item.quantity}× {item.productName}
+                    <strong>{item.quantity}× {item.productName}</strong>
                     <small>
                       اللون: {item.color} / المقاس: {item.size} · كود SKU: {item.sku}
                     </small>

@@ -274,15 +274,69 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .adminPanelHeading a { font-size: 13px; display: flex; gap: 5px; align-items: center; }
 .adminTableWrap { overflow-x: auto; }
 .adminTable { width: 100%; border-collapse: collapse; min-width: 720px; }
-.adminTable th { text-align: start; font-size: 12px; color: #89877f; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; padding: 12px; border-bottom: 1px solid #dedbd5; }
-.adminTable td { padding: 13px 12px; border-bottom: 1px solid #e5e2dc; font-size: 14px; text-align: start; }
-.adminTable td strong { display: block; font-size: 14px; }
-.adminTable td small { display: block; color: #99968e; font-size: 12px; margin-top: 3px; }
-.adminStatus { display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px; border-radius: 999px; background: #e7e4dd; color: #6d6b65; font-size: 12px; white-space: nowrap; }
-.adminStatus.new { background: #e5e9de; color: #52604b; }
-.adminStatus.preparing { background: #eee3cd; color: #7a612d; }
-.adminStatus.shipped { background: #dde5e7; color: #45606a; }
-.adminStatus.delivered { background: #dfe8dc; color: #496343; }
+.adminTable th {
+  text-align: start;
+  font-size: 13.5px;
+  color: #21221e;
+  font-weight: 700;
+  padding: 13px 12px;
+  border-bottom: 2px solid #d5d1c8;
+  background: #f0ece5;
+}
+.adminTable td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e2ded7;
+  font-size: 14px;
+  text-align: start;
+  color: #171815;
+}
+.adminTable td strong {
+  display: block;
+  font-size: 14.5px;
+  color: #171815;
+  font-weight: 700;
+}
+.adminTable td small {
+  display: block;
+  color: #4b4943;
+  font-size: 12.5px;
+  margin-top: 3px;
+}
+.adminStatus {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.adminStatus.new {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+.adminStatus.confirmed {
+  background: #f5f3ff;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+}
+.adminStatus.preparing {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+.adminStatus.shipped {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+.adminStatus.delivered {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
 .adminTwoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .rankRow { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; padding: 12px 0; border-top: 1px solid #e2dfd8; }
 .rankRow > span { font-family: Georgia,serif; color: #98968e; }
@@ -549,10 +603,42 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .adminModalHead button { border: 0; background: transparent; cursor: pointer; color: #171815; }
 .adminEditorForm, .adminSettingsForm { display: grid; gap: 14px; padding: 20px; }
 .adminSettingsForm { padding: 24px; }
-.adminEditorForm label, .inventoryAdjustForm label, .adminSettingsForm label { display: grid; gap: 6px; color: #76736c; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; }
-.adminEditorForm input, .adminEditorForm textarea, .adminEditorForm select, .inventoryAdjustForm input, .inventoryAdjustForm select, .adminSettingsForm input, .adminSettingsForm select { width: 100%; border: 1px solid #d8d5cf; background: #fff; color: #171815; min-height: 39px; padding: 9px 10px; outline: 0; font: inherit; text-transform: none; letter-spacing: 0; }
+.adminEditorForm label, .inventoryAdjustForm label, .adminSettingsForm label {
+  display: grid;
+  gap: 7px;
+  color: #171815;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.fieldHelperText {
+  font-size: 12px;
+  font-weight: 500;
+  color: #636159;
+  margin-top: -3px;
+  margin-bottom: 2px;
+  line-height: 1.4;
+}
+.adminEditorForm input, .adminEditorForm textarea, .adminEditorForm select, .inventoryAdjustForm input, .inventoryAdjustForm select, .adminSettingsForm input, .adminSettingsForm select {
+  width: 100%;
+  border: 1.5px solid #cac6be;
+  background: #fff;
+  color: #171815;
+  min-height: 44px;
+  padding: 10px 12px;
+  outline: 0;
+  font: inherit;
+  font-size: 14.5px;
+  border-radius: 6px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
 .adminEditorForm textarea { resize: vertical; line-height: 1.5; }
-.adminEditorForm input:focus, .adminEditorForm textarea:focus, .adminEditorForm select:focus { border-color: #8d8a82; }
+.adminEditorForm input:focus, .adminEditorForm textarea:focus, .adminEditorForm select:focus,
+.inventoryAdjustForm input:focus, .inventoryAdjustForm select:focus,
+.adminSettingsForm input:focus, .adminSettingsForm select:focus {
+  border-color: #171815;
+  box-shadow: 0 0 0 3px rgba(23, 24, 21, 0.1);
+}
 .adminFormGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .adminFormGrid.three { grid-template-columns: repeat(3,1fr); }
 .adminChecks { display: flex; align-items: center; gap: 18px; padding-top: 18px; }
@@ -1551,5 +1637,203 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
     font-size: 12px !important;
     gap: 4px !important;
   }
+}
+
+/* Product Pricing & Profit Margin Calculator */
+.productPricingSection {
+  margin-bottom: 6px;
+}
+.adminProfitCard {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 15px;
+  margin-top: 8px;
+  color: #166534;
+  font-size: 14px;
+}
+.adminProfitCard strong {
+  font-size: 15px;
+  margin-inline-start: 6px;
+}
+.profitGreen {
+  color: #15803d;
+}
+
+/* Quick Category & Collection Presets */
+.quickPresetPills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.presetPill {
+  background: #ede9e1;
+  border: 1px solid #d4cfc5;
+  color: #383733;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+.presetPill:hover, .presetPill.active {
+  background: #171815;
+  color: #ffffff;
+  border-color: #171815;
+}
+
+/* Bulk Order Actions Bar */
+.adminBulkActionBar {
+  position: sticky;
+  top: 72px;
+  z-index: 25;
+  background: #191b16;
+  color: #f2efe9;
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  animation: a2FadeIn 0.2s ease-out;
+}
+.bulkActionInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #e5e2db;
+}
+.bulkActionInfo strong {
+  color: #22c55e;
+  font-size: 16px;
+}
+.bulkActionControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.bulkLabel {
+  font-size: 13px;
+  color: #aba89f;
+}
+.bulkSelect {
+  background: #252822;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-family: inherit;
+  font-weight: 600;
+  outline: none;
+}
+.bulkApplyBtn {
+  background: #22c55e;
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.bulkApplyBtn:hover:not(:disabled) {
+  background: #4ade80;
+  transform: translateY(-1px);
+}
+.bulkCancelBtn {
+  background: transparent;
+  color: #aba89f;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.bulkCancelBtn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.orderRowSelected {
+  background: rgba(34, 197, 94, 0.07) !important;
+}
+
+/* Direct Inline Status Changer in Table */
+.inlineStatusWrap {
+  display: inline-block;
+}
+.adminInlineStatusSelect {
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 5px 10px 5px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  border: 1.5px solid transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 6px center;
+  transition: all 0.15s ease;
+}
+.adminInlineStatusSelect.new {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+}
+.adminInlineStatusSelect.confirmed {
+  background-color: #f5f3ff;
+  color: #6d28d9;
+  border-color: #c4b5fd;
+}
+.adminInlineStatusSelect.preparing {
+  background-color: #fffbeb;
+  color: #b45309;
+  border-color: #fcd34d;
+}
+.adminInlineStatusSelect.shipped {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border-color: #86efac;
+}
+.adminInlineStatusSelect.delivered {
+  background-color: #ecfdf5;
+  color: #047857;
+  border-color: #6ee7b7;
+}
+.adminInlineStatusSelect.cancelled {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
+/* WhatsApp Contacted Tracking */
+.adminContactedBadge {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.orderWaQuickBtn.contacted {
+  background: #166534 !important;
 }
 

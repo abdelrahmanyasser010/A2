@@ -52,6 +52,8 @@ export type OrderRecord = {
   items: OrderItemRecord[];
   statusEvents: { status: OrderStatus; note?: string; createdAt: string }[];
   inventoryRestocked: boolean;
+  contacted?: boolean;
+  contactedAt?: string;
   createdAt: string;
   updatedAt: string;
 };

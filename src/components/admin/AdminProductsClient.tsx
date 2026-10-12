@@ -323,41 +323,115 @@ function ProductEditor({
             </label>
           </div>
 
-          <div className="adminFormGrid">
-            <label>
-              السعر الأساسي (ج.م) *
-              <input
-                required
-                type="number"
-                min="0"
-                value={form.price}
-                onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-              />
-            </label>
-            <label>
-              السعر قبل الخصم (اختياري)
-              <input
-                type="number"
-                min="0"
-                value={form.compareAtPrice ?? ""}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    compareAtPrice: e.target.value ? Number(e.target.value) : undefined
-                  })
-                }
-              />
-            </label>
+          {/* Pricing & Profit Calculation */}
+          <div className="productPricingSection">
+            <div className="adminFormGrid three">
+              <label>
+                سعر البيع الفعلي للعميل (ج.م) *
+                <span className="fieldHelperText">السعر النهائي المعروض للعميل في المتجر</span>
+                <input
+                  required
+                  type="number"
+                  min="0"
+                  value={form.price}
+                  onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
+                />
+              </label>
+              <label>
+                السعر الأصلي قبل الخصم (اختياري)
+                <span className="fieldHelperText">يظهر مشطوباً فوق السعر لإظهار قيمة العرض</span>
+                <input
+                  type="number"
+                  min="0"
+                  value={form.compareAtPrice ?? ""}
+                  placeholder="مثال: 900"
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      compareAtPrice: e.target.value ? Number(e.target.value) : undefined
+                    })
+                  }
+                />
+              </label>
+              <label>
+                سعر الشراء / التكلفة (ج.م)
+                <span className="fieldHelperText">خاص بك لحساب صافي أرباحك في القطعة</span>
+                <input
+                  type="number"
+                  min="0"
+                  value={form.costPrice ?? ""}
+                  placeholder="سعر شراء القطعة من المصنع"
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      costPrice: e.target.value ? Number(e.target.value) : undefined
+                    })
+                  }
+                />
+              </label>
+            </div>
+
+            {/* Live Profit Margin Box */}
+            {form.price > 0 && form.costPrice && form.costPrice > 0 ? (
+              <div className="adminProfitCard">
+                <div>
+                  <span>صافي ربحك في القطعة:</span>
+                  <strong>{formatPrice(form.price - form.costPrice)}</strong>
+                </div>
+                <div>
+                  <span>نسبة هامش الربح:</span>
+                  <strong className="profitGreen">
+                    {(((form.price - form.costPrice) / form.price) * 100).toFixed(1)}%
+                  </strong>
+                </div>
+              </div>
+            ) : null}
           </div>
 
+          {/* Category & Collection with Fast Selection Pills */}
           <div className="adminFormGrid">
             <label>
-              التصنيف (مثال: T-Shirts)
-              <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
+              التصنيف (نوع القطعة) *
+              <span className="fieldHelperText">نوع الملابس الأساسي (تيشرت، هودي، بنطلون...)</span>
+              <input
+                value={form.category}
+                onChange={(e) => setForm({ ...form, category: e.target.value })}
+                placeholder="مثال: T-Shirts"
+              />
+              <div className="quickPresetPills">
+                {["T-Shirts", "Hoodies", "Pants", "Sweatshirts", "Jackets"].map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`presetPill ${form.category === cat ? "active" : ""}`}
+                    onClick={() => setForm({ ...form, category: cat })}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </label>
+
             <label>
-              المجموعة (مثال: Essentials)
-              <input value={form.collection} onChange={(e) => setForm({ ...form, collection: e.target.value })} />
+              المجموعة (الكولكشن / السيزون) *
+              <span className="fieldHelperText">خط الإنتاج أو الحملة (الأساسيات، Drop جديد، صيفي...)</span>
+              <input
+                value={form.collection}
+                onChange={(e) => setForm({ ...form, collection: e.target.value })}
+                placeholder="مثال: Essentials"
+              />
+              <div className="quickPresetPills">
+                {["Essentials", "New Drop", "Summer 2026", "Winter 2026", "Signature"].map((col) => (
+                  <button
+                    key={col}
+                    type="button"
+                    className={`presetPill ${form.collection === col ? "active" : ""}`}
+                    onClick={() => setForm({ ...form, collection: col })}
+                  >
+                    {col}
+                  </button>
+                ))}
+              </div>
             </label>
           </div>
 
@@ -444,9 +518,27 @@ function ProductEditor({
                 <strong>الألوان والمقاسات (Variants Matrix)</strong>
                 <span>أدخل كل لون في سطر بصيغة (الاسم|#الكود_السداسي)، والمقاسات مفصولة بفواصل.</span>
               </div>
-              <button type="button" onClick={rebuildVariants}>
-                توليد جدول المقاسات
-              </button>
+              <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                <button
+                  type="button"
+                  onClick={() => setSizesText("S, M, L, XL, 2XL")}
+                  style={{ fontSize: "11px", padding: "4px 8px" }}
+                  title="تعبئة المقاسات المعتادة S إلى 2XL"
+                >
+                  ⚡ مقاسات قياسية (S-2XL)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setColorsText("Charcoal|#111111\nBlack|#000000\nWhite|#ffffff")}
+                  style={{ fontSize: "11px", padding: "4px 8px" }}
+                  title="تعبئة الألوان الأساسية"
+                >
+                  ⚡ ألوان أساسية
+                </button>
+                <button type="button" onClick={rebuildVariants} className="adminPrimary" style={{ minHeight: "32px", fontSize: "12px" }}>
+                  توليد وتحديث المقاسات
+                </button>
+              </div>
             </div>
             <div className="adminFormGrid">
               <label>

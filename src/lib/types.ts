@@ -21,6 +21,7 @@ export type Product = {
   description: string;
   price: number;
   compareAtPrice?: number;
+  costPrice?: number;
   category: string;
   collection: string;
   status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
