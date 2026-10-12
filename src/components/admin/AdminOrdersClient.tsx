@@ -5,6 +5,7 @@ import {
   X,
   MessageSquare,
   Phone,
+  Eye,
   ShieldAlert,
   ShieldCheck,
   CheckCircle2,
@@ -408,24 +409,31 @@ export function AdminOrdersClient({
                         </div>
                       </td>
                       <td>
-                        <div style={{ display: "flex", gap: "6px", alignItems: "center", flexWrap: "wrap" }}>
+                        <div className="orderRowActions">
                           {waUrl && (
                             <button
                               type="button"
                               onClick={() => handleWhatsAppClick(o, waUrl)}
-                              className={`orderWaQuickBtn ${isContacted ? "contacted" : ""}`}
-                              title="تأكيد الأوردر عبر الواتساب وتسجيل تم التواصل"
+                              className={`orderActionIconBtn wa ${isContacted ? "contacted" : ""}`}
+                              title={
+                                isContacted
+                                  ? "تم التواصل مع العميل (اضغط للمراسلة مجدداً)"
+                                  : "مراسلة وتأكيد الأوردر عبر الواتساب"
+                              }
+                              aria-label="واتساب"
                             >
-                              <MessageSquare size={14} />
-                              {isContacted ? "واتساب (تم)" : "واتساب"}
+                              <MessageSquare size={17} />
+                              {isContacted && <span className="actionIconBadge">✓</span>}
                             </button>
                           )}
                           <button
-                            className="tableAction"
+                            type="button"
+                            className="orderActionIconBtn details"
                             onClick={() => setSelected(o)}
                             title="عرض تفاصيل الأوردر الكاملة"
+                            aria-label="عرض تفاصيل الأوردر"
                           >
-                            التفاصيل
+                            <Eye size={17} />
                           </button>
                         </div>
                       </td>
