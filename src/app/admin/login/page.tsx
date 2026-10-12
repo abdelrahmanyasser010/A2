@@ -3,42 +3,126 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Lock, Mail, Eye, EyeOff, Loader2, KeyRound, ArrowRight } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("admin@a2.local");
+  const [password, setPassword] = useState("");
+
+  function fillDemo() {
+    setEmail("admin@a2.local");
+    setPassword("A2admin2026");
+    setError("");
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError("");
-    const form = new FormData(event.currentTarget);
     const response = await fetch("/api/admin/session/login", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: form.get("email"), password: form.get("password") })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim(), password })
     });
     const data = await response.json().catch(() => ({}));
     setLoading(false);
-    if (!response.ok) return setError(data.error || "Unable to sign in.");
+    if (!response.ok) return setError(data.error || "بيانات الدخول غير صحيحة. يرجى التأكد والمحاولة مجدداً.");
     router.push("/admin");
     router.refresh();
   }
 
   return (
-    <main className="adminLoginPage">
-      <section className="adminLoginCard">
-        <Link href="/" className="adminLoginBrand">A² <span>STORE OPS</span></Link>
-        <p className="eyebrow">PRIVATE DASHBOARD</p>
-        <h1>Run the drop.</h1>
-        <p>Products, variants, stock, orders and promotions in one place.</p>
-        <form onSubmit={submit}>
-          <label>Email<input name="email" type="email" required autoComplete="username" defaultValue={process.env.NODE_ENV === "development" ? "admin@a2.local" : ""} /></label>
-          <label>Password<input name="password" type="password" required autoComplete="current-password" /></label>
-          {error && <div className="adminFormError">{error}</div>}
-          <button className="adminPrimary" disabled={loading}>{loading ? "Signing in…" : "Sign in"}</button>
+    <main className="adminLoginNewPage" dir="rtl">
+      <div className="adminLoginGlow" />
+      <div className="adminLoginGlowSecondary" />
+
+      <section className="adminLoginCardNew">
+        <header className="adminLoginHeaderNew">
+          <Link href="/" className="adminBrandBadge" title="العودة للمتجر">
+            <span className="brandSymbol">A²</span>
+            <span className="brandRole">STORE OPS</span>
+          </Link>
+          <h1>لوحة الإدارة والتشغيل</h1>
+          <p>سجّل الدخول للوصول إلى الطلبات، المخزون، والمنتجات</p>
+        </header>
+
+        <form onSubmit={submit} className="adminLoginFormNew">
+          <div className="loginField">
+            <label htmlFor="admin-email">البريد الإلكتروني</label>
+            <div className="loginInputWrap">
+              <Mail className="loginInputIcon right" size={17} />
+              <input
+                id="admin-email"
+                type="email"
+                required
+                autoComplete="username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@a2.local"
+                dir="ltr"
+              />
+            </div>
+          </div>
+
+          <div className="loginField">
+            <label htmlFor="admin-pass">كلمة المرور</label>
+            <div className="loginInputWrap">
+              <Lock className="loginInputIcon right" size={17} />
+              <input
+                id="admin-pass"
+                type={showPassword ? "text" : "password"}
+                required
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••••"
+                dir="ltr"
+              />
+              <button
+                type="button"
+                className="togglePassBtn"
+                onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+          </div>
+
+          {error && <div className="loginAlertErrorNew">{error}</div>}
+
+          <button className="loginSubmitBtnNew" type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="spinIcon" size={18} /> جاري تسجيل الدخول…
+              </>
+            ) : (
+              <>
+                دخول لوحة التحكم
+              </>
+            )}
+          </button>
+
+          <div className="quickFillCard">
+            <div className="quickFillInfo">
+              <KeyRound size={15} />
+              <span>بيانات الدخول التجريبية</span>
+            </div>
+            <button type="button" onClick={fillDemo} className="quickFillAction">
+              ملء تلقائي
+            </button>
+          </div>
         </form>
-        <small>Development credentials are documented in README. Set secure environment variables before production.</small>
+
+        <footer className="adminLoginFooterNew">
+          <Link href="/" className="backToStoreLink">
+            <ArrowRight size={14} /> العودة للمتجر الرئيسي
+          </Link>
+        </footer>
       </section>
     </main>
   );

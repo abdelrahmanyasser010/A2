@@ -772,19 +772,240 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   color: var(--muted);
 }
 
-.adminLoginPage { min-height: 100svh; background: #111; color: #f2efe9; display: grid; place-items: center; padding: 24px; position: relative; overflow: hidden; }
-.adminLoginPage::before { content:""; position:absolute; inset:0; background: radial-gradient(circle at 70% 20%, rgba(48,53,43,.55), transparent 36%), radial-gradient(circle at 20% 85%, rgba(255,255,255,.06), transparent 25%); }
-.adminLoginCard { position: relative; width: min(450px,100%); border: 1px solid rgba(255,255,255,.12); background: rgba(20,21,18,.82); backdrop-filter: blur(18px); padding: clamp(26px,5vw,48px); }
-.adminLoginBrand { display: inline-flex; align-items: baseline; gap: 9px; font-family: Georgia,serif; font-size: 35px; margin-bottom: 55px; }
-.adminLoginBrand span { font-family: Arial,sans-serif; font-size: 11px; letter-spacing: .2em; color: #8a8781; }
-.adminLoginCard h1 { font-family: Georgia,serif; font-size: clamp(42px,7vw,64px); font-weight: 400; margin: 5px 0 10px; }
-.adminLoginCard > p:not(.eyebrow) { color: #8a8781; font-size: 14px; line-height: 1.6; }
-.adminLoginCard form { display: grid; gap: 12px; margin: 28px 0 18px; }
-.adminLoginCard label { display: grid; gap: 6px; color: #8a8781; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
-.adminLoginCard input { background: #171815; border: 1px solid rgba(255,255,255,.14); color: #f2efe9; min-height: 46px; padding: 0 12px; outline: 0; }
-.adminLoginCard .adminPrimary { background: #f2efe9; color: #111; min-height: 46px; margin-top: 4px; }
-.adminLoginCard > small { color: #686963; font-size: 11px; line-height: 1.6; }
-.adminFormError { border: 1px solid rgba(183,111,99,.4); background: rgba(183,111,99,.08); color: #d6a298; padding: 10px; font-size: 12px; }
+/* Redesigned Luxury Admin Login */
+.adminLoginNewPage {
+  min-height: 100svh;
+  background: #0d0e0c;
+  color: #f2efe9;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+}
+.adminLoginGlow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(55, 62, 48, 0.45) 0%, rgba(20, 22, 17, 0) 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+.adminLoginGlowSecondary {
+  position: absolute;
+  bottom: 10%;
+  right: 20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+.adminLoginCardNew {
+  position: relative;
+  width: min(440px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(18, 19, 16, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  padding: clamp(28px, 6vw, 42px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.adminLoginHeaderNew {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.adminBrandBadge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  text-decoration: none;
+  color: #f2efe9;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  transition: all 0.2s;
+}
+.adminBrandBadge:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.brandSymbol {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.brandRole {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #9c978b;
+  font-weight: 600;
+}
+.adminLoginHeaderNew h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f5f3ee;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+.adminLoginHeaderNew p {
+  color: #8f8b80;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+.adminLoginFormNew {
+  display: grid;
+  gap: 16px;
+}
+.loginField {
+  display: grid;
+  gap: 6px;
+  text-align: right;
+}
+.loginField label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a8a396;
+}
+.loginInputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.loginInputWrap input {
+  width: 100%;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #f2efe9;
+  font-size: 14px;
+  padding: 0 40px 0 14px;
+  outline: none;
+  transition: all 0.2s;
+}
+.loginInputWrap input:focus {
+  border-color: #f2efe9;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 3px rgba(242, 239, 233, 0.12);
+}
+.loginInputIcon.right {
+  position: absolute;
+  right: 14px;
+  color: #7d796e;
+  pointer-events: none;
+}
+.togglePassBtn {
+  position: absolute;
+  left: 12px;
+  background: transparent;
+  border: none;
+  color: #7d796e;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.togglePassBtn:hover {
+  color: #f2efe9;
+}
+.loginSubmitBtnNew {
+  height: 48px;
+  background: #f2efe9;
+  color: #11120f;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  transition: all 0.2s;
+}
+.loginSubmitBtnNew:hover:not(:disabled) {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.loginSubmitBtnNew:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.loginAlertErrorNew {
+  background: rgba(185, 28, 28, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: right;
+}
+.quickFillCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+}
+.quickFillInfo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #999488;
+}
+.quickFillAction {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f2efe9;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.quickFillAction:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.adminLoginFooterNew {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.backToStoreLink {
+  color: #807c72;
+  font-size: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+.backToStoreLink:hover {
+  color: #f2efe9;
+}
 
 .couponBox { display: block !important; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 15px 0 !important; }
 .couponBox > div { display: grid; grid-template-columns: 1fr auto; gap: 6px; }
