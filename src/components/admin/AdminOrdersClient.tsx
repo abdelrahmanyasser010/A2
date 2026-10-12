@@ -408,7 +408,7 @@ export function AdminOrdersClient({
                           </select>
                         </div>
                       </td>
-                      <td>
+                      <td style={{ whiteSpace: "nowrap", minWidth: "92px" }}>
                         <div className="orderRowActions">
                           {waUrl && (
                             <button

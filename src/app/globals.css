@@ -974,10 +974,22 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   color: #f2efe9;
-  font-size: 14px;
-  padding: 0 40px 0 14px;
+  font-size: 15px;
+  padding: 0 42px 0 14px;
   outline: none;
+  box-sizing: border-box;
   transition: all 0.2s;
+}
+/* Suppress duplicate native browser password reveal eye (keep only our single toggle button) */
+.loginInputWrap input::-ms-reveal,
+.loginInputWrap input::-ms-clear,
+.loginInputWrap input::-webkit-credentials-auto-fill-button {
+  display: none !important;
+}
+/* Password field has lock on right and eye button on left: ample 46px padding prevents text overlap */
+.loginInputWrap input#admin-pass {
+  padding-right: 46px !important;
+  padding-left: 46px !important;
 }
 .loginInputWrap input:focus {
   border-color: #f2efe9;
@@ -989,21 +1001,26 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   right: 14px;
   color: #7d796e;
   pointer-events: none;
+  z-index: 1;
 }
 .togglePassBtn {
   position: absolute;
-  left: 12px;
+  left: 10px;
   background: transparent;
   border: none;
   color: #7d796e;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   align-items: center;
-  transition: color 0.2s;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  z-index: 2;
 }
 .togglePassBtn:hover {
   color: #f2efe9;
+  background: rgba(255, 255, 255, 0.08);
 }
 .loginSubmitBtnNew {
   height: 48px;
@@ -1630,12 +1647,30 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   background: rgba(185, 28, 28, 0.22);
 }
 
-/* Storefront language button mobile fit */
-@media (max-width: 440px) {
-  .langSwitchBtn {
-    padding: 5px 9px !important;
-    font-size: 12px !important;
-    gap: 4px !important;
+/* Storefront mobile header actions: circular icon-only to eliminate any text overlap with search lens */
+@media (max-width: 780px) {
+  .headerActions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+  .headerActions .langSwitchBtn {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+  }
+  .headerActions .langSwitchBtn span {
+    display: none !important;
+  }
+  .headerActions .iconButton {
+    flex-shrink: 0 !important;
   }
 }
 

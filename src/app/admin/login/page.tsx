@@ -23,16 +23,23 @@ export default function AdminLoginPage() {
     event.preventDefault();
     setLoading(true);
     setError("");
-    const response = await fetch("/api/admin/session/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email.trim(), password })
-    });
-    const data = await response.json().catch(() => ({}));
-    setLoading(false);
-    if (!response.ok) return setError(data.error || "بيانات الدخول غير صحيحة. يرجى التأكد والمحاولة مجدداً.");
-    router.push("/admin");
-    router.refresh();
+    try {
+      const response = await fetch("/api/admin/session/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setLoading(false);
+        return setError(data.error || "بيانات الدخول غير صحيحة. يرجى التأكد والمحاولة مجدداً.");
+      }
+      // Keep loading active so spinner does not stop until admin dashboard opens
+      window.location.href = "/admin";
+    } catch {
+      setLoading(false);
+      setError("تعذر الاتصال بالخادم، يرجى إعادة المحاولة.");
+    }
   }
 
   return (
@@ -98,7 +105,7 @@ export default function AdminLoginPage() {
           <button className="loginSubmitBtnNew" type="submit" disabled={loading}>
             {loading ? (
               <>
-                <Loader2 className="spinIcon" size={18} /> جاري تسجيل الدخول…
+                <Loader2 className="spinIcon" size={18} /> جاري الدخول للوحة التحكم…
               </>
             ) : (
               <>
@@ -110,7 +117,7 @@ export default function AdminLoginPage() {
           <div className="quickFillCard">
             <div className="quickFillInfo">
               <KeyRound size={15} />
-              <span>بيانات الدخول التجريبية</span>
+              <span>كلمة المرور المعتمدة: A2admin2026</span>
             </div>
             <button type="button" onClick={fillDemo} className="quickFillAction">
               ملء تلقائي
