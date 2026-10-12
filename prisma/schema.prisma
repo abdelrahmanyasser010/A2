@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum ProductStatus {
@@ -60,6 +61,7 @@ model Product {
   description    String
   basePrice      Decimal            @db.Decimal(12, 2)
   compareAtPrice Decimal?           @db.Decimal(12, 2)
+  costPrice      Decimal?           @db.Decimal(12, 2)
   status         ProductStatus      @default(DRAFT)
   material       String?
   fit            String?
@@ -199,6 +201,8 @@ model Order {
   couponCode        String?
   notes             String?
   inventoryRestocked Boolean           @default(false)
+  contacted         Boolean            @default(false)
+  contactedAt       DateTime?
   items             OrderItem[]
   statusEvents      OrderStatusEvent[]
   createdAt         DateTime           @default(now())
