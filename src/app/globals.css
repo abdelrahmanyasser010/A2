@@ -1936,3 +1936,493 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   white-space: nowrap;
 }
 
+/* Revamped Modern Product Editor Styles */
+.sectionSelectedBadge {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #166534;
+  background: #dcfce7;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #bbf7d0;
+}
+
+/* Color Chips Grid */
+.colorChipsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.colorChipBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1.5px solid #d8d4cb;
+  color: #171815;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+.colorChipBtn:hover {
+  border-color: #171815;
+  background: #fdfcf9;
+}
+.colorChipBtn.selected {
+  background: #171815;
+  color: #ffffff;
+  border-color: #171815;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.colorChipDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+}
+.colorCheckIcon {
+  color: #22c55e;
+  margin-right: -2px;
+}
+.addCustomColorBtn {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.addCustomColorBtn:hover {
+  background: #dbeafe;
+}
+.customColorRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.customColorNameInput {
+  flex: 1;
+  height: 34px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  padding: 0 10px !important;
+  font-size: 13px !important;
+}
+.customColorPickerInput {
+  width: 38px;
+  height: 34px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 2px;
+  background: #fff;
+}
+.customColorSaveBtn {
+  height: 34px;
+  padding: 0 14px;
+  background: #171815;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.customColorCancelBtn {
+  height: 34px;
+  padding: 0 10px;
+  background: transparent;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Size Chips Grid */
+.sizeChipsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.sizeChipBtn {
+  min-width: 48px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1.5px solid #d8d4cb;
+  color: #171815;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+.sizeChipBtn:hover {
+  border-color: #171815;
+  background: #fdfcf9;
+}
+.sizeChipBtn.selected {
+  background: #171815;
+  color: #ffffff;
+  border-color: #171815;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.sizeCheckIcon {
+  color: #22c55e;
+}
+.sizePresetQuickBtns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.sizeQuickPreset {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b5563;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sizeQuickPreset:hover {
+  background: #e5e7eb;
+}
+
+/* Stock & Quantity Section */
+.stockSection {
+  background: #f9f8f5;
+  border: 1px solid #dad6ce;
+  border-radius: 8px;
+  padding: 14px;
+}
+.totalStockBadge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e3a8a;
+  background: #dbeafe;
+  border: 1px solid #bfdbfe;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-right: 8px;
+}
+.totalStockBadge strong {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1d4ed8;
+}
+.bulkStockApplyBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #475569;
+}
+.bulkStockNumberInput {
+  width: 64px !important;
+  height: 32px !important;
+  text-align: center;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+}
+.bulkStockApplyBtn {
+  height: 32px;
+  padding: 0 10px;
+  background: #334155;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.bulkStockApplyBtn:hover {
+  background: #1e293b;
+}
+
+/* Variant Stock Matrix Table */
+.variantStockTableCard {
+  margin-top: 12px;
+  border: 1px solid #e2ded7;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+.variantStockTableHeader {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1.5fr 1fr;
+  padding: 8px 12px;
+  background: #f1ede6;
+  font-size: 12px;
+  font-weight: 700;
+  color: #3f3e39;
+  border-bottom: 1px solid #e2ded7;
+}
+.variantStockTableBody {
+  max-height: 280px;
+  overflow-y: auto;
+}
+.variantStockTableRow {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1.5fr 1fr;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0ede6;
+  font-size: 13px;
+}
+.variantStockTableRow:last-child {
+  border-bottom: none;
+}
+.variantInfoCol {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.variantColorMiniDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+.variantSizeMiniTag {
+  font-size: 11px;
+  font-weight: 800;
+  background: #e2e8f0;
+  color: #1e293b;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.variantSkuCol input {
+  height: 32px !important;
+  font-size: 12px !important;
+  font-family: monospace;
+  padding: 0 8px !important;
+  border: 1px solid #d8d4cb !important;
+  border-radius: 6px !important;
+  background: #faf9f6 !important;
+  width: 90% !important;
+}
+.variantQtyCol input {
+  height: 32px !important;
+  width: 75px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  text-align: center;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  background: #fff !important;
+}
+.variantActiveCol label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Modern Media Field Styles */
+.modernMediaField {
+  background: #fbfaf8;
+  border: 1px solid #dad6ce;
+  border-radius: 10px;
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+.modernMediaFieldHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modernMediaFieldHead strong {
+  font-size: 14px;
+  color: #171815;
+}
+.modernMediaCountBadge {
+  font-size: 11.5px;
+  color: #15803d;
+  background: #dcfce7;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.modernMediaDropzone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  flex-wrap: wrap;
+}
+.modernUploadActionBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #171815;
+  color: #ffffff;
+  padding: 9px 18px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  overflow: hidden;
+}
+.modernUploadActionBtn:hover {
+  background: #333330;
+  transform: translateY(-1px);
+}
+.modernUploadActionBtn input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.modernLibraryActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.modernLibraryActionBtn:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+.modernMediaThumbGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 9px;
+  margin-top: 4px;
+}
+.modernMediaCard {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2ded7;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.modernMediaCardImg {
+  aspect-ratio: 1/1;
+  background-size: cover;
+  background-position: center;
+}
+.modernMainBadge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #15803d;
+  color: #ffffff;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+.modernIndexBadge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(17, 17, 17, 0.75);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.modernCardActions {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  border-top: 1px solid #e2ded7;
+  background: #f8fafc;
+}
+.modernCardActions button {
+  height: 26px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.modernCardActions button:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+.modernCardActions button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+.modernCardActions .deleteAction {
+  color: #dc2626;
+  border-left: 1px solid #e2ded7;
+  border-right: 1px solid #e2ded7;
+}
+.modernCardActions .deleteAction:hover {
+  background: #fee2e2 !important;
+}
+
+@media (max-width: 600px) {
+  .variantStockTableHeader,
+  .variantStockTableRow {
+    grid-template-columns: 1.5fr 1fr 1fr;
+  }
+  .variantSkuCol {
+    display: none;
+  }
+  .bulkStockApplyBar {
+    flex-wrap: wrap;
+  }
+  .modernMediaDropzone {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .modernUploadActionBtn,
+  .modernLibraryActionBtn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+

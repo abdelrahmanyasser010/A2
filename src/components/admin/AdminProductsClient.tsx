@@ -1,35 +1,106 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { Edit3, Plus, Search, Trash2, X } from "lucide-react";
+import { Edit3, Plus, Search, Trash2, X, Check } from "lucide-react";
 import type { AdminProduct } from "@/lib/domain";
 import type { ProductColor, ProductVariant } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
 import { ProductMediaField } from "@/components/admin/AdminMediaClient";
 
-const emptyProduct = (): AdminProduct => ({
-  id: "",
-  slug: "",
-  name: "",
-  subtitle: "",
-  description: "",
-  price: 0,
-  category: "T-Shirts",
-  collection: "Essentials",
-  status: "DRAFT",
-  colors: [{ name: "Charcoal", value: "#111111" }],
-  sizes: ["M", "L", "XL"],
-  variants: [],
-  images: [],
-  spinFrames: [],
-  featured: false,
-  isNew: true,
-  material: "",
-  fit: "",
-  care: "",
-  createdAt: "",
-  updatedAt: ""
-});
+export const PRESET_COLORS: { name: string; value: string }[] = [
+  { name: "أسود", value: "#111111" },
+  { name: "أبيض", value: "#ffffff" },
+  { name: "بيج", value: "#d9cbba" },
+  { name: "رمادي", value: "#6b7280" },
+  { name: "زيتي", value: "#444c38" },
+  { name: "كحلي", value: "#1c2836" },
+  { name: "بني", value: "#4e3629" },
+  { name: "بوردو", value: "#5c1d24" },
+  { name: "أخضر", value: "#1b4332" },
+  { name: "كافيه", value: "#7f6351" }
+];
+
+export const PRESET_SIZES = ["S", "M", "L", "XL", "2XL", "3XL", "Oversized", "Free Size"];
+
+export const PRESET_CATEGORIES = [
+  { value: "T-Shirts", label: "تيشيرتات" },
+  { value: "Hoodies", label: "هوديز وسويت شيرت" },
+  { value: "Pants", label: "بناطيل وبانتس" },
+  { value: "Jackets", label: "جاكيتات" },
+  { value: "Accessories", label: "إكسسوارات" }
+];
+
+export const PRESET_COLLECTIONS = [
+  { value: "Essentials", label: "الأساسيات" },
+  { value: "New Drop", label: "دروب جديد" },
+  { value: "Summer 2026", label: "كولكشن الصيف" },
+  { value: "Winter 2026", label: "كولكشن الشتاء" },
+  { value: "Signature", label: "إصدار خاص" }
+];
+
+export const PRESET_FITS = [
+  "أوفر سايز (Oversized)",
+  "عادي (Regular Fit)",
+  "بوكسي فيت (Boxy Fit)",
+  "سليم فيت (Slim Fit)"
+];
+
+export const PRESET_MATERIALS = [
+  "قطن مصري 100% تقيل",
+  "ميلتون قطن مبطن",
+  "قطن مخلوط ليكرا",
+  "جبردين قطن تقيل",
+  "بوليستر رياضي معالج"
+];
+
+export const PRESET_CARE = [
+  "غسيل بماء بارد 30° مئوية",
+  "غسيل يدوي مقلوب وتجفيف في الظل",
+  "تجنب الكي المباشر على الطباعة",
+  "غسيل عادي وتجفيف طبيعي"
+];
+
+const emptyProduct = (): AdminProduct => {
+  const defaultColors = [{ name: "أسود", value: "#111111" }];
+  const defaultSizes = ["M", "L", "XL"];
+  const defaultVariants: ProductVariant[] = defaultColors.flatMap((color) =>
+    defaultSizes.map((size) => ({
+      id: "",
+      sku: `A2-NEW-BLK-${skuPart(size)}`,
+      color: color.name,
+      size,
+      stock: 10,
+      lowStockAt: 3,
+      active: true
+    }))
+  );
+
+  return {
+    id: "",
+    slug: "",
+    name: "",
+    subtitle: "",
+    description: "",
+    price: 0,
+    compareAtPrice: undefined,
+    costPrice: undefined,
+    category: "T-Shirts",
+    collection: "Essentials",
+    status: "PUBLISHED",
+    colors: defaultColors,
+    sizes: defaultSizes,
+    variants: defaultVariants,
+    images: [],
+    spinFrames: [],
+    featured: false,
+    isNew: true,
+    material: "قطن مصري 100% تقيل",
+    fit: "أوفر سايز (Oversized)",
+    care: "غسيل بماء بارد 30° مئوية",
+    createdAt: "",
+    updatedAt: ""
+  };
+};
 
 function slugify(value: string) {
   return value
@@ -229,47 +300,86 @@ function ProductEditor({
   onSave: (p: AdminProduct) => void;
 }) {
   const [form, setForm] = useState(initial);
-  const [colorsText, setColorsText] = useState(initial.colors.map((c) => `${c.name}|${c.value}`).join("\n"));
-  const [sizesText, setSizesText] = useState(initial.sizes.join(", "));
+  const [bulkStock, setBulkStock] = useState<number>(10);
+  const [customColorName, setCustomColorName] = useState("");
+  const [customColorHex, setCustomColorHex] = useState("#3b82f6");
+  const [showCustomColor, setShowCustomColor] = useState(false);
 
-  function rebuildVariants() {
-    const colors: ProductColor[] = colorsText
-      .split("\n")
-      .map((v) => v.trim())
-      .filter(Boolean)
-      .map((line) => {
-        const [name, value] = line.split("|");
-        return { name: name.trim(), value: (value || "#111111").trim() };
-      });
-    const sizes = sizesText
-      .split(",")
-      .map((v) => v.trim())
-      .filter(Boolean);
+  function rebuildVariantsWith(colors: ProductColor[], sizes: string[]) {
     const current = new Map(form.variants.map((v) => [`${v.color}::${v.size}`, v]));
-    const prefix = skuPart(form.name.replace("A²", ""));
+    const prefix = skuPart((form.name || "ITEM").replace("A²", ""));
     const variants: ProductVariant[] = colors.flatMap((color) =>
-      sizes.map(
-        (size) =>
-          current.get(`${color.name}::${size}`) || {
-            id: "",
-            sku: `A2-${prefix}-${skuPart(color.name)}-${skuPart(size)}`,
-            color: color.name,
-            size,
-            stock: 0,
-            lowStockAt: 4,
-            active: true
-          }
-      )
+      sizes.map((size) => {
+        const existing = current.get(`${color.name}::${size}`);
+        if (existing) return existing;
+        return {
+          id: "",
+          sku: `A2-${prefix}-${skuPart(color.name)}-${skuPart(size)}`,
+          color: color.name,
+          size,
+          stock: bulkStock > 0 ? bulkStock : 10,
+          lowStockAt: 3,
+          active: true
+        };
+      })
     );
-    setForm({ ...form, colors, sizes, variants });
+    setForm((prev) => ({ ...prev, colors, sizes, variants }));
+  }
+
+  function toggleColor(c: { name: string; value: string }) {
+    const exists = form.colors.some((item) => item.name === c.name);
+    let newColors: ProductColor[];
+    if (exists) {
+      if (form.colors.length <= 1) return; // Keep at least one color
+      newColors = form.colors.filter((item) => item.name !== c.name);
+    } else {
+      newColors = [...form.colors, c];
+    }
+    rebuildVariantsWith(newColors, form.sizes);
+  }
+
+  function toggleSize(s: string) {
+    const exists = form.sizes.includes(s);
+    let newSizes: string[];
+    if (exists) {
+      if (form.sizes.length <= 1) return; // Keep at least one size
+      newSizes = form.sizes.filter((item) => item !== s);
+    } else {
+      newSizes = [...form.sizes, s];
+    }
+    rebuildVariantsWith(form.colors, newSizes);
+  }
+
+  function setPresetSizes(sizes: string[]) {
+    rebuildVariantsWith(form.colors, sizes);
+  }
+
+  function addCustomColor() {
+    if (!customColorName.trim()) return;
+    const newColor = { name: customColorName.trim(), value: customColorHex };
+    if (!form.colors.some((c) => c.name === newColor.name)) {
+      rebuildVariantsWith([...form.colors, newColor], form.sizes);
+    }
+    setCustomColorName("");
+    setShowCustomColor(false);
   }
 
   function variantChange(index: number, patch: Partial<ProductVariant>) {
-    setForm({
-      ...form,
-      variants: form.variants.map((v, i) => (i === index ? { ...v, ...patch } : v))
-    });
+    setForm((prev) => ({
+      ...prev,
+      variants: prev.variants.map((v, i) => (i === index ? { ...v, ...patch } : v))
+    }));
   }
+
+  function applyBulkStock() {
+    const qty = Math.max(0, bulkStock);
+    setForm((prev) => ({
+      ...prev,
+      variants: prev.variants.map((v) => ({ ...v, stock: qty }))
+    }));
+  }
+
+  const totalStock = form.variants.reduce((acc, v) => acc + (Number(v.stock) || 0), 0);
 
   function submit(e: FormEvent) {
     e.preventDefault();
@@ -288,21 +398,23 @@ function ProductEditor({
       <section className="adminModal productEditorModal">
         <div className="adminModalHead">
           <div>
-            <p>كتالوج المنتجات</p>
+            <p>كتالوج المتجر</p>
             <h2>{form.id ? "تعديل المنتج" : "إضافة منتج جديد"}</h2>
           </div>
-          <button onClick={onClose}>
-            <X />
+          <button type="button" onClick={onClose} aria-label="إغلاق">
+            <X size={20} />
           </button>
         </div>
 
         <form onSubmit={submit} className="adminEditorForm">
+          {/* Basic Info */}
           <div className="adminFormGrid">
             <label>
               اسم المنتج *
               <input
                 required
                 value={form.name}
+                placeholder="مثال: تيشيرت أوفر سايز أسود"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -317,34 +429,34 @@ function ProductEditor({
               <input
                 required
                 value={form.slug}
+                placeholder="black-oversized-tshirt"
                 onChange={(e) => setForm({ ...form, slug: e.target.value })}
                 dir="ltr"
               />
             </label>
           </div>
 
-          {/* Pricing & Profit Calculation */}
+          {/* Pricing */}
           <div className="productPricingSection">
             <div className="adminFormGrid three">
               <label>
-                سعر البيع الفعلي للعميل (ج.م) *
-                <span className="fieldHelperText">السعر النهائي المعروض للعميل في المتجر</span>
+                سعر البيع (ج.م) *
                 <input
                   required
                   type="number"
                   min="0"
-                  value={form.price}
+                  value={form.price || ""}
+                  placeholder="مثال: 650"
                   onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
                 />
               </label>
               <label>
-                السعر الأصلي قبل الخصم (اختياري)
-                <span className="fieldHelperText">يظهر مشطوباً فوق السعر لإظهار قيمة العرض</span>
+                السعر قبل الخصم (اختياري)
                 <input
                   type="number"
                   min="0"
                   value={form.compareAtPrice ?? ""}
-                  placeholder="مثال: 900"
+                  placeholder="مثال: 850"
                   onChange={(e) =>
                     setForm({
                       ...form,
@@ -354,13 +466,12 @@ function ProductEditor({
                 />
               </label>
               <label>
-                سعر الشراء / التكلفة (ج.م)
-                <span className="fieldHelperText">خاص بك لحساب صافي أرباحك في القطعة</span>
+                سعر التكلفة (اختياري)
                 <input
                   type="number"
                   min="0"
                   value={form.costPrice ?? ""}
-                  placeholder="سعر شراء القطعة من المصنع"
+                  placeholder="سعر الشراء من المصنع"
                   onChange={(e) =>
                     setForm({
                       ...form,
@@ -371,7 +482,7 @@ function ProductEditor({
               </label>
             </div>
 
-            {/* Live Profit Margin Box */}
+            {/* Live Profit Preview */}
             {form.price > 0 && form.costPrice && form.costPrice > 0 ? (
               <div className="adminProfitCard">
                 <div>
@@ -379,7 +490,7 @@ function ProductEditor({
                   <strong>{formatPrice(form.price - form.costPrice)}</strong>
                 </div>
                 <div>
-                  <span>نسبة هامش الربح:</span>
+                  <span>هامش الربح:</span>
                   <strong className="profitGreen">
                     {(((form.price - form.costPrice) / form.price) * 100).toFixed(1)}%
                   </strong>
@@ -388,53 +499,313 @@ function ProductEditor({
             ) : null}
           </div>
 
-          {/* Category & Collection with Fast Selection Pills */}
+          {/* Category & Collection */}
           <div className="adminFormGrid">
             <label>
-              التصنيف (نوع القطعة) *
-              <span className="fieldHelperText">نوع الملابس الأساسي (تيشرت، هودي، بنطلون...)</span>
-              <input
+              القسم *
+              <select
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
-                placeholder="مثال: T-Shirts"
-              />
+              >
+                {PRESET_CATEGORIES.map((cat) => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
               <div className="quickPresetPills">
-                {["T-Shirts", "Hoodies", "Pants", "Sweatshirts", "Jackets"].map((cat) => (
+                {PRESET_CATEGORIES.map((cat) => (
                   <button
-                    key={cat}
+                    key={cat.value}
                     type="button"
-                    className={`presetPill ${form.category === cat ? "active" : ""}`}
-                    onClick={() => setForm({ ...form, category: cat })}
+                    className={`presetPill ${form.category === cat.value ? "active" : ""}`}
+                    onClick={() => setForm({ ...form, category: cat.value })}
                   >
-                    {cat}
+                    {cat.label}
                   </button>
                 ))}
               </div>
             </label>
 
             <label>
-              المجموعة (الكولكشن / السيزون) *
-              <span className="fieldHelperText">خط الإنتاج أو الحملة (الأساسيات، Drop جديد، صيفي...)</span>
-              <input
+              المجموعة *
+              <select
                 value={form.collection}
                 onChange={(e) => setForm({ ...form, collection: e.target.value })}
-                placeholder="مثال: Essentials"
-              />
+              >
+                {PRESET_COLLECTIONS.map((col) => (
+                  <option key={col.value} value={col.value}>
+                    {col.label}
+                  </option>
+                ))}
+              </select>
               <div className="quickPresetPills">
-                {["Essentials", "New Drop", "Summer 2026", "Winter 2026", "Signature"].map((col) => (
+                {PRESET_COLLECTIONS.map((col) => (
                   <button
-                    key={col}
+                    key={col.value}
                     type="button"
-                    className={`presetPill ${form.collection === col ? "active" : ""}`}
-                    onClick={() => setForm({ ...form, collection: col })}
+                    className={`presetPill ${form.collection === col.value ? "active" : ""}`}
+                    onClick={() => setForm({ ...form, collection: col.value })}
                   >
-                    {col}
+                    {col.label}
                   </button>
                 ))}
               </div>
             </label>
           </div>
 
+          {/* Color Selection as Clickable Chips */}
+          <div className="editorSection">
+            <div className="editorSectionHead">
+              <div>
+                <strong>الألوان المتاحة</strong>
+                <span className="sectionSelectedBadge">{form.colors.length} ألوان محددة</span>
+              </div>
+              <button
+                type="button"
+                className="addCustomColorBtn"
+                onClick={() => setShowCustomColor(!showCustomColor)}
+              >
+                + إضافة لون مخصص
+              </button>
+            </div>
+
+            {/* Custom Color Inline Form */}
+            {showCustomColor && (
+              <div className="customColorRow">
+                <input
+                  type="text"
+                  placeholder="اسم اللون (مثال: بترولي)"
+                  value={customColorName}
+                  onChange={(e) => setCustomColorName(e.target.value)}
+                  className="customColorNameInput"
+                />
+                <input
+                  type="color"
+                  value={customColorHex}
+                  onChange={(e) => setCustomColorHex(e.target.value)}
+                  className="customColorPickerInput"
+                  title="اختر درجة اللون"
+                />
+                <button type="button" onClick={addCustomColor} className="customColorSaveBtn">
+                  إضافة
+                </button>
+                <button type="button" onClick={() => setShowCustomColor(false)} className="customColorCancelBtn">
+                  إلغاء
+                </button>
+              </div>
+            )}
+
+            {/* Preset Color Chips */}
+            <div className="colorChipsGrid">
+              {PRESET_COLORS.map((c) => {
+                const isSelected = form.colors.some((item) => item.name === c.name);
+                return (
+                  <button
+                    key={c.name}
+                    type="button"
+                    onClick={() => toggleColor(c)}
+                    className={`colorChipBtn ${isSelected ? "selected" : ""}`}
+                  >
+                    <span className="colorChipDot" style={{ backgroundColor: c.value }} />
+                    <span className="colorChipName">{c.name}</span>
+                    {isSelected && <Check size={13} className="colorCheckIcon" />}
+                  </button>
+                );
+              })}
+              {/* Custom colors */}
+              {form.colors
+                .filter((c) => !PRESET_COLORS.some((p) => p.name === c.name))
+                .map((c) => (
+                  <button
+                    key={c.name}
+                    type="button"
+                    onClick={() => toggleColor(c)}
+                    className="colorChipBtn selected"
+                  >
+                    <span className="colorChipDot" style={{ backgroundColor: c.value }} />
+                    <span className="colorChipName">{c.name}</span>
+                    <Check size={13} className="colorCheckIcon" />
+                  </button>
+                ))}
+            </div>
+          </div>
+
+          {/* Size Selection as Clickable Chips */}
+          <div className="editorSection">
+            <div className="editorSectionHead">
+              <div>
+                <strong>المقاسات المتاحة</strong>
+                <span className="sectionSelectedBadge">{form.sizes.length} مقاسات محددة</span>
+              </div>
+              <div className="sizePresetQuickBtns">
+                <button
+                  type="button"
+                  onClick={() => setPresetSizes(["S", "M", "L", "XL", "2XL"])}
+                  className="sizeQuickPreset"
+                >
+                  S إلى 2XL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPresetSizes(["M", "L", "XL"])}
+                  className="sizeQuickPreset"
+                >
+                  M, L, XL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPresetSizes(["Oversized"])}
+                  className="sizeQuickPreset"
+                >
+                  أوفر سايز موحد
+                </button>
+              </div>
+            </div>
+
+            <div className="sizeChipsGrid">
+              {PRESET_SIZES.map((s) => {
+                const isSelected = form.sizes.includes(s);
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => toggleSize(s)}
+                    className={`sizeChipBtn ${isSelected ? "selected" : ""}`}
+                  >
+                    <span>{s}</span>
+                    {isSelected && <Check size={12} className="sizeCheckIcon" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Stock & Quantity Management */}
+          <div className="editorSection stockSection">
+            <div className="editorSectionHead">
+              <div>
+                <strong>إدارة الكمية والمخزون</strong>
+                <span className="totalStockBadge">
+                  إجمالي المخزون: <strong>{totalStock}</strong> قطعة
+                </span>
+              </div>
+              <div className="bulkStockApplyBar">
+                <span>تطبيق كمية موحدة:</span>
+                <input
+                  type="number"
+                  min="0"
+                  value={bulkStock}
+                  onChange={(e) => setBulkStock(Math.max(0, Number(e.target.value)))}
+                  className="bulkStockNumberInput"
+                />
+                <button type="button" onClick={applyBulkStock} className="bulkStockApplyBtn">
+                  تطبيق على الكل
+                </button>
+              </div>
+            </div>
+
+            <div className="variantStockTableCard">
+              <div className="variantStockTableHeader">
+                <span>اللون والمقاس</span>
+                <span>كود SKU</span>
+                <span>الكمية المتاحة</span>
+                <span>الحالة</span>
+              </div>
+              <div className="variantStockTableBody">
+                {form.variants.map((v, i) => (
+                  <div className="variantStockTableRow" key={`${v.color}-${v.size}-${i}`}>
+                    <div className="variantInfoCol">
+                      <span
+                        className="variantColorMiniDot"
+                        style={{
+                          backgroundColor:
+                            form.colors.find((c) => c.name === v.color)?.value || "#111"
+                        }}
+                      />
+                      <strong>{v.color}</strong>
+                      <span className="variantSizeMiniTag">{v.size}</span>
+                    </div>
+                    <div className="variantSkuCol">
+                      <input
+                        value={v.sku}
+                        onChange={(e) => variantChange(i, { sku: e.target.value })}
+                        dir="ltr"
+                        placeholder="SKU"
+                      />
+                    </div>
+                    <div className="variantQtyCol">
+                      <input
+                        type="number"
+                        min="0"
+                        value={v.stock}
+                        onChange={(e) =>
+                          variantChange(i, { stock: Math.max(0, Number(e.target.value)) })
+                        }
+                      />
+                    </div>
+                    <div className="variantActiveCol">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={v.active !== false}
+                          onChange={(e) => variantChange(i, { active: e.target.checked })}
+                        />
+                        <span>متاح</span>
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Product Specifications (Fits, Materials, Care) */}
+          <div className="adminFormGrid three">
+            <label>
+              الخامة
+              <select
+                value={form.material}
+                onChange={(e) => setForm({ ...form, material: e.target.value })}
+              >
+                {PRESET_MATERIALS.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              القصة
+              <select
+                value={form.fit}
+                onChange={(e) => setForm({ ...form, fit: e.target.value })}
+              >
+                {PRESET_FITS.map((f) => (
+                  <option key={f} value={f}>
+                    {f}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              تعليمات الغسيل
+              <select
+                value={form.care}
+                onChange={(e) => setForm({ ...form, care: e.target.value })}
+              >
+                {PRESET_CARE.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          {/* Product Status & Badges */}
           <div className="adminFormGrid">
             <label>
               حالة المنتج
@@ -442,159 +813,69 @@ function ProductEditor({
                 value={form.status}
                 onChange={(e) => setForm({ ...form, status: e.target.value as AdminProduct["status"] })}
               >
-                <option value="DRAFT">مسودة (غير معروض)</option>
                 <option value="PUBLISHED">منشور بالمتجر (معروض للبيع)</option>
+                <option value="DRAFT">مسودة (غير معروض)</option>
                 <option value="ARCHIVED">مؤرشف (غير متاح)</option>
               </select>
             </label>
+
             <div className="adminChecks" style={{ marginTop: "24px" }}>
               <label>
                 <input
                   type="checkbox"
                   checked={Boolean(form.featured)}
                   onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-                />{" "}
-                منتج مميز في الرئيسية (Featured)
+                />
+                منتج مميز في الرئيسية
               </label>
               <label>
                 <input
                   type="checkbox"
                   checked={Boolean(form.isNew)}
                   onChange={(e) => setForm({ ...form, isNew: e.target.checked })}
-                />{" "}
-                علامة وصل حديثاً (New Drop)
+                />
+                علامة وصل حديثاً
               </label>
             </div>
           </div>
 
+          {/* Subtitle & Description */}
           <label>
-            العنوان الفرعي للمنتج (Subtitle)
+            العنوان الفرعي (اختياري)
             <input
               value={form.subtitle}
+              placeholder="مثال: قطن مصري فاخر / مظهر عصري واسع"
               onChange={(e) => setForm({ ...form, subtitle: e.target.value })}
-              placeholder="مثال: Heavy cotton / oversized fit"
             />
           </label>
 
           <label>
-            وصف المنتج بالتفصيل
+            الوصف (اختياري)
             <textarea
-              rows={4}
+              rows={3}
               value={form.description}
+              placeholder="اكتب وصفاً للمنتج يظهر للعملاء في صفحة الشراء..."
               onChange={(e) => setForm({ ...form, description: e.target.value })}
             />
           </label>
 
-          <div className="adminFormGrid three">
-            <label>
-              الخامة (Material)
-              <input
-                value={form.material}
-                onChange={(e) => setForm({ ...form, material: e.target.value })}
-                placeholder="100% قطن مصري تقيل"
-              />
-            </label>
-            <label>
-              القصة (Fit)
-              <input
-                value={form.fit}
-                onChange={(e) => setForm({ ...form, fit: e.target.value })}
-                placeholder="أوفر سايز عصري"
-              />
-            </label>
-            <label>
-              تعليمات الغسيل (Care)
-              <input
-                value={form.care}
-                onChange={(e) => setForm({ ...form, care: e.target.value })}
-                placeholder="غسيل بدرجة حرارة 30° مئوية"
-              />
-            </label>
-          </div>
-
-          <div className="editorSection">
-            <div className="editorSectionHead">
-              <div>
-                <strong>الألوان والمقاسات (Variants Matrix)</strong>
-                <span>أدخل كل لون في سطر بصيغة (الاسم|#الكود_السداسي)، والمقاسات مفصولة بفواصل.</span>
-              </div>
-              <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                <button
-                  type="button"
-                  onClick={() => setSizesText("S, M, L, XL, 2XL")}
-                  style={{ fontSize: "11px", padding: "4px 8px" }}
-                  title="تعبئة المقاسات المعتادة S إلى 2XL"
-                >
-                  ⚡ مقاسات قياسية (S-2XL)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setColorsText("Charcoal|#111111\nBlack|#000000\nWhite|#ffffff")}
-                  style={{ fontSize: "11px", padding: "4px 8px" }}
-                  title="تعبئة الألوان الأساسية"
-                >
-                  ⚡ ألوان أساسية
-                </button>
-                <button type="button" onClick={rebuildVariants} className="adminPrimary" style={{ minHeight: "32px", fontSize: "12px" }}>
-                  توليد وتحديث المقاسات
-                </button>
-              </div>
-            </div>
-            <div className="adminFormGrid">
-              <label>
-                الألوان (لون في كل سطر)
-                <textarea rows={4} value={colorsText} onChange={(e) => setColorsText(e.target.value)} />
-              </label>
-              <label>
-                المقاسات (مفصولة بفواصل)
-                <input value={sizesText} onChange={(e) => setSizesText(e.target.value)} placeholder="S, M, L, XL, XXL" />
-              </label>
-            </div>
-
-            <div className="variantEditorTable">
-              <div className="variantEditorHeader">
-                <span>اللون</span>
-                <span>المقاس</span>
-                <span>كود SKU</span>
-                <span>المخزون المتاح</span>
-              </div>
-              {form.variants.map((v, i) => (
-                <div className="variantEditorRow" key={`${v.color}-${v.size}-${i}`}>
-                  <span>{v.color}</span>
-                  <span>{v.size}</span>
-                  <input
-                    value={v.sku}
-                    onChange={(e) => variantChange(i, { sku: e.target.value })}
-                    dir="ltr"
-                  />
-                  <input
-                    type="number"
-                    min="0"
-                    value={v.stock}
-                    onChange={(e) => variantChange(i, { stock: Number(e.target.value) })}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
+          {/* Media Section */}
           <div className="editorSection mediaEditorSection">
             <ProductMediaField
-              label="صور المنتج (الكتالوج)"
-              hint="ارفع أو اختر صور المنتج بالترتيب. الصورة الأولى ستكون الغلاف الرئيسي للمنتج."
+              label="صور المنتج"
               value={form.images}
               onChange={(images) => setForm({ ...form, images })}
               folder="products"
             />
             <ProductMediaField
               label="إطارات العرض 360° التفاعلية"
-              hint="اختر ما بين 24 إلى 36 إطاراً متسلسلاً لدوران المنتج ثلاثي الأبعاد باللمس والسحب."
               value={form.spinFrames}
               onChange={(spinFrames) => setForm({ ...form, spinFrames })}
               folder="spin"
             />
           </div>
 
+          {/* Save / Cancel Actions */}
           <div className="adminModalActions">
             <button type="button" onClick={onClose}>
               إلغاء

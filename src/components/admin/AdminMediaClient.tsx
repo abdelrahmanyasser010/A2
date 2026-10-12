@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { Check, Clipboard, ImagePlus, RefreshCw, Search, Trash2, Upload } from "lucide-react";
+import { Check, Clipboard, ImagePlus, RefreshCw, Search, Trash2, Upload, Star, ArrowLeft, ArrowRight, X } from "lucide-react";
 import type { MediaAsset } from "@/lib/media";
 
 function formatBytes(bytes: number) {
@@ -177,13 +177,12 @@ export function AdminMediaClient() {
 
 export function ProductMediaField({
   label,
-  hint,
   value,
   onChange,
   folder = "catalogue"
 }: {
   label: string;
-  hint: string;
+  hint?: string;
   value: string[];
   onChange: (next: string[]) => void;
   folder?: string;
@@ -247,47 +246,63 @@ export function ProductMediaField({
   }
 
   return (
-    <div className="productMediaField">
-      <div className="productMediaFieldHead">
-        <div>
-          <strong>{label}</strong>
-          <span>{hint}</span>
-        </div>
-        <div>
-          <label className="smallAdminButton">
-            <Upload size={13} />
-            {uploading ? "جاري الرفع…" : "رفع مباشر"}
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/avif"
-              multiple
-              onChange={quickUpload}
-              disabled={uploading}
-            />
-          </label>
-          <button type="button" className="smallAdminButton" onClick={() => void openLibrary()}>
-            <ImagePlus size={13} /> تصفح المكتبة
-          </button>
-        </div>
+    <div className="modernMediaField">
+      <div className="modernMediaFieldHead">
+        <strong>{label}</strong>
+        {value.length > 0 && <span className="modernMediaCountBadge">{value.length} صور محددة</span>}
       </div>
+
       {error && <div className="fieldError">{error}</div>}
-      {value.length === 0 ? (
-        <div className="mediaFieldEmpty">لم يتم اختيار أي صور حتى الآن.</div>
-      ) : (
-        <div className="selectedMediaRow">
+
+      <div className="modernMediaDropzone">
+        <label className="modernUploadActionBtn">
+          <Upload size={18} />
+          <span>{uploading ? "جاري الرفع الآن…" : "رفع صور من جهازك"}</span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/avif"
+            multiple
+            onChange={quickUpload}
+            disabled={uploading}
+          />
+        </label>
+        <button type="button" className="modernLibraryActionBtn" onClick={() => void openLibrary()}>
+          <ImagePlus size={17} />
+          <span>تصفح مكتبة الوسائط</span>
+        </button>
+      </div>
+
+      {value.length > 0 && (
+        <div className="modernMediaThumbGrid">
           {value.map((url, index) => (
-            <div className="selectedMediaItem" key={`${url}-${index}`}>
-              <div style={{ backgroundImage: `url(${url})` }} />
-              <span>{index + 1}</span>
-              <div className="selectedMediaControls">
-                <button type="button" disabled={index === 0} onClick={() => move(index, -1)}>
-                  →
+            <div className="modernMediaCard" key={`${url}-${index}`}>
+              <div className="modernMediaCardImg" style={{ backgroundImage: `url(${url})` }} />
+              {index === 0 && <span className="modernMainBadge">الغلاف الرئيسي</span>}
+              <span className="modernIndexBadge">{index + 1}</span>
+              <div className="modernCardActions">
+                <button
+                  type="button"
+                  title="تحريك لليمين"
+                  disabled={index === 0}
+                  onClick={() => move(index, -1)}
+                >
+                  <ArrowRight size={13} />
                 </button>
-                <button type="button" disabled={index === value.length - 1} onClick={() => move(index, 1)}>
-                  ←
+                <button
+                  type="button"
+                  title="حذف الصورة"
+                  className="deleteAction"
+                  onClick={() => onChange(value.filter((_, i) => i !== index))}
+                >
+                  <Trash2 size={13} />
                 </button>
-                <button type="button" onClick={() => onChange(value.filter((_, i) => i !== index))}>
-                  ×
+                <button
+                  type="button"
+                  title="تحريك لليسار"
+                  disabled={index === value.length - 1}
+                  onClick={() => move(index, 1)}
+                >
+                  <ArrowLeft size={13} />
                 </button>
               </div>
             </div>
