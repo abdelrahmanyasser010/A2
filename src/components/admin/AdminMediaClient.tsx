@@ -13,7 +13,7 @@ function formatBytes(bytes: number) {
 async function fetchMedia() {
   const response = await fetch("/api/admin/media", { cache: "no-store" });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || "Unable to load media.");
+  if (!response.ok) throw new Error(data.error || "تعذر تحميل مكتبة الوسائط.");
   return data as { assets: MediaAsset[]; storage: "local" | "s3" };
 }
 
@@ -23,7 +23,7 @@ async function uploadFiles(files: File[], folder = "catalogue") {
   files.forEach((file) => form.append("files", file));
   const response = await fetch("/api/admin/media", { method: "POST", body: form });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || "Unable to upload images.");
+  if (!response.ok) throw new Error(data.error || "تعذر رفع الصور.");
   return data.assets as MediaAsset[];
 }
 
@@ -44,13 +44,15 @@ export function AdminMediaClient() {
       setAssets(data.assets);
       setStorage(data.storage);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to load media.");
+      setMessage(error instanceof Error ? error.message : "تعذر تحميل الوسائط.");
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => {
+    void load();
+  }, [load]);
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -67,20 +69,26 @@ export function AdminMediaClient() {
     try {
       const uploaded = await uploadFiles(files);
       setAssets((current) => [...uploaded, ...current]);
-      setMessage(`${uploaded.length} image${uploaded.length === 1 ? "" : "s"} uploaded.`);
+      setMessage(`تم رفع ${uploaded.length} صورة بنجاح.`);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to upload images.");
+      setMessage(error instanceof Error ? error.message : "تعذر رفع الصور.");
     } finally {
       setUploading(false);
     }
   }
 
   async function remove(asset: MediaAsset) {
-    if (!confirm(`Delete ${asset.name}? The system will block deletion if a product still uses this file.`)) return;
-    const response = await fetch("/api/admin/media", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key: asset.key }) });
+    if (!confirm(`هل أنت متأكد من حذف الصورة (${asset.name})؟ سيتم منع الحذف إذا كان هناك منتج يستخدمها.`))
+      return;
+    const response = await fetch("/api/admin/media", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: asset.key })
+    });
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) return setMessage(data.error || "Unable to delete media.");
+    if (!response.ok) return setMessage(data.error || "تعذر حذف الملف.");
     setAssets((current) => current.filter((item) => item.key !== asset.key));
+    setMessage("تم حذف الصورة بنجاح.");
   }
 
   async function copyUrl(asset: MediaAsset) {
@@ -89,39 +97,97 @@ export function AdminMediaClient() {
     window.setTimeout(() => setCopied(""), 1500);
   }
 
-  return <>
-    <div className="adminPageHeading">
-      <div><p>Assets</p><h1>Media library</h1></div>
-      <label className={`adminPrimary mediaUploadButton ${uploading ? "disabled" : ""}`}>
-        <Upload size={15}/>{uploading ? "Uploading…" : "Upload images"}
-        <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple onChange={onUpload} disabled={uploading}/>
-      </label>
-    </div>
+  return (
+    <>
+      <div className="adminPageHeading">
+        <div>
+          <p>الملفات والوسائط</p>
+          <h1>مكتبة الصور</h1>
+        </div>
+        <label className={`adminPrimary mediaUploadButton ${uploading ? "disabled" : ""}`}>
+          <Upload size={15} />
+          {uploading ? "جاري الرفع…" : "رفع صور جديدة"}
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/avif"
+            multiple
+            onChange={onUpload}
+            disabled={uploading}
+          />
+        </label>
+      </div>
 
-    <div className="mediaStatusLine">
-      <span><strong>{storage === "s3" ? "Object storage" : "Local development storage"}</strong> · {assets.length} assets</span>
-      <button onClick={() => void load()} disabled={loading}><RefreshCw size={14}/> Refresh</button>
-    </div>
-    {storage === "local" && <div className="adminInfoBanner"><ImagePlus size={17}/><span>Uploads are persisted under <code>public/uploads/</code>. Switch <code>MEDIA_STORAGE=s3</code> before production deployment.</span></div>}
-    {message && <div className="adminAlert">{message}</div>}
+      <div className="mediaStatusLine">
+        <span>
+          <strong>{storage === "s3" ? "مساحة تخزين سحابية S3" : "مساحة التخزين المحلية"}</strong> ·{" "}
+          {assets.length} ملف مسجل
+        </span>
+        <button onClick={() => void load()} disabled={loading}>
+          <RefreshCw size={14} /> تحديث المكتبة
+        </button>
+      </div>
 
-    <section className="adminPanel noPad">
-      <div className="adminToolbar"><label className="adminSearch"><Search size={15}/><input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search media…" /></label><span>{visible.length} shown</span></div>
-      {loading ? <div className="adminEmptyState">Loading media…</div> : visible.length === 0 ? <div className="adminEmptyState">No images yet. Upload product photography or 360° frames.</div> : <div className="mediaLibraryGrid">
-        {visible.map((asset) => <article className="mediaAssetCard" key={asset.key}>
-          <div className="mediaAssetPreview" style={{ backgroundImage: `url(${asset.url})` }}/>
-          <div className="mediaAssetMeta"><strong title={asset.name}>{asset.name}</strong><span>{formatBytes(asset.size)} · {asset.mimeType.replace("image/", "").toUpperCase()}</span></div>
-          <div className="mediaAssetActions">
-            <button onClick={()=>void copyUrl(asset)}>{copied === asset.key ? <Check size={14}/> : <Clipboard size={14}/>}<span>{copied === asset.key ? "Copied" : "Copy URL"}</span></button>
-            <button className="danger" onClick={()=>void remove(asset)}><Trash2 size={14}/><span>Delete</span></button>
+      {message && <div className="adminAlert">{message}</div>}
+
+      <section className="adminPanel noPad">
+        <div className="adminToolbar">
+          <label className="adminSearch">
+            <Search size={15} />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="ابحث في أسماء الصور والملفات…"
+            />
+          </label>
+          <span>{visible.length} صورة معروضة</span>
+        </div>
+        {loading ? (
+          <div className="adminEmptyState">جاري تحميل الصور…</div>
+        ) : visible.length === 0 ? (
+          <div className="adminEmptyState">لا توجد صور بعد. ارفع صور المنتجات أو إطارات الـ 360°.</div>
+        ) : (
+          <div className="mediaLibraryGrid">
+            {visible.map((asset) => (
+              <article className="mediaAssetCard" key={asset.key}>
+                <div className="mediaAssetPreview" style={{ backgroundImage: `url(${asset.url})` }} />
+                <div className="mediaAssetMeta">
+                  <strong title={asset.name}>{asset.name}</strong>
+                  <span>
+                    {formatBytes(asset.size)} · {asset.mimeType.replace("image/", "").toUpperCase()}
+                  </span>
+                </div>
+                <div className="mediaAssetActions">
+                  <button onClick={() => void copyUrl(asset)}>
+                    {copied === asset.key ? <Check size={14} /> : <Clipboard size={14} />}
+                    <span>{copied === asset.key ? "تم النسخ" : "نسخ الرابط"}</span>
+                  </button>
+                  <button className="danger" onClick={() => void remove(asset)}>
+                    <Trash2 size={14} />
+                    <span>حذف</span>
+                  </button>
+                </div>
+              </article>
+            ))}
           </div>
-        </article>)}
-      </div>}
-    </section>
-  </>;
+        )}
+      </section>
+    </>
+  );
 }
 
-export function ProductMediaField({ label, hint, value, onChange, folder = "catalogue" }: { label: string; hint: string; value: string[]; onChange: (next: string[]) => void; folder?: string }) {
+export function ProductMediaField({
+  label,
+  hint,
+  value,
+  onChange,
+  folder = "catalogue"
+}: {
+  label: string;
+  hint: string;
+  value: string[];
+  onChange: (next: string[]) => void;
+  folder?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [assets, setAssets] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(false);
@@ -138,7 +204,7 @@ export function ProductMediaField({ label, hint, value, onChange, folder = "cata
       const data = await fetchMedia();
       setAssets(data.assets);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to load media.");
+      setError(err instanceof Error ? err.message : "تعذر تحميل الصور.");
     } finally {
       setLoading(false);
     }
@@ -155,7 +221,7 @@ export function ProductMediaField({ label, hint, value, onChange, folder = "cata
       onChange([...value, ...uploaded.map((asset) => asset.url)]);
       setAssets((current) => [...uploaded, ...current]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to upload images.");
+      setError(err instanceof Error ? err.message : "تعذر رفع الصور.");
     } finally {
       setUploading(false);
     }
@@ -170,7 +236,9 @@ export function ProductMediaField({ label, hint, value, onChange, folder = "cata
   }
 
   function toggle(url: string) {
-    setSelected((current) => current.includes(url) ? current.filter((item) => item !== url) : [...current, url]);
+    setSelected((current) =>
+      current.includes(url) ? current.filter((item) => item !== url) : [...current, url]
+    );
   }
 
   function applySelection() {
@@ -178,17 +246,111 @@ export function ProductMediaField({ label, hint, value, onChange, folder = "cata
     setOpen(false);
   }
 
-  return <div className="productMediaField">
-    <div className="productMediaFieldHead"><div><strong>{label}</strong><span>{hint}</span></div><div>
-      <label className="smallAdminButton"><Upload size={13}/>{uploading ? "Uploading…" : "Upload"}<input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple onChange={quickUpload} disabled={uploading}/></label>
-      <button type="button" className="smallAdminButton" onClick={()=>void openLibrary()}><ImagePlus size={13}/> Browse library</button>
-    </div></div>
-    {error && <div className="fieldError">{error}</div>}
-    {value.length === 0 ? <div className="mediaFieldEmpty">No media selected.</div> : <div className="selectedMediaRow">{value.map((url,index)=><div className="selectedMediaItem" key={`${url}-${index}`}><div style={{backgroundImage:`url(${url})`}}/><span>{index+1}</span><div className="selectedMediaControls"><button type="button" disabled={index===0} onClick={()=>move(index,-1)}>←</button><button type="button" disabled={index===value.length-1} onClick={()=>move(index,1)}>→</button><button type="button" onClick={()=>onChange(value.filter((_,i)=>i!==index))}>×</button></div></div>)}</div>}
+  return (
+    <div className="productMediaField">
+      <div className="productMediaFieldHead">
+        <div>
+          <strong>{label}</strong>
+          <span>{hint}</span>
+        </div>
+        <div>
+          <label className="smallAdminButton">
+            <Upload size={13} />
+            {uploading ? "جاري الرفع…" : "رفع مباشر"}
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/avif"
+              multiple
+              onChange={quickUpload}
+              disabled={uploading}
+            />
+          </label>
+          <button type="button" className="smallAdminButton" onClick={() => void openLibrary()}>
+            <ImagePlus size={13} /> تصفح المكتبة
+          </button>
+        </div>
+      </div>
+      {error && <div className="fieldError">{error}</div>}
+      {value.length === 0 ? (
+        <div className="mediaFieldEmpty">لم يتم اختيار أي صور حتى الآن.</div>
+      ) : (
+        <div className="selectedMediaRow">
+          {value.map((url, index) => (
+            <div className="selectedMediaItem" key={`${url}-${index}`}>
+              <div style={{ backgroundImage: `url(${url})` }} />
+              <span>{index + 1}</span>
+              <div className="selectedMediaControls">
+                <button type="button" disabled={index === 0} onClick={() => move(index, -1)}>
+                  →
+                </button>
+                <button type="button" disabled={index === value.length - 1} onClick={() => move(index, 1)}>
+                  ←
+                </button>
+                <button type="button" onClick={() => onChange(value.filter((_, i) => i !== index))}>
+                  ×
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
-    {open && <div className="adminModalBackdrop mediaPickerBackdrop"><section className="adminModal mediaPickerModal"><div className="adminModalHead"><div><p>MEDIA LIBRARY</p><h2>Select images</h2></div><button type="button" onClick={()=>setOpen(false)}>×</button></div>
-      <div className="mediaPickerBody">{loading ? <div className="adminEmptyState">Loading…</div> : assets.length === 0 ? <div className="adminEmptyState">No media uploaded yet.</div> : <div className="mediaPickerGrid">{assets.map(asset=>{const active=selected.includes(asset.url);return <button type="button" key={asset.key} className={active?"selected":""} onClick={()=>toggle(asset.url)}><span className="mediaPickerThumb" style={{backgroundImage:`url(${asset.url})`}}/><span className="mediaPickerCheck">{active ? <Check size={14}/> : null}</span><small>{asset.name}</small></button>})}</div>}</div>
-      <div className="mediaPickerFooter"><span>{selected.length} selected</span><div><button type="button" onClick={()=>setOpen(false)}>Cancel</button><button type="button" className="adminPrimary" disabled={!selected.length} onClick={applySelection}>Use selected</button></div></div>
-    </section></div>}
-  </div>;
+      {open && (
+        <div className="adminModalBackdrop mediaPickerBackdrop">
+          <section className="adminModal mediaPickerModal">
+            <div className="adminModalHead">
+              <div>
+                <p>مكتبة الصور</p>
+                <h2>اختيار صور المنتج</h2>
+              </div>
+              <button type="button" onClick={() => setOpen(false)}>
+                ×
+              </button>
+            </div>
+            <div className="mediaPickerBody">
+              {loading ? (
+                <div className="adminEmptyState">جاري التحميل…</div>
+              ) : assets.length === 0 ? (
+                <div className="adminEmptyState">لا توجد صور في المكتبة بعد.</div>
+              ) : (
+                <div className="mediaPickerGrid">
+                  {assets.map((asset) => {
+                    const active = selected.includes(asset.url);
+                    return (
+                      <button
+                        type="button"
+                        key={asset.key}
+                        className={active ? "selected" : ""}
+                        onClick={() => toggle(asset.url)}
+                      >
+                        <span className="mediaPickerThumb" style={{ backgroundImage: `url(${asset.url})` }} />
+                        <span className="mediaPickerCheck">{active ? <Check size={14} /> : null}</span>
+                        <small>{asset.name}</small>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="mediaPickerFooter">
+              <span>تم تحديد {selected.length} صور</span>
+              <div>
+                <button type="button" onClick={() => setOpen(false)}>
+                  إلغاء
+                </button>
+                <button
+                  type="button"
+                  className="adminPrimary"
+                  disabled={!selected.length}
+                  onClick={applySelection}
+                >
+                  إدراج الصور المحددة
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
+    </div>
+  );
 }

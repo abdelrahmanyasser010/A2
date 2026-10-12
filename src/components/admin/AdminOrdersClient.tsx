@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { X, MessageSquare, Phone, ShieldAlert, ShieldCheck, Check } from "lucide-react";
+import { X, MessageSquare, Phone, ShieldAlert, ShieldCheck } from "lucide-react";
 import type { OrderRecord, OrderStatus } from "@/lib/domain";
 import { formatPrice } from "@/lib/format";
 import {
@@ -23,11 +23,29 @@ const statuses: OrderStatus[] = [
   "REFUNDED"
 ];
 
-const label = (value: string) =>
-  value
-    .replaceAll("_", " ")
-    .toLowerCase()
-    .replace(/\b\w/g, (m) => m.toUpperCase());
+const statusArabicMap: Record<string, string> = {
+  NEW: "طلب جديد",
+  CONFIRMED: "تم التأكيد",
+  PREPARING: "قيد التجهيز",
+  SHIPPED: "تم الشحن",
+  DELIVERED: "تم التوصيل",
+  CANCELLED: "ملغي",
+  RETURN_REQUESTED: "طلب إرجاع",
+  RETURNED: "مرتجع",
+  REFUNDED: "مسترجع"
+};
+
+const tabArabicMap: Record<string, string> = {
+  ALL: "الكل",
+  NEW: "جديد",
+  CONFIRMED: "مؤكد",
+  PREPARING: "قيد التجهيز",
+  SHIPPED: "تم الشحن",
+  DELIVERED: "تم التوصيل",
+  CANCELLED: "ملغي"
+};
+
+const label = (value: string) => statusArabicMap[value] || value;
 
 export function AdminOrdersClient({
   initialOrders,
@@ -56,10 +74,10 @@ export function AdminOrdersClient({
       body: JSON.stringify({ status })
     });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) return setMessage(d.error || "Unable to update order.");
+    if (!r.ok) return setMessage(d.error || "تعذر تحديث حالة الطلب.");
     setOrders((cur) => cur.map((o) => (o.id === d.order.id ? d.order : o)));
     setSelected(d.order);
-    setMessage(`تم تغيير حالة الطلب ${order.orderNumber} إلى ${label(status)}.`);
+    setMessage(`تم تغيير حالة الطلب ${order.orderNumber} إلى (${label(status)}).`);
   }
 
   async function handleToggleBlock(phone: string, block: boolean) {
@@ -84,12 +102,12 @@ export function AdminOrdersClient({
         body: JSON.stringify({ phone: norm, block })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to update blacklist");
+      if (!res.ok) throw new Error(data.error || "تعذر تعديل الحظر");
 
       setBlockedPhones(data.blockedPhones || []);
       setMessage(
         block
-          ? `⛔ تم حظر الرقم (${phone}) بنجاح ومنعه من الطلب.`
+          ? `⛔ تم حظر الرقم (${phone}) بنجاح ومنعه من تقديم طلبات.`
           : `✅ تم فك الحظر عن الرقم (${phone}) بنجاح.`
       );
     } catch (err: any) {
@@ -103,11 +121,11 @@ export function AdminOrdersClient({
     <>
       <div className="adminPageHeading">
         <div>
-          <p>Fulfilment & Customer Outreach</p>
-          <h1>Orders ({orders.length})</h1>
+          <p>إدارة وتنفيذ الطلبات والتواصل مع العملاء</p>
+          <h1>الطلبات ({orders.length})</h1>
         </div>
         <button className="adminPrimary" onClick={() => window.print()}>
-          Export / print
+          طباعة / تصدير
         </button>
       </div>
 
@@ -122,7 +140,7 @@ export function AdminOrdersClient({
                 className={tab === s ? "active" : ""}
                 onClick={() => setTab(s)}
               >
-                {label(s)}{" "}
+                {tabArabicMap[s] || s}{" "}
                 <span>
                   {s === "ALL"
                     ? orders.length
@@ -137,21 +155,21 @@ export function AdminOrdersClient({
           <table className="adminTable">
             <thead>
               <tr>
-                <th>Order</th>
-                <th>Customer</th>
-                <th>Governorate</th>
-                <th>Date</th>
-                <th>Payment</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th>رقم الطلب</th>
+                <th>بيانات العميل</th>
+                <th>المحافظة</th>
+                <th>تاريخ الطلب</th>
+                <th>طريقة الدفع</th>
+                <th>الإجمالي</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
               </tr>
             </thead>
             <tbody>
               {visible.length === 0 ? (
                 <tr>
                   <td colSpan={8} style={{ textAlign: "center", padding: "30px", color: "var(--muted)" }}>
-                    No orders found in this tab.
+                    لا توجد طلبات في هذا القسم حالياً.
                   </td>
                 </tr>
               ) : (
@@ -182,14 +200,16 @@ export function AdminOrdersClient({
                               </span>
                             )}
                           </span>
-                          <small style={{ color: "var(--muted)" }}>{o.customer.phone}</small>
+                          <small style={{ color: "var(--muted)", direction: "ltr", textAlign: "right" }}>
+                            {o.customer.phone}
+                          </small>
                         </div>
                       </td>
                       <td>{o.shipping.governorate}</td>
-                      <td>{new Date(o.createdAt).toLocaleDateString("en-EG")}</td>
+                      <td>{new Date(o.createdAt).toLocaleDateString("ar-EG")}</td>
                       <td>
                         <span style={{ fontSize: "12px" }}>
-                          {o.paymentMethod === "COD" ? "Cash (COD)" : o.paymentMethod}
+                          {o.paymentMethod === "COD" ? "كاش عند الاستلام" : o.paymentMethod}
                         </span>
                       </td>
                       <td>
@@ -218,7 +238,7 @@ export function AdminOrdersClient({
                             className="tableAction"
                             onClick={() => setSelected(o)}
                           >
-                            Open
+                            تفاصيل الأوردر
                           </button>
                         </div>
                       </td>
@@ -236,7 +256,7 @@ export function AdminOrdersClient({
           <section className="adminModal orderModal">
             <div className="adminModalHead">
               <div>
-                <p>{selected.orderNumber}</p>
+                <p>تفاصيل الأوردر {selected.orderNumber}</p>
                 <h2>
                   {selected.customer.firstName} {selected.customer.lastName}
                 </h2>
@@ -249,7 +269,9 @@ export function AdminOrdersClient({
             {/* Customer Communication & Blacklist Bar */}
             <div className="orderCommBar">
               <div className="orderCommInfo">
-                <span>رقم العميل: <strong>{selected.customer.phone}</strong></span>
+                <span>
+                  رقم العميل: <strong dir="ltr">{selected.customer.phone}</strong>
+                </span>
                 {isPhoneBlocked(selected.customer.phone, blockedPhones) && (
                   <span className="adminBlockedBadge">⚠️ هذا الرقم محظور من الطلب</span>
                 )}
@@ -301,17 +323,17 @@ export function AdminOrdersClient({
 
             <div className="orderAdminDetails">
               <div>
-                <span>Phone & Email</span>
+                <span>الهاتف والبريد</span>
                 <strong>
-                  {selected.customer.phone}
+                  <span dir="ltr">{selected.customer.phone}</span>
                   <br />
                   <small style={{ color: "var(--muted)", fontWeight: "normal" }}>
-                    {selected.customer.email || "No email provided"}
+                    {selected.customer.email || "لم يتم إدخال بريد"}
                   </small>
                 </strong>
               </div>
               <div>
-                <span>Address</span>
+                <span>عنوان التوصيل</span>
                 <strong>
                   {selected.shipping.governorate} · {selected.shipping.city}
                   <br />
@@ -319,20 +341,21 @@ export function AdminOrdersClient({
                 </strong>
               </div>
               <div>
-                <span>Payment</span>
+                <span>الدفع</span>
                 <strong>
-                  {selected.paymentMethod === "COD" ? "الدفع عند الاستلام (COD)" : selected.paymentMethod}
+                  {selected.paymentMethod === "COD" ? "الدفع كاش عند الاستلام" : selected.paymentMethod}
                   <br />
                   <small style={{ color: "var(--muted)", fontWeight: "normal" }}>
-                    الحالة: {selected.paymentStatus}
+                    الحالة: {selected.paymentStatus === "PENDING" ? "في انتظار الاستلام" : selected.paymentStatus}
                   </small>
                 </strong>
               </div>
               <div>
-                <span>Total</span>
+                <span>إجمالي المبلغ</span>
                 <strong>{formatPrice(selected.grandTotal)}</strong>
                 <small style={{ color: "var(--muted)", display: "block" }}>
-                  شحن: {formatPrice(selected.shippingTotal)} {selected.discountTotal > 0 && `· خصم: ${formatPrice(selected.discountTotal)}`}
+                  شحن: {formatPrice(selected.shippingTotal)}{" "}
+                  {selected.discountTotal > 0 && `· خصم: ${formatPrice(selected.discountTotal)}`}
                 </small>
               </div>
             </div>
@@ -345,7 +368,7 @@ export function AdminOrdersClient({
             )}
 
             <div className="orderItemsAdmin">
-              <strong style={{ padding: "10px 0 5px", fontSize: "13px" }}>المنتجات المطلوبة:</strong>
+              <strong style={{ padding: "10px 0 5px", fontSize: "13px" }}>القطع المطلوبة بالأوردر:</strong>
               {selected.items.map((item) => (
                 <div key={item.id}>
                   <span>
@@ -376,12 +399,12 @@ export function AdminOrdersClient({
             </div>
 
             <div className="statusHistory">
-              <strong>سجل تحديثات الطلب (Status history)</strong>
+              <strong>سجل التحديثات للطلب (Status History)</strong>
               {[...selected.statusEvents].reverse().map((event, i) => (
                 <div key={`${event.createdAt}-${i}`}>
                   <span>{label(event.status)}</span>
                   <small>
-                    {new Date(event.createdAt).toLocaleString("en-EG")}{" "}
+                    {new Date(event.createdAt).toLocaleString("ar-EG")}{" "}
                     {event.note ? `· ${event.note}` : ""}
                   </small>
                 </div>

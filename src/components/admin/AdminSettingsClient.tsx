@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import type { StoreSettings } from "@/lib/domain";
 import { EGYPT_GOVERNORATES, getDefaultGovRates } from "@/lib/governorates";
-import { Search, RotateCcw, Copy, ShieldAlert, Plus, Trash2 } from "lucide-react";
+import { Search, RotateCcw, Copy, ShieldAlert, Trash2 } from "lucide-react";
 import { normalizePhone } from "@/lib/phone";
 
 export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
@@ -50,12 +50,12 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
     });
     const d = await r.json().catch(() => ({}));
     setBusy(false);
-    if (!r.ok) return setMsg(d.error || "Unable to save settings.");
+    if (!r.ok) return setMsg(d.error || "تعذر حفظ الإعدادات.");
     setS(d.settings);
     if (d.settings?.governorateRates) {
       setGovRates(d.settings.governorateRates);
     }
-    setMsg("Settings and governorate shipping rates saved successfully.");
+    setMsg("تم حفظ الإعدادات وأسعار شحن المحافظات بنجاح.");
   }
 
   const filteredGovs = EGYPT_GOVERNORATES.filter((gov) => {
@@ -71,8 +71,8 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
     <>
       <div className="adminPageHeading">
         <div>
-          <p>Configuration</p>
-          <h1>Settings</h1>
+          <p>إعدادات النظام والتشغيل</p>
+          <h1>إعدادات المتجر</h1>
         </div>
       </div>
 
@@ -81,14 +81,14 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
       <form className="adminPanel adminSettingsForm" onSubmit={submit}>
         <div className="adminPanelHeading">
           <div>
-            <h2>General Shipping & Payments</h2>
-            <p>These values are used by checkout immediately.</p>
+            <h2>الشحن وبوابات الدفع</h2>
+            <p>هذه القيم تُطبق فوراً على صفحة الـ Checkout عند طلب العميل.</p>
           </div>
         </div>
 
         <div className="adminFormGrid">
           <label>
-            Default / Flat shipping rate (EGP)
+            سعر الشحن الموحد / الافتراضي (ج.م)
             <input
               type="number"
               min="0"
@@ -97,7 +97,7 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
             />
           </label>
           <label>
-            Free shipping threshold (EGP)
+            الحد الأدنى للشحن المجاني (ج.م)
             <input
               type="number"
               min="0"
@@ -109,7 +109,7 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
 
         <div className="adminFormGrid">
           <label>
-            Low stock threshold
+            تنبيه الحد الأدنى للمخزون (القطع)
             <input
               type="number"
               min="0"
@@ -118,8 +118,8 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
             />
           </label>
           <label>
-            Currency
-            <input value={s.currency} disabled />
+            العملة
+            <input value="جنيه مصري (EGP)" disabled />
           </label>
         </div>
 
@@ -130,7 +130,7 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
               checked={s.codEnabled}
               onChange={(e) => setS({ ...s, codEnabled: e.target.checked })}
             />{" "}
-            Cash on delivery
+            تفعيل الدفع عند الاستلام (كاش)
           </label>
           <label>
             <input
@@ -138,24 +138,28 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
               checked={s.cardEnabled}
               onChange={(e) => setS({ ...s, cardEnabled: e.target.checked })}
             />{" "}
-            Online card payments
+            تفعيل الدفع بالفيزا / البطاقات البنكية
           </label>
         </div>
 
         <div className="adminFormGrid">
           <label>
-            Support phone
+            هاتف خدمة العملاء والدعم
             <input
               value={s.supportPhone}
               onChange={(e) => setS({ ...s, supportPhone: e.target.value })}
+              placeholder="010xxxxxxxx"
+              dir="ltr"
             />
           </label>
           <label>
-            Support email
+            البريد الإلكتروني للدعم
             <input
               type="email"
               value={s.supportEmail}
               onChange={(e) => setS({ ...s, supportEmail: e.target.value })}
+              placeholder="support@a2.com"
+              dir="ltr"
             />
           </label>
         </div>
@@ -164,9 +168,9 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
 
         <div className="adminPanelHeading">
           <div>
-            <h2>Governorate Shipping Rates (أسعار شحن المحافظات)</h2>
+            <h2>أسعار شحن المحافظات المصرية</h2>
             <p>
-              حدد سعر الشحن المخصص لكل محافظة من محافظات مصر. السعر ده بيظهر ويتحسب للعميل في الـ Checkout بمجرد اختيار محافظته.
+              حدد سعر الشحن المخصص لكل محافظة. السعر ده بيظهر ويتحسب للعميل في الـ Checkout بمجرد اختيار محافظته.
             </p>
           </div>
         </div>
@@ -175,12 +179,12 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
           <div style={{ position: "relative", flex: "1", minWidth: "220px" }}>
             <input
               type="text"
-              placeholder="Search governorate / ابحث عن محافظة..."
+              placeholder="ابحث عن محافظة..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ paddingLeft: "32px", width: "100%" }}
+              style={{ paddingRight: "32px", width: "100%" }}
             />
-            <Search size={15} style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "var(--muted)" }} />
+            <Search size={15} style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", color: "var(--muted)" }} />
           </div>
           <button
             type="button"
@@ -227,8 +231,8 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontWeight: "600", fontSize: "13px" }}>{gov.nameEn}</span>
-                  <span style={{ fontSize: "12px", color: "var(--muted)" }}>{gov.nameAr}</span>
+                  <span style={{ fontWeight: "600", fontSize: "13px" }}>{gov.nameAr}</span>
+                  <span style={{ fontSize: "12px", color: "var(--muted)" }}>{gov.nameEn}</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
                   <input
@@ -238,7 +242,7 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
                     onChange={(e) => handleGovRateChange(gov.nameEn, e.target.value)}
                     style={{ flex: "1", padding: "6px 8px", fontSize: "13px" }}
                   />
-                  <span style={{ fontSize: "11px", color: "var(--muted)" }}>EGP</span>
+                  <span style={{ fontSize: "11px", color: "var(--muted)" }}>ج.م</span>
                 </div>
               </div>
             );
@@ -249,9 +253,9 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
 
         <div className="adminPanelHeading">
           <div>
-            <h2>Phone Blacklist (قائمة الأرقام المحظورة)</h2>
+            <h2>قائمة الأرقام المحظورة (Phone Blacklist)</h2>
             <p>
-              الأرقام المضافة هنا يتم حظرها تلقائياً عند محاولة إتمام الطلب من صفحة Checkout مع رسالة توضيحية.
+              الأرقام المضافة هنا يتم منعها تلقائياً عند محاولة إتمام الطلب من صفحة الـ Checkout مع رسالة توضيحية.
             </p>
           </div>
         </div>
@@ -263,6 +267,7 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
             value={newBlockedPhone}
             onChange={(e) => setNewBlockedPhone(e.target.value)}
             style={{ maxWidth: "320px", padding: "8px 12px" }}
+            dir="ltr"
           />
           <button
             type="button"
@@ -295,7 +300,7 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
         <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", minHeight: "36px" }}>
           {(!s.blockedPhones || s.blockedPhones.length === 0) ? (
             <p style={{ color: "var(--muted)", fontSize: "13px", margin: 0 }}>
-              لا توجد أرقام محظورة حالياً. يمكنك أيضاً حظر أي رقم مباشرة من نافذة تفاصيل الطلب.
+              لا توجد أرقام محظورة حالياً. يمكنك أيضاً حظر أي رقم مباشرة من نافذة تفاصيل الأوردر.
             </p>
           ) : (
             s.blockedPhones.map((phone) => (
@@ -314,7 +319,7 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
                   fontFamily: "monospace"
                 }}
               >
-                <span>{phone}</span>
+                <span dir="ltr">{phone}</span>
                 <button
                   type="button"
                   title="فك الحظر"
@@ -342,11 +347,11 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
         </div>
 
         <p className="settingsNote" style={{ marginTop: "24px" }}>
-          Card payments remain disabled until a payment gateway is integrated. Turning the switch on only exposes the checkout option.
+          الدفع بالبطاقات يظل معطلاً حتى يتم تفعيل وربط بوابة الدفع البنكية مستقبلاً.
         </p>
 
         <button className="adminPrimary" disabled={busy} style={{ marginTop: "12px" }}>
-          {busy ? "Saving…" : "Save settings"}
+          {busy ? "جاري الحفظ…" : "حفظ الإعدادات"}
         </button>
       </form>
     </>
