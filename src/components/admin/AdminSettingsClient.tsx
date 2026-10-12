@@ -260,13 +260,13 @@ export function AdminSettingsClient({ initial }: { initial: StoreSettings }) {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "16px" }}>
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", marginBottom: "16px" }}>
           <input
             type="tel"
             placeholder="أدخل رقم الموبايل للحظر (مثال: 01012345678)"
             value={newBlockedPhone}
             onChange={(e) => setNewBlockedPhone(e.target.value)}
-            style={{ maxWidth: "320px", padding: "8px 12px" }}
+            style={{ flex: "1", minWidth: "220px", maxWidth: "360px", padding: "8px 12px" }}
             dir="ltr"
           />
           <button
