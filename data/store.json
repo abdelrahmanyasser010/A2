@@ -53,7 +53,7 @@
           "sku": "A2-ESSE-C-M",
           "color": "Charcoal",
           "size": "M",
-          "stock": 12,
+          "stock": 11,
           "lowStockAt": 4,
           "active": true
         },
@@ -343,7 +343,7 @@
           "sku": "A2-UTIL-DO-30",
           "color": "Dark Olive",
           "size": "30",
-          "stock": 5,
+          "stock": 4,
           "lowStockAt": 4,
           "active": true
         },
@@ -948,6 +948,105 @@
     }
   ],
   "orders": [
+    {
+      "id": "ord_f55b14c2529947",
+      "orderNumber": "A2-1064",
+      "customerId": "cus_64dc9c6035514e",
+      "customer": {
+        "firstName": "نت",
+        "lastName": "Yasser29",
+        "phone": "01023817658",
+        "email": ""
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "Nasr City",
+        "street": "13 Salah Salem Street"
+      },
+      "status": "NEW",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "COD",
+      "subtotal": 1890,
+      "discountTotal": 0,
+      "shippingTotal": 50,
+      "grandTotal": 1940,
+      "inventoryRestocked": false,
+      "createdAt": "2026-10-07T13:35:41.247Z",
+      "updatedAt": "2026-10-07T13:35:41.247Z",
+      "items": [
+        {
+          "id": "oi_109dae846a0b44",
+          "productId": "p-003",
+          "variantId": "v-024",
+          "productName": "A² Utility Cargo",
+          "image": "/media/demo/cargo.webp",
+          "sku": "A2-UTIL-DO-30",
+          "color": "Dark Olive",
+          "size": "30",
+          "baseUnitPrice": 1890,
+          "unitPrice": 1890,
+          "quantity": 1,
+          "lineTotal": 1890
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Order placed",
+          "createdAt": "2026-10-07T13:35:41.247Z"
+        }
+      ]
+    },
+    {
+      "id": "ord_f6721340e4cf47",
+      "orderNumber": "A2-1063",
+      "customerId": "cus_41487e35d07d4b",
+      "customer": {
+        "firstName": "تجربة",
+        "lastName": "عميل",
+        "phone": "01009988776",
+        "email": ""
+      },
+      "shipping": {
+        "governorate": "Cairo",
+        "city": "المعادي",
+        "street": "شارع ٩"
+      },
+      "status": "NEW",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "COD",
+      "subtotal": 1290,
+      "discountTotal": 0,
+      "shippingTotal": 50,
+      "grandTotal": 1340,
+      "notes": "رن جرس الباب",
+      "inventoryRestocked": false,
+      "createdAt": "2026-10-07T12:54:08.857Z",
+      "updatedAt": "2026-10-07T12:54:08.857Z",
+      "items": [
+        {
+          "id": "oi_7541f07699e541",
+          "productId": "p-001",
+          "variantId": "v-002",
+          "productName": "A² Essential Brush Tee",
+          "image": "/media/demo/black-tee.webp",
+          "sku": "A2-ESSE-C-M",
+          "color": "Charcoal",
+          "size": "M",
+          "baseUnitPrice": 1290,
+          "unitPrice": 1290,
+          "quantity": 1,
+          "lineTotal": 1290
+        }
+      ],
+      "statusEvents": [
+        {
+          "status": "NEW",
+          "note": "Order placed",
+          "createdAt": "2026-10-07T12:54:08.857Z"
+        }
+      ]
+    },
     {
       "id": "ord_296f22d11c5744",
       "orderNumber": "A2-1062",
@@ -1787,13 +1886,22 @@
   ],
   "customers": [
     {
+      "id": "cus_41487e35d07d4b",
+      "firstName": "تجربة",
+      "lastName": "عميل",
+      "phone": "01009988776",
+      "email": "",
+      "createdAt": "2026-10-07T12:54:08.857Z",
+      "updatedAt": "2026-10-07T12:54:08.857Z"
+    },
+    {
       "id": "cus_64dc9c6035514e",
-      "firstName": "Abo",
-      "lastName": "Yasser",
+      "firstName": "نت",
+      "lastName": "Yasser29",
       "phone": "01023817658",
-      "email": "aboyasser010238176@gmail.com",
+      "email": "",
       "createdAt": "2026-09-22T07:50:41.310Z",
-      "updatedAt": "2026-09-22T07:50:41.310Z"
+      "updatedAt": "2026-10-07T13:35:41.247Z"
     },
     {
       "id": "cus-001",
@@ -1947,6 +2055,26 @@
     }
   ],
   "inventoryMovements": [
+    {
+      "id": "mov_174cd54bed064a",
+      "productId": "p-003",
+      "variantId": "v-024",
+      "sku": "A2-UTIL-DO-30",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1064",
+      "createdAt": "2026-10-07T13:35:41.247Z"
+    },
+    {
+      "id": "mov_b10877794c7b4d",
+      "productId": "p-001",
+      "variantId": "v-002",
+      "sku": "A2-ESSE-C-M",
+      "delta": -1,
+      "reason": "Customer order",
+      "reference": "A2-1063",
+      "createdAt": "2026-10-07T12:54:08.857Z"
+    },
     {
       "id": "mov_e9591178920348",
       "productId": "p-002",
