@@ -2426,3 +2426,363 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
   }
 }
 
+/* ============================================================
+   Responsive Mobile Card Views for Admin (No Table Scrolling)
+   ============================================================ */
+
+/* Desktop view: Hide all mobile card lists */
+.adminOrdersMobileList,
+.adminOverviewMobileList,
+.adminProductsMobileList {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  /* Hide horizontal scrolling tables on phones */
+  .adminPanel .adminTableWrap {
+    display: none !important;
+  }
+
+  /* Orders Mobile List */
+  .adminOrdersMobileList {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .mobileOrderCard {
+    background: #ffffff;
+    border: 1px solid #dfdbd3;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .mobileOrderCard.orderCardSelected {
+    border-color: #171815;
+    background: #fbf9f6;
+    box-shadow: 0 0 0 2px #171815 inset;
+  }
+
+  .mobileOrderCard.orderCardBlocked {
+    border-color: #ef4444;
+    background: #fff5f5;
+  }
+
+  .mobileOrderCardHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid #f0ede8;
+    padding-bottom: 11px;
+  }
+
+  .mobileOrderCardId {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .mobileOrderCheckbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #171815;
+    border-radius: 4px;
+  }
+
+  .mobileOrderCardId strong {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #171815;
+    letter-spacing: -0.3px;
+  }
+
+  .mobileOrderDate {
+    font-size: 12px;
+    color: #79766e;
+    background: #f0ece5;
+    padding: 2px 7px;
+    border-radius: 6px;
+  }
+
+  .mobileOrderStatusSelector select {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+  }
+
+  .mobileOrderCardCustomer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mobileCustomerPrimary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .mobileCustomerName {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #171815;
+  }
+
+  .mobileCustomerMeta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    color: #55534c;
+    flex-wrap: wrap;
+  }
+
+  .mobileCustomerPhone {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #242521;
+    direction: ltr;
+  }
+
+  .metaSeparator {
+    color: #c4c1ba;
+  }
+
+  .mobileCustomerGov {
+    font-weight: 600;
+  }
+
+  .mobileOrderCardFinance {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f5f2eb;
+    padding: 10px 14px;
+    border-radius: 9px;
+  }
+
+  .mobileOrderItemsBadge {
+    font-size: 13px;
+    font-weight: 700;
+    color: #43443e;
+  }
+
+  .mobileOrderTotal {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: #171815;
+  }
+
+  .mobileOrderCardActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding-top: 3px;
+  }
+
+  .mobileWaBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: #25d366;
+    color: #ffffff;
+    border: none;
+    border-radius: 9px;
+    padding: 11px 12px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .mobileWaBtn:active {
+    transform: scale(0.98);
+  }
+
+  .mobileWaBtn.contacted {
+    background: #128c7e;
+  }
+
+  .mobileDetailsBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: #f7f5f0;
+    color: #171815;
+    border: 1px solid #d5d1c8;
+    border-radius: 9px;
+    padding: 11px 12px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .mobileDetailsBtn:active {
+    background: #ece7dd;
+    transform: scale(0.98);
+  }
+
+  /* Overview Recent Orders Mobile Cards */
+  .adminOverviewMobileList {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .mobileOverviewOrderCard {
+    background: #ffffff;
+    border: 1px solid #dfdbd3;
+    border-radius: 12px;
+    padding: 13px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.15s;
+  }
+
+  .mobileOverviewOrderCard:active {
+    background: #faf8f5;
+  }
+
+  .mobileOverviewHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .mobileOverviewHead strong {
+    font-size: 15px;
+    color: #171815;
+  }
+
+  .mobileOverviewBody {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .mobileOverviewFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0ede8;
+    padding-top: 8px;
+  }
+
+  /* Products Mobile Cards */
+  .adminProductsMobileList {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .mobileProductCard {
+    background: #ffffff;
+    border: 1px solid #dfdbd3;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .mobileProductThumb {
+    width: 60px;
+    height: 70px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f0ece5;
+    flex-shrink: 0;
+  }
+
+  .mobileProductInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .mobileProductTitleRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .mobileProductTitleRow strong {
+    font-size: 14.5px;
+    color: #171815;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 170px;
+  }
+
+  .mobileProductMetaRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #79766e;
+  }
+
+  .mobileProductFooterRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2px;
+  }
+
+  .mobileProductPrice {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #171815;
+  }
+
+  .mobileProductStock {
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .mobileProductActions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mobileEmptyState {
+    text-align: center;
+    padding: 30px 15px;
+    color: #79766e;
+    font-size: 14.5px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px dashed #d5d1c8;
+  }
+}
+

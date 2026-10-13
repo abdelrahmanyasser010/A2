@@ -131,6 +131,41 @@ export default async function AdminDashboard() {
             </tbody>
           </table>
         </div>
+
+        {/* Mobile Recent Orders List (No horizontal scrolling on phones) */}
+        <div className="adminOverviewMobileList">
+          {data.recentOrders.length === 0 ? (
+            <p style={{ textAlign: "center", padding: "20px", color: "var(--muted)" }}>
+              لا توجد طلبات مسجلة بعد.
+            </p>
+          ) : (
+            data.recentOrders.map((o) => (
+              <Link href="/admin/orders" key={o.id} className="mobileOverviewOrderCard">
+                <div className="mobileOverviewHead">
+                  <div>
+                    <strong>{o.orderNumber}</strong>
+                    <small style={{ display: "block", color: "var(--muted)", fontSize: "11.5px" }}>
+                      {new Date(o.createdAt).toLocaleDateString("ar-EG")}
+                    </small>
+                  </div>
+                  <span className={`adminStatus ${o.status.toLowerCase()}`}>
+                    {label(o.status)}
+                  </span>
+                </div>
+                <div className="mobileOverviewBody">
+                  <span style={{ fontWeight: "700" }}>{o.customer.firstName} {o.customer.lastName}</span>
+                  <span style={{ color: "#666" }}>{o.shipping.governorate}</span>
+                </div>
+                <div className="mobileOverviewFooter">
+                  <span style={{ fontSize: "12.5px", color: "var(--muted)" }}>
+                    {o.items.reduce((s, i) => s + i.quantity, 0)} قطعة ({o.paymentMethod === "COD" ? "كاش" : o.paymentMethod})
+                  </span>
+                  <strong style={{ fontSize: "15px", color: "#161714" }}>{formatPrice(o.grandTotal)}</strong>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
       </section>
 
       <div className="adminTwoCol">

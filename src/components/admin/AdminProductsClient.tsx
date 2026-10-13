@@ -284,6 +284,68 @@ export function AdminProductsClient({ initialProducts }: { initialProducts: Admi
             </tbody>
           </table>
         </div>
+
+        {/* Mobile Products Cards View (No horizontal scrolling on phones) */}
+        <div className="adminProductsMobileList">
+          {visible.length === 0 ? (
+            <div className="mobileEmptyState">لا توجد منتجات تطابق البحث.</div>
+          ) : (
+            visible.map((p) => {
+              const stock = p.variants.reduce((s, v) => s + v.stock, 0);
+              return (
+                <article key={p.id} className="mobileProductCard">
+                  <div
+                    className="mobileProductThumb"
+                    style={{ backgroundImage: `url(${p.images[0] || "/media/demo/full-outfit.webp"})` }}
+                  />
+                  <div className="mobileProductInfo">
+                    <div className="mobileProductTitleRow">
+                      <strong>{p.name}</strong>
+                      <span
+                        className={`adminStatus ${
+                          p.status === "PUBLISHED" ? "delivered" : p.status === "ARCHIVED" ? "cancelled" : ""
+                        }`}
+                      >
+                        {statusMap[p.status] || p.status}
+                      </span>
+                    </div>
+                    <div className="mobileProductMetaRow">
+                      <span>{p.category} • {p.collection}</span>
+                      <span>{p.variants.length} خيار</span>
+                    </div>
+                    <div className="mobileProductFooterRow">
+                      <strong className="mobileProductPrice">{formatPrice(p.price)}</strong>
+                      <span
+                        className="mobileProductStock"
+                        style={{ color: stock <= 4 ? "var(--warning)" : "inherit" }}
+                      >
+                        المخزون: <strong>{stock}</strong> قطعة
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mobileProductActions">
+                    <button
+                      type="button"
+                      className="iconAdminButton"
+                      onClick={() => setEditing(p)}
+                      title="تعديل المنتج"
+                    >
+                      <Edit3 size={16} />
+                    </button>
+                    <button
+                      type="button"
+                      className="iconAdminButton danger"
+                      onClick={() => remove(p)}
+                      title="حذف أو أرشفة"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </article>
+              );
+            })
+          )}
+        </div>
       </section>
 
       {editing && <ProductEditor initial={editing} busy={busy} onClose={() => setEditing(null)} onSave={save} />}

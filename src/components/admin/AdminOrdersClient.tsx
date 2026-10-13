@@ -444,6 +444,108 @@ export function AdminOrdersClient({
             </tbody>
           </table>
         </div>
+
+        {/* Mobile Order Cards View (Touch-optimized with no horizontal scroll) */}
+        <div className="adminOrdersMobileList">
+          {visible.length === 0 ? (
+            <div className="mobileEmptyState">لا توجد طلبات في هذا القسم حالياً.</div>
+          ) : (
+            visible.map((o) => {
+              const blocked = isPhoneBlocked(o.customer.phone, blockedPhones);
+              const waNumber = toWhatsAppNumber(o.customer.phone);
+              const isContacted = contactedIds.has(o.id);
+              const isSelected = selectedIds.has(o.id);
+              const waUrl = waNumber
+                ? `https://wa.me/${waNumber}?text=${encodeURIComponent(formatWhatsAppMessage(o))}`
+                : null;
+
+              return (
+                <article
+                  key={o.id}
+                  className={`mobileOrderCard ${blocked ? "orderCardBlocked" : ""} ${isSelected ? "orderCardSelected" : ""}`}
+                >
+                  <div className="mobileOrderCardHead">
+                    <div className="mobileOrderCardId">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => toggleSelectOne(o.id)}
+                        className="mobileOrderCheckbox"
+                      />
+                      <strong>{o.orderNumber}</strong>
+                      <small className="mobileOrderDate">
+                        {new Date(o.createdAt).toLocaleDateString("ar-EG")}
+                      </small>
+                    </div>
+                    <div className="mobileOrderStatusSelector">
+                      <select
+                        className={`adminInlineStatusSelect ${o.status.toLowerCase()}`}
+                        value={o.status}
+                        onChange={(e) => changeStatus(o, e.target.value as OrderStatus)}
+                      >
+                        {statuses.map((s) => (
+                          <option key={s} value={s}>
+                            {label(s)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="mobileOrderCardCustomer">
+                    <div className="mobileCustomerPrimary">
+                      <span className="mobileCustomerName">
+                        {o.customer.firstName} {o.customer.lastName}
+                      </span>
+                      {blocked && <span className="adminBlockedBadge">⛔ محظور</span>}
+                      {isContacted && <span className="adminContactedBadge">✓ تم التواصل</span>}
+                    </div>
+                    <div className="mobileCustomerMeta">
+                      <span className="mobileCustomerPhone" dir="ltr">{o.customer.phone}</span>
+                      <span className="metaSeparator">•</span>
+                      <span className="mobileCustomerGov">{o.shipping.governorate}</span>
+                      {o.shipping.city && (
+                        <>
+                          <span className="metaSeparator">-</span>
+                          <span>{o.shipping.city}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mobileOrderCardFinance">
+                    <div className="mobileOrderItemsBadge">
+                      {o.items.reduce((s, i) => s + i.quantity, 0)} قطعة ({o.paymentMethod === "COD" ? "كاش استلام" : o.paymentMethod})
+                    </div>
+                    <strong className="mobileOrderTotal">{formatPrice(o.grandTotal)}</strong>
+                  </div>
+
+                  <div className="mobileOrderCardActions">
+                    {waUrl && (
+                      <button
+                        type="button"
+                        onClick={() => handleWhatsAppClick(o, waUrl)}
+                        className={`mobileWaBtn ${isContacted ? "contacted" : ""}`}
+                      >
+                        <MessageSquare size={16} />
+                        <span>{isContacted ? "مراسلة مجدداً" : "تأكيد واتساب"}</span>
+                        {isContacted && <span className="actionIconBadge">✓</span>}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="mobileDetailsBtn"
+                      onClick={() => setSelected(o)}
+                    >
+                      <Eye size={16} />
+                      <span>عرض التفاصيل</span>
+                    </button>
+                  </div>
+                </article>
+              );
+            })
+          )}
+        </div>
       </section>
 
       {/* Order Details Modal */}
