@@ -13,6 +13,15 @@ export async function POST(request: Request) {
       )
     });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Unable to quote order." }, { status: 400 });
+    const rawMessage = error instanceof Error ? error.message : "Unable to quote order.";
+    console.error("[Checkout Quote error]:", error);
+    const isInternalError =
+      rawMessage.includes("prisma") ||
+      rawMessage.includes("Transaction") ||
+      rawMessage.includes("invocation");
+    const userMessage = isInternalError
+      ? "تعذر حساب تكلفة الطلب حالياً، يرجى إعادة المحاولة."
+      : rawMessage;
+    return NextResponse.json({ error: userMessage }, { status: 400 });
   }
 }

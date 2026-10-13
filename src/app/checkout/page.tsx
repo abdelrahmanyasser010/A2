@@ -8,9 +8,10 @@ import { formatPrice } from "@/lib/format";
 import type { CheckoutQuote, OrderRecord } from "@/lib/domain";
 import { EGYPT_GOVERNORATES } from "@/lib/governorates";
 import { getLocalizedProductName, getLocalizedColorName, getLocalizedSize } from "@/lib/types";
+import { formatCheckoutError, extractUnavailableSku } from "@/lib/checkout-errors";
 
 export default function CheckoutPage() {
-  const { cart, clearCart, language, t } = useStore();
+  const { cart, clearCart, removeFromCart, language, t } = useStore();
   const cartPayload = useMemo(() => cart.map((item) => ({ sku: item.sku, quantity: item.quantity })), [cart]);
   const [quote, setQuote] = useState<CheckoutQuote | null>(null);
   const [governorate, setGovernorate] = useState("Cairo");
@@ -36,7 +37,7 @@ export default function CheckoutPage() {
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
       setQuote(null);
-      return setQuoteError(data.error || "Unable to calculate order.");
+      return setQuoteError(formatCheckoutError(data.error || "Unable to calculate order.", language));
     }
     setQuote(data.quote);
   }
@@ -86,7 +87,7 @@ export default function CheckoutPage() {
     });
     const data = await response.json().catch(() => ({}));
     setBusy(false);
-    if (!response.ok) return setSubmitError(data.error || "Unable to place order.");
+    if (!response.ok) return setSubmitError(formatCheckoutError(data.error || "Unable to place order.", language));
     setOrder(data.order);
     try {
       localStorage.setItem(
@@ -231,13 +232,37 @@ export default function CheckoutPage() {
             <p className="eyebrow">{t("orderSummaryBadge")}</p>
             {cart.map((item) => (
               <div className="checkoutLine" key={item.key}>
-                <span>
-                  {item.quantity}× {getLocalizedProductName(item, language)}
-                  <small>
+                <div style={{ display: "flex", flexDirection: "column", gap: "2px", flex: 1, minWidth: 0 }}>
+                  <span>
+                    {item.quantity}× {getLocalizedProductName(item, language)}
+                  </span>
+                  <small style={{ color: "var(--muted)" }}>
                     {getLocalizedColorName(item.color, language)} / {getLocalizedSize(item.size, language)}
                   </small>
-                </span>
-                <strong>{formatPrice(item.price * item.quantity)}</strong>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                  <strong>{formatPrice(item.price * item.quantity)}</strong>
+                  <button
+                    type="button"
+                    onClick={() => removeFromCart(item.key)}
+                    title={language === "ar" ? "حذف من السلة" : "Remove"}
+                    aria-label={language === "ar" ? "حذف من السلة" : "Remove item"}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "var(--muted)",
+                      cursor: "pointer",
+                      fontSize: "18px",
+                      lineHeight: 1,
+                      padding: "2px 4px",
+                      opacity: 0.7
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
             ))}
             <div className="couponBox">
@@ -252,10 +277,47 @@ export default function CheckoutPage() {
                 </button>
               </div>
               {quote?.couponMessage && (
-                <small className={quote.couponCode ? "ok" : ""}>{quote.couponMessage}</small>
+                <small className={quote.couponCode ? "ok" : ""}>
+                  {formatCheckoutError(quote.couponMessage, language)}
+                </small>
               )}
             </div>
-            {quoteError && <div className="checkoutError">{quoteError}</div>}
+            {quoteError && (
+              <div className="checkoutError">
+                <p style={{ margin: 0 }}>{quoteError}</p>
+                {(() => {
+                  const badSku = extractUnavailableSku(quoteError);
+                  if (!badSku) return null;
+                  return (
+                    <button
+                      type="button"
+                      className="ghostButton"
+                      style={{
+                        marginTop: "8px",
+                        fontSize: "12px",
+                        padding: "6px 12px",
+                        width: "100%",
+                        borderColor: "rgba(239, 68, 68, 0.4)",
+                        color: "var(--accent)"
+                      }}
+                      onClick={() => {
+                        const target = cart.find((i) => i.sku === badSku || i.key.includes(badSku));
+                        if (target) {
+                          removeFromCart(target.key);
+                        } else if (cart.length === 1) {
+                          removeFromCart(cart[0].key);
+                        }
+                        setQuoteError("");
+                      }}
+                    >
+                      {language === "ar"
+                        ? `إزالة المنتج (${badSku}) من السلة الآن`
+                        : `Remove unavailable item (${badSku}) now`}
+                    </button>
+                  );
+                })()}
+              </div>
+            )}
             <div>
               <span>{t("subtotal")}</span>
               <strong>{formatPrice(quote?.subtotal ?? 0)}</strong>

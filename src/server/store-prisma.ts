@@ -840,15 +840,31 @@ export async function createOrder(input: {
           lineTotal: new Prisma.Decimal(item.unitPrice * item.quantity)
         })) },
         statusEvents: { create: { status: "NEW", note: "Order placed" } }
-      }
+      },
+      include: orderInclude
     });
 
-    for (const item of pricedItems) {
-      await tx.inventoryMovement.create({ data: { variantId: item.variant.id, delta: -item.quantity, reason: "Customer order", reference: orderNumber } });
+    await tx.inventoryMovement.createMany({
+      data: pricedItems.map((item) => ({
+        variantId: item.variant.id,
+        delta: -item.quantity,
+        reason: "Customer order",
+        reference: orderNumber
+      }))
+    });
+
+    if (quote.couponCode) {
+      await tx.discount.updateMany({
+        where: { code: quote.couponCode },
+        data: { usageCount: { increment: 1 } }
+      });
     }
-    if (quote.couponCode) await tx.discount.updateMany({ where: { code: quote.couponCode }, data: { usageCount: { increment: 1 } } });
-    return tx.order.findUniqueOrThrow({ where: { id: order.id }, include: orderInclude });
-  }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+
+    return order;
+  }, {
+    maxWait: 15000,
+    timeout: 30000
+  });
 
   return mapOrder(row);
 }
@@ -863,6 +879,9 @@ export async function requestReturn(orderNumber: string, phone: string, reason: 
       data: { status: "RETURN_REQUESTED", statusEvents: { create: { status: "RETURN_REQUESTED", note: reason || "Customer requested a return" } } },
       include: orderInclude
     });
+  }, {
+    maxWait: 10000,
+    timeout: 20000
   });
   return mapOrder(row);
 }

@@ -20,6 +20,16 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ order }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Unable to place order." }, { status: 400 });
+    const rawMessage = error instanceof Error ? error.message : "Unable to place order.";
+    console.error("[Checkout POST error]:", error);
+    const isInternalError =
+      rawMessage.includes("prisma") ||
+      rawMessage.includes("Transaction") ||
+      rawMessage.includes("invocation") ||
+      rawMessage.includes("findUniqueOrThrow");
+    const userMessage = isInternalError
+      ? "حدث ضغط مؤقت أثناء معالجة الطلب، يرجى المحاولة مرة أخرى."
+      : rawMessage;
+    return NextResponse.json({ error: userMessage }, { status: 400 });
   }
 }
