@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
-import { Product } from "@/lib/types";
+import { Product, getLocalizedCategory, getLocalizedColorName, getLocalizedSize } from "@/lib/types";
 import { ProductGrid } from "./ProductGrid";
 import { useStore } from "./StoreProvider";
 
@@ -64,12 +64,7 @@ export function ShopClient({ products, initialCategory = "" }: { products: Produ
 
   const categoryLabel = (item: string) => {
     if (item === "All") return t("allCategory");
-    if (language === "ar") {
-      if (item.toLowerCase() === "t-shirts") return "تيشيرتات";
-      if (item.toLowerCase() === "hoodies") return "هوديز";
-      if (item.toLowerCase() === "pants") return "بناطيل";
-    }
-    return item;
+    return getLocalizedCategory(item, language);
   };
 
   return (
@@ -151,7 +146,7 @@ export function ShopClient({ products, initialCategory = "" }: { products: Produ
                 className={selectedSizes.includes(size) ? "active" : ""}
                 onClick={() => toggle(size, selectedSizes, setSelectedSizes)}
               >
-                {size}
+                {getLocalizedSize(size, language)}
               </button>
             ))}
           </div>
@@ -166,7 +161,7 @@ export function ShopClient({ products, initialCategory = "" }: { products: Produ
                 onClick={() => toggle(color.name, selectedColors, setSelectedColors)}
               >
                 <i style={{ background: color.value }} />
-                <span>{color.name}</span>
+                <span>{getLocalizedColorName(color.name, language)}</span>
               </button>
             ))}
           </div>

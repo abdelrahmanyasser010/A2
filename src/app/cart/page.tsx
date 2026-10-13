@@ -5,9 +5,10 @@ import Link from "next/link";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useStore } from "@/components/StoreProvider";
 import { formatPrice } from "@/lib/format";
+import { getLocalizedProductName, getLocalizedColorName, getLocalizedSize } from "@/lib/types";
 
 export default function CartPage() {
-  const { cart, cartTotal, updateQuantity, removeFromCart, t } = useStore();
+  const { cart, cartTotal, updateQuantity, removeFromCart, t, language } = useStore();
   const shipping = cartTotal >= 2500 ? 0 : 90;
 
   return (
@@ -28,21 +29,26 @@ export default function CartPage() {
       ) : (
         <div className="cartLayout">
           <div className="cartItems">
-            {cart.map((item) => (
-              <article className="cartItem" key={item.key}>
-                <Link href={`/product/${item.slug}`} className="cartImage">
-                  <Image src={item.image} alt={item.name} fill sizes="120px" />
-                </Link>
-                <div className="cartItemBody">
-                  <div>
-                    <Link href={`/product/${item.slug}`}>
-                      <h3>{item.name}</h3>
-                    </Link>
-                    <p>
-                      {item.color} / {item.size}
-                    </p>
-                    <small>{item.sku}</small>
-                  </div>
+            {cart.map((item) => {
+              const displayName = getLocalizedProductName(item, language);
+              const displayColor = getLocalizedColorName(item.color, language);
+              const displaySize = getLocalizedSize(item.size, language);
+
+              return (
+                <article className="cartItem" key={item.key}>
+                  <Link href={`/product/${item.slug}`} className="cartImage">
+                    <Image src={item.image} alt={displayName} fill sizes="120px" />
+                  </Link>
+                  <div className="cartItemBody">
+                    <div>
+                      <Link href={`/product/${item.slug}`}>
+                        <h3>{displayName}</h3>
+                      </Link>
+                      <p>
+                        {displayColor} / {displaySize}
+                      </p>
+                      <small>{item.sku}</small>
+                    </div>
                   <div className="cartLineBottom">
                     <div className="qtyControl small">
                       <button onClick={() => updateQuantity(item.key, item.quantity - 1)}>
@@ -64,7 +70,8 @@ export default function CartPage() {
                   </div>
                 </div>
               </article>
-            ))}
+            );
+          })}
           </div>
           <aside className="orderSummary">
             <p className="eyebrow">{t("orderSummaryBadge")}</p>

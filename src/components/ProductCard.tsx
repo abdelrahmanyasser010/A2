@@ -2,20 +2,22 @@
 
 import Link from "next/link";
 import { Heart } from "lucide-react";
-import { Product } from "@/lib/types";
+import { Product, getLocalizedProductName, getLocalizedProductSubtitle } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
 import { SpinPreview } from "./SpinPreview";
 import { useStore } from "./StoreProvider";
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
-  const { toggleWishlist, isWishlisted, t } = useStore();
+  const { toggleWishlist, isWishlisted, t, language } = useStore();
   const wished = isWishlisted(product.id);
+  const name = getLocalizedProductName(product, language);
+  const subtitle = getLocalizedProductSubtitle(product, language);
 
   return (
     <article className="productCard">
       <div className="productMedia">
-        <Link href={`/product/${product.slug}`} aria-label={`View ${product.name}`}>
-          <SpinPreview frames={product.spinFrames} alt={product.name} priority={priority} />
+        <Link href={`/product/${product.slug}`} aria-label={`View ${name}`}>
+          <SpinPreview frames={product.spinFrames} alt={name} priority={priority} />
         </Link>
         <button className={`wishButton ${wished ? "active" : ""}`} onClick={() => toggleWishlist(product.id)} aria-label="Toggle wishlist">
           <Heart size={18} fill={wished ? "currentColor" : "none"} />
@@ -27,8 +29,8 @@ export function ProductCard({ product, priority = false }: { product: Product; p
       </div>
       <div className="productMeta">
         <Link href={`/product/${product.slug}`}>
-          <h3>{product.name}</h3>
-          <p>{product.subtitle}</p>
+          <h3>{name}</h3>
+          <p>{subtitle}</p>
         </Link>
         <div className="priceLine">
           <strong>{formatPrice(product.price)}</strong>

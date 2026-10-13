@@ -57,8 +57,11 @@ model Product {
   id             String             @id @default(cuid())
   slug           String             @unique
   name           String
+  nameEn         String?
   subtitle       String?
+  subtitleEn     String?
   description    String
+  descriptionEn  String?
   basePrice      Decimal            @db.Decimal(12, 2)
   compareAtPrice Decimal?           @db.Decimal(12, 2)
   costPrice      Decimal?           @db.Decimal(12, 2)

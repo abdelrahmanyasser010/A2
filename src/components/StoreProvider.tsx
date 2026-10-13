@@ -113,6 +113,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           productId: product.id,
           slug: product.slug,
           name: product.name,
+          nameEn: product.nameEn,
           image: product.images[0],
           price: product.price,
           color: options.color,

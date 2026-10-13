@@ -7,6 +7,7 @@ import { useStore } from "@/components/StoreProvider";
 import { formatPrice } from "@/lib/format";
 import type { CheckoutQuote, OrderRecord } from "@/lib/domain";
 import { EGYPT_GOVERNORATES } from "@/lib/governorates";
+import { getLocalizedProductName, getLocalizedColorName, getLocalizedSize } from "@/lib/types";
 
 export default function CheckoutPage() {
   const { cart, clearCart, language, t } = useStore();
@@ -231,9 +232,9 @@ export default function CheckoutPage() {
             {cart.map((item) => (
               <div className="checkoutLine" key={item.key}>
                 <span>
-                  {item.quantity}× {item.name}
+                  {item.quantity}× {getLocalizedProductName(item, language)}
                   <small>
-                    {item.color} / {item.size}
+                    {getLocalizedColorName(item.color, language)} / {getLocalizedSize(item.size, language)}
                   </small>
                 </span>
                 <strong>{formatPrice(item.price * item.quantity)}</strong>

@@ -2,7 +2,16 @@
 
 import { useMemo, useState } from "react";
 import { Heart, Minus, Plus, Ruler, ShieldCheck, Truck } from "lucide-react";
-import { Product } from "@/lib/types";
+import {
+  Product,
+  getLocalizedProductName,
+  getLocalizedProductSubtitle,
+  getLocalizedProductDescription,
+  getLocalizedCategory,
+  getLocalizedCollection,
+  getLocalizedColorName,
+  getLocalizedSize
+} from "@/lib/types";
 import { formatPrice } from "@/lib/format";
 import { useStore } from "./StoreProvider";
 import { SpinPreview } from "./SpinPreview";
@@ -13,7 +22,13 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   const [size, setSize] = useState(firstAvailable?.size ?? product.sizes[0] ?? "");
   const [quantity, setQuantity] = useState(1);
   const [notice, setNotice] = useState("");
-  const { addToCart, toggleWishlist, isWishlisted, t } = useStore();
+  const { addToCart, toggleWishlist, isWishlisted, t, language } = useStore();
+
+  const name = getLocalizedProductName(product, language);
+  const subtitle = getLocalizedProductSubtitle(product, language);
+  const description = getLocalizedProductDescription(product, language);
+  const categoryName = getLocalizedCategory(product.category, language);
+  const collectionName = getLocalizedCollection(product.collection, language);
 
   const selectedVariant = useMemo(
     () => product.variants.find((variant) => variant.color === color && variant.size === size),
@@ -33,26 +48,26 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   return (
     <div className="productPageGrid">
       <div className="productGallery">
-        <SpinPreview frames={product.spinFrames} alt={product.name} priority auto={false} className="productMainSpin" />
+        <SpinPreview frames={product.spinFrames} alt={name} priority auto={false} className="productMainSpin" />
         <div className="galleryStrip">
           {product.images.slice(1).map((src, index) => (
-            <div className="galleryTile" key={src} style={{ backgroundImage: `url(${src})` }} aria-label={`${product.name} view ${index + 2}`} />
+            <div className="galleryTile" key={src} style={{ backgroundImage: `url(${src})` }} aria-label={`${name} view ${index + 2}`} />
           ))}
         </div>
       </div>
 
       <section className="productInfo">
-        <p className="eyebrow">{product.collection} / {product.category}</p>
-        <h1>{product.name}</h1>
-        <p className="productSubtitle">{product.subtitle}</p>
+        <p className="eyebrow">{collectionName} / {categoryName}</p>
+        <h1>{name}</h1>
+        {subtitle && <p className="productSubtitle">{subtitle}</p>}
         <div className="productPrice">
           <strong>{formatPrice(product.price)}</strong>
           {product.compareAtPrice && <del>{formatPrice(product.compareAtPrice)}</del>}
         </div>
-        <p className="productDescription">{product.description}</p>
+        {description && <p className="productDescription">{description}</p>}
 
         <div className="optionBlock">
-          <div className="optionHeading"><span>{t("colorLabel")}</span><strong>{color}</strong></div>
+          <div className="optionHeading"><span>{t("colorLabel")}</span><strong>{getLocalizedColorName(color, language)}</strong></div>
           <div className="colorOptions">
             {product.colors.map((item) => (
               <button
@@ -65,7 +80,7 @@ export function ProductDetailsClient({ product }: { product: Product }) {
                 }}
                 aria-label={item.name}
               >
-                <i style={{ background: item.value }} /><span>{item.name}</span>
+                <i style={{ background: item.value }} /><span>{getLocalizedColorName(item.name, language)}</span>
               </button>
             ))}
           </div>
@@ -75,7 +90,9 @@ export function ProductDetailsClient({ product }: { product: Product }) {
           <div className="optionHeading"><span>{t("sizeLabel")}</span><button className="textButton"><Ruler size={15} /> {t("sizeGuide")}</button></div>
           <div className="sizeOptions">
             {availableSizes.map((item) => (
-              <button key={item.size} disabled={!item.available} className={size === item.size ? "selected" : ""} onClick={() => setSize(item.size)}>{item.size}</button>
+              <button key={item.size} disabled={!item.available} className={size === item.size ? "selected" : ""} onClick={() => setSize(item.size)}>
+                {getLocalizedSize(item.size, language)}
+              </button>
             ))}
           </div>
           {selectedVariant && selectedVariant.stock <= 4 && selectedVariant.stock > 0 && (
@@ -109,7 +126,7 @@ export function ProductDetailsClient({ product }: { product: Product }) {
       </section>
 
       <div className="mobileStickyBuy">
-        <div><span>{product.name}</span><strong>{formatPrice(product.price)}</strong></div>
+        <div><span>{name}</span><strong>{formatPrice(product.price)}</strong></div>
         <button onClick={submit}>{t("addToBag")}</button>
       </div>
     </div>

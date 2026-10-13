@@ -79,8 +79,11 @@ const emptyProduct = (): AdminProduct => {
     id: "",
     slug: "",
     name: "",
+    nameEn: "",
     subtitle: "",
+    subtitleEn: "",
     description: "",
+    descriptionEn: "",
     price: 0,
     compareAtPrice: undefined,
     costPrice: undefined,
@@ -407,10 +410,10 @@ function ProductEditor({
         </div>
 
         <form onSubmit={submit} className="adminEditorForm">
-          {/* Basic Info */}
+          {/* Basic Info: Arabic & English Names + Slug */}
           <div className="adminFormGrid">
             <label>
-              اسم المنتج *
+              اسم المنتج بالعربي *
               <input
                 required
                 value={form.name}
@@ -425,7 +428,19 @@ function ProductEditor({
               />
             </label>
             <label>
-              الرابط (Slug) *
+              اسم المنتج بالإنجليزي (اختياري للترجمة)
+              <input
+                value={form.nameEn || ""}
+                placeholder="مثال: Black Oversized T-Shirt"
+                onChange={(e) => setForm({ ...form, nameEn: e.target.value })}
+                dir="ltr"
+              />
+            </label>
+          </div>
+
+          <div className="adminFormGrid">
+            <label>
+              الرابط في المتجر (Slug) *
               <input
                 required
                 value={form.slug}
@@ -840,24 +855,47 @@ function ProductEditor({
           </div>
 
           {/* Subtitle & Description */}
-          <label>
-            العنوان الفرعي (اختياري)
-            <input
-              value={form.subtitle}
-              placeholder="مثال: قطن مصري فاخر / مظهر عصري واسع"
-              onChange={(e) => setForm({ ...form, subtitle: e.target.value })}
-            />
-          </label>
+          <div className="adminFormGrid">
+            <label>
+              العنوان الفرعي بالعربي (اختياري)
+              <input
+                value={form.subtitle}
+                placeholder="مثال: قطن مصري فاخر / مظهر عصري واسع"
+                onChange={(e) => setForm({ ...form, subtitle: e.target.value })}
+              />
+            </label>
+            <label>
+              العنوان الفرعي بالإنجليزي (اختياري للترجمة)
+              <input
+                value={form.subtitleEn || ""}
+                placeholder="مثال: Premium Egyptian Cotton / Modern Fit"
+                onChange={(e) => setForm({ ...form, subtitleEn: e.target.value })}
+                dir="ltr"
+              />
+            </label>
+          </div>
 
-          <label>
-            الوصف (اختياري)
-            <textarea
-              rows={3}
-              value={form.description}
-              placeholder="اكتب وصفاً للمنتج يظهر للعملاء في صفحة الشراء..."
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-            />
-          </label>
+          <div className="adminFormGrid">
+            <label>
+              الوصف بالعربي (اختياري)
+              <textarea
+                rows={3}
+                value={form.description}
+                placeholder="اكتب وصفاً للمنتج يظهر للعملاء في صفحة الشراء..."
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+              />
+            </label>
+            <label>
+              الوصف بالإنجليزي (اختياري للترجمة)
+              <textarea
+                rows={3}
+                value={form.descriptionEn || ""}
+                placeholder="Product description in English for international customers..."
+                onChange={(e) => setForm({ ...form, descriptionEn: e.target.value })}
+                dir="ltr"
+              />
+            </label>
+          </div>
 
           {/* Media Section */}
           <div className="editorSection mediaEditorSection">
