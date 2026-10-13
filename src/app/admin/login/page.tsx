@@ -3,21 +3,15 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Lock, Mail, Eye, EyeOff, Loader2, KeyRound, ArrowRight } from "lucide-react";
+import { Lock, Mail, Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("admin@a2.local");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  function fillDemo() {
-    setEmail("admin@a2.local");
-    setPassword("A2admin2026");
-    setError("");
-  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -113,16 +107,6 @@ export default function AdminLoginPage() {
               </>
             )}
           </button>
-
-          <div className="quickFillCard">
-            <div className="quickFillInfo">
-              <KeyRound size={15} />
-              <span>كلمة المرور المعتمدة: A2admin2026</span>
-            </div>
-            <button type="button" onClick={fillDemo} className="quickFillAction">
-              ملء تلقائي
-            </button>
-          </div>
         </form>
 
         <footer className="adminLoginFooterNew">
