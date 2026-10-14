@@ -80,10 +80,11 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .productCard { min-width: 0; }
 .productMedia { position: relative; background: #20211e; overflow: hidden; aspect-ratio: .78; }
 .spinPreview { position: relative; width: 100%; height: 100%; user-select: none; touch-action: pan-y; overflow: hidden; cursor: ew-resize; background: #1a1b19; }
+.spinPreview.isDragging { cursor: grabbing !important; }
 .spinPreview img { object-fit: cover; transition: transform .45s cubic-bezier(.22,1,.36,1), filter .25s; }
 .productCard:hover .spinPreview img { transform: scale(1.015); }
-.spinHint { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 6px; padding: 7px 9px; border-radius: 999px; background: rgba(17,17,17,.68); backdrop-filter: blur(10px); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
-.spinProgress { position: absolute; right: 12px; bottom: 15px; display: flex; gap: 3px; }
+.spinHint { position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 6px; padding: 7px 9px; border-radius: 999px; background: rgba(17,17,17,.68); backdrop-filter: blur(10px); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; opacity: .75; pointer-events: none; }
+.spinProgress { position: absolute; right: 12px; bottom: 15px; display: flex; gap: 3px; pointer-events: none; }
 .spinProgress i { width: 8px; height: 2px; background: rgba(255,255,255,.35); }
 .spinProgress i.active { background: #fff; width: 15px; }
 .wishButton { position: absolute; top: 12px; right: 12px; z-index: 4; width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(17,17,17,.65); backdrop-filter: blur(10px); display: grid; place-items: center; cursor: pointer; }

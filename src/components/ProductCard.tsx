@@ -16,7 +16,12 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   return (
     <article className="productCard">
       <div className="productMedia">
-        <Link href={`/product/${product.slug}`} aria-label={`View ${name}`}>
+        <Link
+          href={`/product/${product.slug}`}
+          aria-label={`View ${name}`}
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
+        >
           <SpinPreview frames={product.spinFrames} alt={name} priority={priority} />
         </Link>
         <button className={`wishButton ${wished ? "active" : ""}`} onClick={() => toggleWishlist(product.id)} aria-label="Toggle wishlist">
