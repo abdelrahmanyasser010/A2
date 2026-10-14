@@ -5,7 +5,74 @@
     "seededAt": "2026-10-14T22:05:56.195Z",
     "note": "Demo catalogue removed. Store is ready for real production content."
   },
-  "products": [],
+  "products": [
+    {
+      "id": "cmv8o57q60003w6f8kyz1zvuy",
+      "slug": "smuvn-classic-polo-sweatshirt-black",
+      "name": "سويت شيرت SMUVN بولو بياقة كلاسيك – أسود",
+      "nameEn": "SMUVN Worldwide Classic Polo Sweatshirt – Black",
+      "subtitle": "تصميم Oversized بياقة بولو أوف وايت وتطريز بارز",
+      "subtitleEn": "Oversized Polo Sweatshirt / Contrast Off-White Collar",
+      "description": "خليك مميز بإطلالة تجمع بين الكاجوال والشياكة مع سويت شيرت SMUVN Worldwide بتصميم عصري Oversized وياقة بولو أوف وايت بخطوط سوداء أنيقة.\n\nالقطعة بتتميز بتطريز أبيض بارز على الصدر، وأكمام واسعة بتديك الراحة والستايل في نفس الوقت. مثالي للخروجات واللبس اليومي في الشتاء.\n\nتفاصيل القطعة:\n• اللون: أسود مع ياقة بولو كلاسيكية بلون أوف وايت\n• الخامة: قماش ميلتون سويت شيرت قطني ناعم ومبطن\n• القصة: واسعة مريحة (Oversized Fit) مع أكتاف ساقطة\n• التفاصيل: تطريز بارز عالي الكثافة (3D Chain Embroidery) لشعار SMUVN Worldwide\n• الكمية المتوفرة: قطعتان فقط (M و L)",
+      "descriptionEn": "Elevate your streetwear rotation with the SMUVN Worldwide Classic Polo Sweatshirt in Black. Cut in a modern oversized silhouette with dropped shoulders, it features a contrasting off-white polo collar with sporty black tipping and intricate 3D chain embroidery on the chest. Crafted from heavyweight fleece for all-day comfort and warmth.\n\nProduct Highlights:\n• Color: Solid Black with Contrast Off-White Polo Collar\n• Fabric: Premium Heavyweight Cotton-Blend Fleece\n• Cut & Fit: Modern Oversized Fit with Dropped Shoulders\n• Details: High-density 3D chain stitched SMUVN Worldwide chest embroidery\n• Limited Drop: Only 2 pieces available (Sizes M and L)",
+      "price": 650,
+      "compareAtPrice": 800,
+      "category": "Sweatshirts",
+      "collection": "Winter 2026",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "أسود بياقة أوف وايت",
+          "value": "#111111"
+        }
+      ],
+      "sizes": [
+        "L",
+        "M"
+      ],
+      "variants": [
+        {
+          "id": "cmv8o57qi0005w6f8rtwpuecx",
+          "sku": "SMUVN-POLO-BLK-L",
+          "color": "أسود بياقة أوف وايت",
+          "size": "L",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8o57qi0004w6f8y0x1cvwn",
+          "sku": "SMUVN-POLO-BLK-M",
+          "color": "أسود بياقة أوف وايت",
+          "size": "M",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        }
+      ],
+      "images": [
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-1.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-2.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-3.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-4.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-5.jpg"
+      ],
+      "spinFrames": [
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-1.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-2.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-3.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-4.jpg",
+        "/uploads/products/smuvn-polo-sweatshirt/smuvn-polo-5.jpg"
+      ],
+      "featured": true,
+      "isNew": true,
+      "material": "قماش ميلتون سويت شيرت قطني ناعم ومبطن (Heavyweight Fleece)",
+      "fit": "قصة واسعة مريحة (Oversized Fit) مع أكتاف ساقطة",
+      "care": "غسيل مقلوب بماء بارد، تجنب المكواة المباشرة على التطريز",
+      "createdAt": "2026-10-14T22:15:46.012Z",
+      "updatedAt": "2026-10-14T22:15:46.012Z"
+    }
+  ],
   "orders": [],
   "customers": [],
   "discounts": [],

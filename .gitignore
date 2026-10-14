@@ -6,6 +6,8 @@ node_modules
 *.log
 tsconfig.tsbuildinfo
 
-# Runtime product uploads (do not commit production/customer media)
+# Runtime product uploads
 /public/uploads/*
 !/public/uploads/.gitkeep
+!/public/uploads/products/
+!/public/uploads/products/**
