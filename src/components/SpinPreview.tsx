@@ -11,11 +11,21 @@ type Props = {
   priority?: boolean;
   className?: string;
   auto?: boolean;
+  activeFrame?: number;
+  onFrameChange?: (frame: number) => void;
 };
 
-export function SpinPreview({ frames, alt, priority = false, className = "", auto = false }: Props) {
+export function SpinPreview({
+  frames,
+  alt,
+  priority = false,
+  className = "",
+  auto = false,
+  activeFrame,
+  onFrameChange
+}: Props) {
   const safeFrames = frames.length ? frames : ["/media/A2_full_outfit.webp"];
-  const [frame, setFrame] = useState(0);
+  const [frame, setFrame] = useState(activeFrame ?? 0);
   const [dragging, setDragging] = useState(false);
   const startX = useRef(0);
   const startFrame = useRef(0);
@@ -24,6 +34,12 @@ export function SpinPreview({ frames, alt, priority = false, className = "", aut
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const { t } = useStore();
+
+  useEffect(() => {
+    if (typeof activeFrame === "number" && activeFrame >= 0 && activeFrame < safeFrames.length) {
+      setFrame(activeFrame);
+    }
+  }, [activeFrame, safeFrames.length]);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -35,9 +51,15 @@ export function SpinPreview({ frames, alt, priority = false, className = "", aut
 
   useEffect(() => {
     if (!auto || !visible || dragging || safeFrames.length <= 1) return;
-    const timer = window.setInterval(() => setFrame((current) => (current + 1) % safeFrames.length), 1500);
+    const timer = window.setInterval(() => {
+      setFrame((current) => {
+        const next = (current + 1) % safeFrames.length;
+        onFrameChange?.(next);
+        return next;
+      });
+    }, 1500);
     return () => window.clearInterval(timer);
-  }, [auto, visible, dragging, safeFrames.length]);
+  }, [auto, visible, dragging, safeFrames.length, onFrameChange]);
 
   const updateFromDrag = (clientX: number) => {
     const delta = clientX - startX.current;
@@ -46,6 +68,7 @@ export function SpinPreview({ frames, alt, priority = false, className = "", aut
     const total = safeFrames.length;
     const next = (((startFrame.current + steps) % total) + total) % total;
     setFrame(next);
+    onFrameChange?.(next);
   };
 
   const handleHoverMove = (clientX: number) => {
@@ -57,6 +80,7 @@ export function SpinPreview({ frames, alt, priority = false, className = "", aut
     const ratio = Math.max(0, Math.min(0.999, (clientX - rect.left) / rect.width));
     const targetFrame = Math.floor(ratio * safeFrames.length);
     setFrame(targetFrame);
+    onFrameChange?.(targetFrame);
   };
 
   return (

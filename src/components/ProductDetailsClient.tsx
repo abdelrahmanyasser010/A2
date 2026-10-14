@@ -10,7 +10,8 @@ import {
   getLocalizedCategory,
   getLocalizedCollection,
   getLocalizedColorName,
-  getLocalizedSize
+  getLocalizedSize,
+  getImagesForColor
 } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
 import { useStore } from "./StoreProvider";
@@ -20,6 +21,7 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   const firstAvailable = product.variants.find((variant) => variant.stock > 0 && variant.active !== false);
   const [color, setColor] = useState(firstAvailable?.color ?? product.colors[0]?.name ?? "");
   const [size, setSize] = useState(firstAvailable?.size ?? product.sizes[0] ?? "");
+  const [activeFrame, setActiveFrame] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [notice, setNotice] = useState("");
   const { addToCart, toggleWishlist, isWishlisted, t, language } = useStore();
@@ -29,6 +31,8 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   const description = getLocalizedProductDescription(product, language);
   const categoryName = getLocalizedCategory(product.category, language);
   const collectionName = getLocalizedCollection(product.collection, language);
+
+  const activeImages = useMemo(() => getImagesForColor(product, color), [product, color]);
 
   const selectedVariant = useMemo(
     () => product.variants.find((variant) => variant.color === color && variant.size === size),
@@ -40,6 +44,13 @@ export function ProductDetailsClient({ product }: { product: Product }) {
     available: product.variants.some((variant) => variant.color === color && variant.size === candidate && variant.stock > 0 && variant.active !== false)
   }));
 
+  const handleColorChange = (newColor: string) => {
+    setColor(newColor);
+    setActiveFrame(0);
+    const next = product.variants.find((variant) => variant.color === newColor && variant.stock > 0 && variant.active !== false);
+    if (next) setSize(next.size);
+  };
+
   const submit = () => {
     const ok = addToCart(product, { color, size, quantity });
     setNotice(ok ? t("addedToBagNotice") : t("unavailableNotice"));
@@ -48,12 +59,31 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   return (
     <div className="productPageGrid">
       <div className="productGallery">
-        <SpinPreview frames={product.spinFrames} alt={name} priority auto={false} className="productMainSpin" />
-        <div className="galleryStrip">
-          {product.images.slice(1).map((src, index) => (
-            <div className="galleryTile" key={src} style={{ backgroundImage: `url(${src})` }} aria-label={`${name} view ${index + 2}`} />
-          ))}
-        </div>
+        <SpinPreview
+          key={color}
+          frames={activeImages}
+          alt={name}
+          priority
+          auto={false}
+          className="productMainSpin"
+          activeFrame={activeFrame}
+          onFrameChange={setActiveFrame}
+        />
+        {activeImages.length > 1 && (
+          <div className="galleryStrip">
+            {activeImages.map((src, index) => (
+              <div
+                className={`galleryTile ${index === activeFrame ? "activeTile" : ""}`}
+                key={src}
+                style={{ backgroundImage: `url(${src})` }}
+                onClick={() => setActiveFrame(index)}
+                role="button"
+                tabIndex={0}
+                aria-label={`${name} view ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <section className="productInfo">
@@ -73,11 +103,7 @@ export function ProductDetailsClient({ product }: { product: Product }) {
               <button
                 key={item.name}
                 className={color === item.name ? "selected" : ""}
-                onClick={() => {
-                  setColor(item.name);
-                  const next = product.variants.find((variant) => variant.color === item.name && variant.stock > 0 && variant.active !== false);
-                  if (next) setSize(next.size);
-                }}
+                onClick={() => handleColorChange(item.name)}
                 aria-label={item.name}
               >
                 <i style={{ background: item.value }} /><span>{getLocalizedColorName(item.name, language)}</span>

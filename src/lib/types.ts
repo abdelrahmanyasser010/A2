@@ -127,6 +127,46 @@ export function getLocalizedSize(size: string, language: string): string {
   return size;
 }
 
+export function getImagesForColor(product: Product, colorName: string): string[] {
+  if (!colorName || !product.images || !product.images.length) {
+    return product.images || [];
+  }
+
+  // If product only has 1 color, all images belong to that single color
+  if (product.colors && product.colors.length <= 1) {
+    return product.images;
+  }
+
+  const enColor = getLocalizedColorName(colorName, "en").toLowerCase();
+  const arColor = colorName.toLowerCase();
+
+  const keywords = [enColor, arColor];
+  if (enColor === "burgundy" || enColor === "bordeaux") {
+    keywords.push("burgundy", "bordeaux", "نبيتي", "بوردو");
+  } else if (enColor === "grey" || enColor === "gray") {
+    keywords.push("grey", "gray", "رمادي");
+  } else if (enColor === "black") {
+    keywords.push("black", "أسود", "اسود");
+  } else if (enColor === "white") {
+    keywords.push("white", "أبيض", "ابيض");
+  } else if (enColor === "olive") {
+    keywords.push("olive", "زيتي");
+  } else if (enColor === "navy") {
+    keywords.push("navy", "كحلي");
+  } else if (enColor === "beige") {
+    keywords.push("beige", "بيج");
+  } else if (enColor === "brown") {
+    keywords.push("brown", "بني");
+  }
+
+  const filtered = product.images.filter((url) => {
+    const lower = url.toLowerCase();
+    return keywords.some((kw) => lower.includes(kw));
+  });
+
+  return filtered.length > 0 ? filtered : product.images;
+}
+
 export type CartItem = {
   key: string;
   productId: string;
