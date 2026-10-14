@@ -204,9 +204,9 @@ export const translations = {
     marqueeSlogan: "TWO MINDS. ONE VISION. — A² MEN'S WEAR — TWO MINDS. ONE VISION. — A² MEN'S WEAR —",
 
     // Product Card & Spin
-    badgeNew: "NEW",
-    badgeSale: "SALE",
-    dragToRotate: "Drag to rotate 360°",
+    badgeNew: "جديد",
+    badgeSale: "خصم",
+    dragToRotate: "اسحب للتدوير 360°",
 
     // Shop Page (Operational controls translated, aesthetic header kept)
     shopHeroEyebrow: "A² / COLLECTION",
