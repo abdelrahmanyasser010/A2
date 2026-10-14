@@ -2,13 +2,25 @@
 
 import Link from "next/link";
 import { Globe, Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "./Logo";
 import { useStore } from "./StoreProvider";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [cartBounced, setCartBounced] = useState(false);
   const { cartCount, wishlist, language, toggleLanguage, t } = useStore();
+  const prevCount = useRef(cartCount);
+
+  useEffect(() => {
+    if (cartCount > prevCount.current) {
+      setCartBounced(true);
+      const timer = setTimeout(() => setCartBounced(false), 800);
+      prevCount.current = cartCount;
+      return () => clearTimeout(timer);
+    }
+    prevCount.current = cartCount;
+  }, [cartCount]);
 
   const navLinks = [
     { label: t("navNewDrop"), href: "/shop?collection=new-drop" },
@@ -46,7 +58,7 @@ export function Header() {
             <Link className="iconButton mobileHide" href="/wishlist" aria-label={t("navWishlist")}>
               <Heart size={20} />{wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
             </Link>
-            <Link className="iconButton" href="/cart" aria-label={t("navBag")}>
+            <Link className={`iconButton ${cartBounced ? "bagBounce" : ""}`} href="/cart" aria-label={t("navBag")}>
               <ShoppingBag size={20} />{cartCount > 0 && <span className="badge">{cartCount}</span>}
             </Link>
           </div>

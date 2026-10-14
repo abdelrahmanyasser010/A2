@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Heart, Minus, Plus, Ruler, ShieldCheck, Truck } from "lucide-react";
+import { Check, Heart, Minus, Plus, Ruler, ShieldCheck, Truck } from "lucide-react";
 import {
   Product,
   getLocalizedProductName,
@@ -16,6 +16,7 @@ import {
 import { formatPrice } from "@/lib/format";
 import { useStore } from "./StoreProvider";
 import { SpinPreview } from "./SpinPreview";
+import { AddToCartToast } from "./AddToCartToast";
 
 export function ProductDetailsClient({ product }: { product: Product }) {
   const firstAvailable = product.variants.find((variant) => variant.stock > 0 && variant.active !== false);
@@ -24,6 +25,8 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   const [activeFrame, setActiveFrame] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [notice, setNotice] = useState("");
+  const [addedSuccess, setAddedSuccess] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const { addToCart, toggleWishlist, isWishlisted, t, language } = useStore();
 
   const name = getLocalizedProductName(product, language);
@@ -53,7 +56,15 @@ export function ProductDetailsClient({ product }: { product: Product }) {
 
   const submit = () => {
     const ok = addToCart(product, { color, size, quantity });
-    setNotice(ok ? t("addedToBagNotice") : t("unavailableNotice"));
+    if (ok) {
+      setNotice("");
+      setAddedSuccess(true);
+      setShowToast(true);
+      setTimeout(() => setAddedSuccess(false), 2800);
+      setTimeout(() => setShowToast(false), 5500);
+    } else {
+      setNotice(t("unavailableNotice"));
+    }
   };
 
   return (
@@ -132,8 +143,19 @@ export function ProductDetailsClient({ product }: { product: Product }) {
             <span>{quantity}</span>
             <button onClick={() => setQuantity((q) => Math.min(selectedVariant?.stock ?? 1, q + 1))}><Plus size={16} /></button>
           </div>
-          <button className="primaryButton grow" onClick={submit}>
-            {t("addToBag")} — {formatPrice(product.price * quantity)}
+          <button
+            className={`primaryButton grow ${addedSuccess ? "addedSuccessBtn" : ""}`}
+            onClick={submit}
+            disabled={!selectedVariant || selectedVariant.stock < 1}
+          >
+            {addedSuccess ? (
+              <span className="btnAddedContent">
+                <Check size={18} className="checkIconAnim" />
+                {language === "ar" ? "تمت الإضافة للسلة بنجاح ✓" : "Added to Cart ✓"}
+              </span>
+            ) : (
+              <span>{t("addToBag")} — {formatPrice(product.price * quantity)}</span>
+            )}
           </button>
           <button className={`squareButton ${isWishlisted(product.id) ? "active" : ""}`} onClick={() => toggleWishlist(product.id)} aria-label="Add to wishlist"><Heart size={20} /></button>
         </div>
@@ -153,8 +175,33 @@ export function ProductDetailsClient({ product }: { product: Product }) {
 
       <div className="mobileStickyBuy">
         <div><span>{name}</span><strong>{formatPrice(product.price)}</strong></div>
-        <button onClick={submit}>{t("addToBag")}</button>
+        <button
+          className={addedSuccess ? "addedSuccessBtn" : ""}
+          onClick={submit}
+          disabled={!selectedVariant || selectedVariant.stock < 1}
+        >
+          {addedSuccess ? (
+            <span className="btnAddedContent">
+              <Check size={16} className="checkIconAnim" />
+              {language === "ar" ? "تمت الإضافة ✓" : "Added ✓"}
+            </span>
+          ) : (
+            t("addToBag")
+          )}
+        </button>
       </div>
+
+      <AddToCartToast
+        isOpen={showToast}
+        onClose={() => setShowToast(false)}
+        productName={name}
+        image={activeImages[0] || product.images[0] || ""}
+        color={getLocalizedColorName(color, language)}
+        size={getLocalizedSize(size, language)}
+        price={product.price}
+        quantity={quantity}
+        isAr={language === "ar"}
+      />
     </div>
   );
 }
