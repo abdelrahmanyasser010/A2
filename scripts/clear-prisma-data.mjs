@@ -19,6 +19,9 @@ try {
     await tx.customer.deleteMany();
     await tx.counter.deleteMany();
     await tx.storeSettings.upsert({ where: { id: "default" }, create: { id: "default", demoData: false }, update: { demoData: false, seedName: null, seededAt: null, note: null } });
+  }, {
+    maxWait: 15000,
+    timeout: 35000
   });
   console.log("PostgreSQL commerce data cleared. Store settings were retained/reset and media files were left untouched.");
 } finally {
