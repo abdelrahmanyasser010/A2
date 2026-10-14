@@ -10,9 +10,17 @@ export function Footer() {
   return (
     <footer className="footer" id="story">
       <div className="footerLead">
-        <p className="eyebrow" dir="ltr">A² / MEN&apos;S WEAR</p>
-        <h2 dir="ltr">
-          More than clothes.<br />A point of view.
+        <p className="eyebrow">{isAr ? "A² / أزياء رجالية" : "A² / MEN'S WEAR"}</p>
+        <h2>
+          {isAr ? (
+            <>
+              أكثر من مجرد ملابس.<br />رؤية وهوية خاصة.
+            </>
+          ) : (
+            <>
+              More than clothes.<br />A point of view.
+            </>
+          )}
         </h2>
       </div>
       <div className="footerGrid">
@@ -37,7 +45,7 @@ export function Footer() {
       </div>
       <div className="footerBottom">
         <span>© 2026 A²</span>
-        <span>TWO MINDS. ONE VISION.</span>
+        <span>{isAr ? "عقلان. رؤية واحدة." : "TWO MINDS. ONE VISION."}</span>
       </div>
     </footer>
   );

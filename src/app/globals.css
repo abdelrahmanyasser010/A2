@@ -49,10 +49,14 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .mobileMenuLinks a span { font: 10px Arial, sans-serif; color: var(--muted); letter-spacing: .14em; }
 
 .hero { min-height: 100svh; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: calc(var(--header-h) + 36px) clamp(20px, 6vw, 88px) 7vh; }
-.heroImage { position: absolute; inset: -6%; }
-.heroImage img { object-fit: cover; object-position: 64% center; }
-.heroShade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,9,8,.93) 0%, rgba(9,9,8,.54) 45%, rgba(9,9,8,.08) 76%), linear-gradient(0deg, rgba(9,9,8,.72), transparent 48%); }
+.heroImage { position: absolute; inset: 0; }
+.heroImage img { object-fit: cover; object-position: 70% 3%; }
+.heroShade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,9,8,.96) 0%, rgba(9,9,8,.8) 38%, rgba(9,9,8,.2) 72%, transparent 88%), linear-gradient(0deg, rgba(9,9,8,.85) 0%, transparent 45%); }
 .heroContent { position: relative; z-index: 2; width: min(790px, 85%); }
+
+[dir="rtl"] .hero {
+  justify-content: flex-end;
+}
 .eyebrow { margin: 0 0 17px; font-size: 14px; letter-spacing: .28em; text-transform: uppercase; color: #c7c3bb; font-weight: 600; }
 .hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(60px, 9.1vw, 142px); font-weight: 400; letter-spacing: -.055em; line-height: .77; margin: 0 0 37px; }
 .hero h1 em { font-weight: 400; color: transparent; -webkit-text-stroke: 1px rgba(242,239,233,.8); }
@@ -1858,15 +1862,13 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 [dir="rtl"] .categoryLinks a {
   direction: rtl;
 }
-[dir="rtl"] .heroSidecopy,
-[dir="rtl"] .marquee,
-[dir="rtl"] .footerLead h2,
-[dir="rtl"] .footerLead .eyebrow,
-[dir="rtl"] .footerBottom,
-[dir="rtl"] .mobileMenu > .eyebrow {
-  direction: ltr !important;
-  unicode-bidi: isolate;
-  text-align: left;
+[dir="rtl"] .categoryLinks a:hover {
+  padding-left: 0;
+  padding-right: 18px;
+}
+[dir="rtl"] .heroSidecopy {
+  right: auto;
+  left: 28px;
 }
 [dir="rtl"] .mobileMenu > .eyebrow {
   text-align: center !important;

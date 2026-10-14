@@ -74,7 +74,7 @@ export function HomeClient({ products }: { products: Product[] }) {
         </div>
       </section>
 
-      <section className="marquee" aria-label="Brand slogan" dir="ltr">
+      <section className="marquee" aria-label="Brand slogan">
         <div>
           {t("marqueeSlogan")} {t("marqueeSlogan")}
         </div>

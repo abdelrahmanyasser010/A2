@@ -35,7 +35,7 @@ export function Hero() {
           <Link className="primaryButton" href="/shop">
             {t("heroAction")} <ArrowDownRight size={18} />
           </Link>
-          <span dir="ltr">{t("heroSlogan")}</span>
+          <span>{t("heroSlogan")}</span>
         </motion.div>
       </div>
       <div className="heroSidecopy">{t("heroSidecopy")}</div>

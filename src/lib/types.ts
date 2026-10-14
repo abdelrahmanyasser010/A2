@@ -60,6 +60,7 @@ export function getLocalizedCategory(category: string, language: string): string
     const map: Record<string, string> = {
       "t-shirts": "تيشيرتات",
       "hoodies": "هوديز وسويت شيرت",
+      "sweatshirts": "سويت شيرت",
       "pants": "بناطيل وبانتس",
       "jackets": "جاكيتات",
       "accessories": "إكسسوارات"
@@ -93,6 +94,7 @@ export function getLocalizedColorName(color: string, language: string): string {
     "كحلي": "Navy",
     "بني": "Brown",
     "بوردو": "Burgundy",
+    "نبيتي": "Burgundy",
     "أخضر": "Green",
     "كافيه": "Cafe"
   };
@@ -105,7 +107,8 @@ export function getLocalizedColorName(color: string, language: string): string {
     "olive": "زيتي",
     "navy": "كحلي",
     "brown": "بني",
-    "burgundy": "بوردو",
+    "burgundy": "نبيتي",
+    "bordeaux": "نبيتي",
     "green": "أخضر",
     "cafe": "كافيه"
   };
