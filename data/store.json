@@ -71,6 +71,186 @@
       "care": "غسيل مقلوب بماء بارد، تجنب المكواة المباشرة على التطريز",
       "createdAt": "2026-10-14T22:15:46.012Z",
       "updatedAt": "2026-10-14T22:15:46.012Z"
+    },
+    {
+      "id": "cmv8okt4m0003w65wc449mimu",
+      "slug": "angel-boy-oversized-sweatshirt",
+      "name": "سويت شيرت Angel Boy Oversized مستورد – 3 ألوان",
+      "nameEn": "Angel Boy Oversized Embroidered Sweatshirt",
+      "subtitle": "قصة Oversized بجيب كانغرو أمامي وتطريز كلاسيكي أمامي وخلفي",
+      "subtitleEn": "Oversized Fit / Kangaroo Pocket / Dual 3D Embroidery",
+      "description": "ستايل شتوي مميز يجمع بين الراحة والشياكة 🔥\n\nسويت شيرت **Angel Boy** بتصميم Oversized عصري، وتطريز أنيق على الصدر والظهر، مع ياقة دائرية وأكمام واسعة بجيب كانغرو أمامي عملي بيديك لوك كاجوال ستريت وير فريد.\n\nتصميم سهل التنسيق مع الجينز أو الكارجو، ومناسب للخروجات واللبس اليومي في الشتاء.\n\nتفاصيل القطعة:\n• الموديل: Angel Boy (موديل تركي مستورد)\n• الخامة: قماش ميلتون سويت شيرت تركي مستورد ناعم ومبطن\n• القصة: واسعة مريحة (Oversized Fit) مع أكتاف ساقطة وأكمام مريحة\n• الجيب: جيب كانغرو أمامي عملي وأنيق\n• التفاصيل: تطريز مونوغرام AB على الصدر، وتطريز بارز لشعار Angel Boy على الظهر\n• الألوان المتاحة: أسود – نبيتي (Burgundy) – رمادي (Grey)\n• المقاسات: M – L – XL – XXL (قطعة واحدة فقط من كل مقاس في كل لون - إجمالي 12 قطعة)",
+      "descriptionEn": "A standout winter streetwear essential blending premium comfort with effortless style.\n\nThe Angel Boy Oversized Sweatshirt features an authentic oversized silhouette with dropped shoulders, ribbed crew neckline, a front kangaroo pouch pocket, and distinct 3D chain-stitched embroidery on both the chest and back yoke.\n\nProduct Highlights:\n• Model: Angel Boy (Imported Turkish Edition)\n• Fabric: Heavyweight Turkish Cotton-Blend Fleece\n• Silhouette: Modern Oversized Fit with Dropped Shoulders\n• Functional Design: Front Kangaroo Pouch Pocket & Ribbed Cuffs\n• Embroidery: Dual front chest monogram & statement back \"Angel Boy\" script\n• Available Colors: Black, Burgundy, Grey Heather\n• Limited Run: Only 1 piece per size in each color (M, L, XL, XXL) — Total 12 pieces",
+      "price": 550,
+      "compareAtPrice": 700,
+      "category": "Sweatshirts",
+      "collection": "Winter 2026",
+      "status": "PUBLISHED",
+      "colors": [
+        {
+          "name": "أسود",
+          "value": "#111111"
+        },
+        {
+          "name": "رمادي",
+          "value": "#C4C5C7"
+        },
+        {
+          "name": "نبيتي",
+          "value": "#6B1D28"
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "variants": [
+        {
+          "id": "cmv8okt4m0005w65wii4tw7gs",
+          "sku": "AB-SW-BLK-L",
+          "color": "أسود",
+          "size": "L",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m0004w65waeqi1t2o",
+          "sku": "AB-SW-BLK-M",
+          "color": "أسود",
+          "size": "M",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m0006w65wa1sx2yzb",
+          "sku": "AB-SW-BLK-XL",
+          "color": "أسود",
+          "size": "XL",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m0007w65wyx72363l",
+          "sku": "AB-SW-BLK-XXL",
+          "color": "أسود",
+          "size": "XXL",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m000dw65wjrtxbnp3",
+          "sku": "AB-SW-GRY-L",
+          "color": "رمادي",
+          "size": "L",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m000cw65wv7a9v15k",
+          "sku": "AB-SW-GRY-M",
+          "color": "رمادي",
+          "size": "M",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m000ew65w6v2jmp0q",
+          "sku": "AB-SW-GRY-XL",
+          "color": "رمادي",
+          "size": "XL",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m000fw65wowtw41vk",
+          "sku": "AB-SW-GRY-XXL",
+          "color": "رمادي",
+          "size": "XXL",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m0009w65we8p2bqrd",
+          "sku": "AB-SW-BUR-L",
+          "color": "نبيتي",
+          "size": "L",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m0008w65wcer94d09",
+          "sku": "AB-SW-BUR-M",
+          "color": "نبيتي",
+          "size": "M",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m000aw65wh4i61brv",
+          "sku": "AB-SW-BUR-XL",
+          "color": "نبيتي",
+          "size": "XL",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        },
+        {
+          "id": "cmv8okt4m000bw65wm0hlw92a",
+          "sku": "AB-SW-BUR-XXL",
+          "color": "نبيتي",
+          "size": "XXL",
+          "stock": 1,
+          "lowStockAt": 1,
+          "active": true
+        }
+      ],
+      "images": [
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-1.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-1.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-1.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-2.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-2.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-2.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-3.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-3.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-3.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-4.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-4.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-4.jpg"
+      ],
+      "spinFrames": [
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-1.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-1.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-1.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-2.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-2.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-2.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-3.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-3.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-3.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-black-4.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-burgundy-4.jpg",
+        "/uploads/products/angel-boy-sweatshirt/angel-boy-grey-4.jpg"
+      ],
+      "featured": true,
+      "isNew": true,
+      "material": "قماش ميلتون سويت شيرت تركي مستورد مبطن وناعم",
+      "fit": "قصة واسعة مريحة (Oversized Fit) مع أكتاف ساقطة",
+      "care": "غسيل مقلوب بماء بارد، تجنب المكواة المباشرة على التطريز",
+      "createdAt": "2026-10-14T22:27:53.590Z",
+      "updatedAt": "2026-10-14T22:27:53.590Z"
     }
   ],
   "orders": [],
