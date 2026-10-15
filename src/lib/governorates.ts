@@ -21,7 +21,7 @@ export const EGYPT_GOVERNORATES: GovernorateInfo[] = [
   { id: "ismailia", nameEn: "Ismailia", nameAr: "الإسماعيلية", defaultRate: 65 },
   { id: "suez", nameEn: "Suez", nameAr: "السويس", defaultRate: 65 },
   { id: "fayoum", nameEn: "Fayoum", nameAr: "الفيوم", defaultRate: 70 },
-  { id: "beni-suef", nameEn: "Beni Suef", nameAr: "بني سويف", defaultRate: 70 },
+  { id: "beni-suef", nameEn: "Beni Suef", nameAr: "بني سويف", defaultRate: 0 },
   { id: "minya", nameEn: "Minya", nameAr: "المنيا", defaultRate: 75 },
   { id: "asyut", nameEn: "Asyut", nameAr: "أسيوط", defaultRate: 80 },
   { id: "sohag", nameEn: "Sohag", nameAr: "سوهاج", defaultRate: 80 },

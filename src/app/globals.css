@@ -245,10 +245,18 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .checkoutLine { align-items: start; }
 .checkoutLine span { display: grid; gap: 4px; }
 .checkoutLine small { color: var(--muted-2); }
-.checkoutSuccess { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 30px; }
-.checkoutSuccess h1 { font-size: clamp(50px,7vw,90px); margin: 8px 0 12px; }
-.checkoutSuccess > p:not(.eyebrow) { max-width: 480px; color: var(--muted); line-height: 1.6; }
-.checkoutSuccess .primaryButton { margin-top: 20px; }
+.checkoutSuccess {
+  min-height: 75svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: calc(var(--header-h) + 40px) 24px 60px;
+}
+.checkoutSuccess h1 { font-size: clamp(38px,6vw,72px); margin: 8px 0 12px; }
+.checkoutSuccess > p:not(.eyebrow) { max-width: 520px; color: var(--muted); line-height: 1.7; font-size: 16px; }
+.checkoutSuccess .primaryButton { margin-top: 24px; }
 
 .orderTrackCard { border: 1px solid var(--line); padding: 28px; }
 .orderTrackCard > div:first-child { display: flex; align-items: center; gap: 12px; }

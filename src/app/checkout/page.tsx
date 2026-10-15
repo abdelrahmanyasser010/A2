@@ -89,6 +89,7 @@ export default function CheckoutPage() {
     setBusy(false);
     if (!response.ok) return setSubmitError(formatCheckoutError(data.error || "Unable to place order.", language));
     setOrder(data.order);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     try {
       localStorage.setItem(
         "a2-last-order",
@@ -97,6 +98,14 @@ export default function CheckoutPage() {
     } catch {}
     clearCart();
   }
+
+  useEffect(() => {
+    if (order) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  }, [order]);
 
   if (order)
     return (

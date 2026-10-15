@@ -11,6 +11,7 @@ import type {
 } from "@/lib/domain";
 import type { Product } from "@/lib/types";
 import { isPhoneBlocked, normalizePhone } from "@/lib/phone";
+import { normalizeGovKey, getDefaultGovRates } from "@/lib/governorates";
 
 type Db = typeof prisma | Prisma.TransactionClient;
 type CartInput = { sku: string; quantity: number };
@@ -681,7 +682,7 @@ async function pricingContext(db: Db, cart: CartInput[]) {
   return { variantRows, discounts, settings, productsById };
 }
 
-async function calculateQuote(db: Db, cart: CartInput[], couponCode?: string, _governorate?: string) {
+async function calculateQuote(db: Db, cart: CartInput[], couponCode?: string, governorate?: string) {
   if (!cart.length) throw new Error("Your bag is empty.");
   const context = await pricingContext(db, cart);
   const variantBySku = new Map(context.variantRows.map((variant) => [variant.sku, variant]));
@@ -725,7 +726,17 @@ async function calculateQuote(db: Db, cart: CartInput[], couponCode?: string, _g
     }
   }
   const merchandiseAfterDiscount = Math.max(0, saleSubtotal - couponDiscount);
-  const shippingTotal = merchandiseAfterDiscount >= money(context.settings.freeShippingThreshold) ? 0 : money(context.settings.flatShippingRate);
+  let baseShippingRate = money(context.settings.flatShippingRate);
+  if (governorate?.trim()) {
+    const normalized = normalizeGovKey(governorate);
+    const govRates = getDefaultGovRates();
+    if (govRates && govRates[normalized] != null) {
+      baseShippingRate = Number(govRates[normalized]);
+    } else if (govRates && govRates[governorate.trim()] != null) {
+      baseShippingRate = Number(govRates[governorate.trim()]);
+    }
+  }
+  const shippingTotal = merchandiseAfterDiscount >= money(context.settings.freeShippingThreshold) ? 0 : baseShippingRate;
   return {
     quote: {
       subtotal: baseSubtotal,
